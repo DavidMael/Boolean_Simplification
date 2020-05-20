@@ -3,9 +3,9 @@
 using namespace std;
 
 struct doub
-//basically a pair of pairs of ints, renamed for brevity in declarations and consistency  with quad and oct class
+//basically a pair of pairs of ints, renamed for brevity in declarations and consistency with quad and oct types
 {
-    //pairs the i (height) and j(width) coordinates of the two squares in the pair
+    //pairs the i (height) and j (width) indices of the two squares in the pair
         pair<int, int> sone;
         pair<int, int> stwo;
 };
@@ -36,7 +36,7 @@ class kmap
             {
                 for(int j = 0; j<width; j++)
                 {
-                    //square not at the end of the line
+                    //square not at the end of a line
                     if(j != (width-1))
                     {
                         if(squares[i][j] == 1 && squares[i][j+1] == 1)
@@ -44,10 +44,10 @@ class kmap
                             vect.push_back({ {i, j}, {i, (j+1)} });
                         } 
                     } else {
-                    //square at end of line    
-                        if(squares[i][j] == 1 && squares[0][0] == 1)
+                    //square at the end of a line    
+                        if(squares[i][j] == 1 && squares[i][0] == 1)
                         {
-                            vect.push_back({ {i, j}, {0, 0} });
+                            vect.push_back({ {i, j}, {i, 0} });
                         }  
                     }
                 }
@@ -55,5 +55,40 @@ class kmap
 
             return vect;
         }
+
+        //scans the kmap for vertical doubles
+        vector<doub> verticaldoubs()
+        {
+            //initialise vector of doubles
+            vector<doub>  vect;
+            //height of the kmap
+            int height = squares.size();
+            //width of the kmap
+            int width = squares[1].size();
+            //cycle through each square of the kmap 
+            for(int i = 0; i<height; i++)
+            {
+                for(int j = 0; j<width; j++)
+                {
+                    if(i != (height-1))
+                    {
+                        //square not at the bottom of a column
+                        if(squares[i][j] == 1 && squares[i+1][j] == 1)
+                        {
+                            vect.push_back({ {i, j}, {(i+1), j} });
+                        } 
+                    } else {
+                        //square at the bottom of a column
+                        if(squares[i][j] == 1 && squares[0][j] == 1)
+                        {
+                            vect.push_back({ {i, j}, {0, j} });
+                        }    
+                    }   
+                }
+            }
+            return vect;            
+        }
+
+        
 
 };

@@ -16,10 +16,21 @@ int main()
         cout << endl;
     }
 
+    cout << "horizontal doubs" << endl;  
+
     vector<doub> onedoubs = testmap.horizontaldoubs();
 
     for(int i = 0; i<onedoubs.size(); i++)
     {
         cout << onedoubs[i].sone.first << ";" << onedoubs[i].sone.second << " " << onedoubs[i].stwo.first << ";" << onedoubs[i].stwo.second << endl;
+    }  
+
+    cout << "vertical doubs" << endl;  
+
+    vector<doub> onedoubsv = testmap.verticaldoubs();
+
+    for(int i = 0; i<onedoubsv.size(); i++)
+    {
+        cout << onedoubsv[i].sone.first << ";" << onedoubsv[i].sone.second << " " << onedoubsv[i].stwo.first << ";" << onedoubsv[i].stwo.second << endl;
     }    
 }
