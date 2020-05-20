@@ -32,5 +32,15 @@ int main()
     for(int i = 0; i<onedoubsv.size(); i++)
     {
         cout << onedoubsv[i].sone.first << ";" << onedoubsv[i].sone.second << " " << onedoubsv[i].stwo.first << ";" << onedoubsv[i].stwo.second << endl;
-    }    
+    }   
+
+    cout << "quads" << endl;
+
+    vector<quad> quadsvector = mergedoubles(onedoubs);
+
+    for(int i = 0; i<quadsvector.size(); i++)
+    {
+        cout << quadsvector[i].qtopleft.first << ";" << quadsvector[i].qtopleft.second << " " << quadsvector[i].qbottomright.first << ";" << quadsvector[i].qbottomright.second << endl;
+    } 
 }
+

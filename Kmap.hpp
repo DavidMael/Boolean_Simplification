@@ -6,8 +6,15 @@ struct doub
 //basically a pair of pairs of ints, renamed for brevity in declarations and consistency with quad and oct types
 {
     //pairs the i (height) and j (width) indices of the two squares in the pair
-        pair<int, int> sone;
-        pair<int, int> stwo;
+    pair<int, int> sone;
+    pair<int, int> stwo;
+};
+
+struct quad
+{
+    //quads are defined with the first square of the top/left double and second of the bottom/right one
+    pair<int, int> qtopleft;
+    pair<int, int> qbottomright;
 };
 
 class kmap
@@ -89,6 +96,31 @@ class kmap
             return vect;            
         }
 
-        
+
 
 };
+
+//merges quads in the results of verticaldoubs or horizontaldoubs
+//atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
+vector<quad> mergedoubles (const vector<doub> & doubs)
+{
+    //initialise vector of quads
+    vector<quad> vect;
+    for(int i = 0; i < doubs.size(); i++)
+    {
+        for(int j = 0; j < doubs.size(); j++)
+        {
+            //if currently checks for a quad of "sandwitched" horizontal doubs
+            if(i != j && 
+            doubs[i].sone.second == doubs[j].sone.second &&
+            (doubs[i].sone.first + 1) == doubs[j].sone.first 
+            )
+            {
+                //push back a quad made from doub[i] and doub[j]
+                vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+            }
+        }
+    }
+
+    return vect;
+}
