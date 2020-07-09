@@ -110,7 +110,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
     {
         for(int j = 0; j < doubs.size(); j++)
         {
-            cout << doubs[i].sone.first << ";" << doubs[j].sone.first << " " << i << ";" << j << endl;
+            //cout << doubs[i].sone.first << ";" << doubs[j].sone.first << " " << i << ";" << j << endl;
 
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
@@ -138,12 +138,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
                 //vertical doubs
                 if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
                 {
-                    if(
-                    (doubs[i].sone.second + 1) == doubs[j].sone.second
-                    //looping from top to bottom
-                    || (doubs[i].sone.second + 1) != doubs[j].sone.second && 
-                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (length-1) || doubs[i].sone.second == (length-1) && doubs[j].sone.second == 0)
-                    )
+                    if( (doubs[i].sone.first + 2) == doubs[j].sone.first)
                     {
                         cout << "S V" << endl;
                         //push back a quad made from doub[i] and doub[j]
@@ -155,16 +150,11 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
             //adjacent doubs
             if(i != j && doubs[i].sone.first == doubs[j].sone.first)
             {
-                cout << "A" << endl;
+                //cout << "A" << endl;
                 //horizontal doubs
                 if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
                 {
-                    if(
-                    (doubs[i].sone.first + 1) == doubs[j].sone.first
-                    //looping from top to bottom
-                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && 
-                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (width-1) || doubs[i].sone.first == (width-1) && doubs[j].sone.first == 0)
-                    )
+                    if( (doubs[i].sone.second + 2) == doubs[j].sone.second)
                     {
                         //cout << i << " " << j << endl;
                         cout << "A H " << doubs[i].sone.first << " " << doubs[i].sone.second << " " << doubs[j].stwo.first << " " << doubs[j].stwo.second << endl;
