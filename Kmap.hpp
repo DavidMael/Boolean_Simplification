@@ -102,7 +102,7 @@ class kmap
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<quad> mergedoubles (const vector<doub> & doubs)
+vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const int & length)
 {
     //initialise vector of quads
     vector<quad> vect;
@@ -110,15 +110,89 @@ vector<quad> mergedoubles (const vector<doub> & doubs)
     {
         for(int j = 0; j < doubs.size(); j++)
         {
-            //if currently checks for a quad of "sandwitched" horizontal doubs
-            if(i != j && 
-            doubs[i].sone.second == doubs[j].sone.second &&
-            (doubs[i].sone.first + 1) == doubs[j].sone.first 
-            )
+            cout << doubs[i].sone.first << ";" << doubs[j].sone.first << " " << i << ";" << j << endl;
+
+            //perhaps adapt to that all checks are not always performed
+            //perhaps remove mention of stwo from quad?
+
+            //stacked doubs
+            if(i != j && doubs[i].sone.second == doubs[j].sone.second)
             {
-                //push back a quad made from doub[i] and doub[j]
-                vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                //horizontal doubs
+                if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
+                {
+                    if(
+                    (doubs[i].sone.first + 1) == doubs[j].sone.first
+                    //looping from top to bottom
+                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && 
+                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (width-1) || doubs[i].sone.first == (width-1) && doubs[j].sone.first == 0)
+                    )
+                    {
+                        //cout << i << " " << j << endl;
+                        cout << "S H" << endl;
+                        //push back a quad made from doub[i] and doub[j]
+                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                    }
+                }
+
+                //vertical doubs
+                if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
+                {
+                    if(
+                    (doubs[i].sone.second + 1) == doubs[j].sone.second
+                    //looping from top to bottom
+                    || (doubs[i].sone.second + 1) != doubs[j].sone.second && 
+                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (length-1) || doubs[i].sone.second == (length-1) && doubs[j].sone.second == 0)
+                    )
+                    {
+                        cout << "S V" << endl;
+                        //push back a quad made from doub[i] and doub[j]
+                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                    } 
+                }
             }
+
+            //adjacent doubs
+            if(i != j && doubs[i].sone.first == doubs[j].sone.first)
+            {
+                cout << "A" << endl;
+                //horizontal doubs
+                if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
+                {
+                    if(
+                    (doubs[i].sone.first + 1) == doubs[j].sone.first
+                    //looping from top to bottom
+                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && 
+                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (width-1) || doubs[i].sone.first == (width-1) && doubs[j].sone.first == 0)
+                    )
+                    {
+                        //cout << i << " " << j << endl;
+                        cout << "A H " << doubs[i].sone.first << " " << doubs[i].sone.second << " " << doubs[j].stwo.first << " " << doubs[j].stwo.second << endl;
+                        //push back a quad made from doub[i] and doub[j]
+                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                    }
+                }
+
+                //vertical doubs
+                if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
+                {
+                    if(i != j && doubs[i].sone.first == doubs[j].sone.second)
+                    {
+                        if(
+                        (doubs[i].sone.second + 1) == doubs[j].sone.second
+                        //looping from top to bottom
+                        || (doubs[i].sone.second + 1) != doubs[j].sone.second && 
+                        (doubs[i].sone.second == 0 && doubs[j].sone.second == (length-1) || doubs[i].sone.second == (length-1) && doubs[j].sone.second == 0)
+                        )
+                        {
+                            cout << "A V" << endl;
+                            //push back a quad made from doub[i] and doub[j]
+                            vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        }
+                    }
+                }
+            } 
+
         }
     }
 

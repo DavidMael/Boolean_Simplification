@@ -36,7 +36,10 @@ int main()
 
     cout << "quads" << endl;
 
-    vector<quad> quadsvector = mergedoubles(onedoubs);
+    int length = testmap.squares.size();
+    int width = testmap.squares[0].size();
+
+    vector<quad> quadsvector = mergedoubles(onedoubs, width, length);
 
     for(int i = 0; i<quadsvector.size(); i++)
     {
