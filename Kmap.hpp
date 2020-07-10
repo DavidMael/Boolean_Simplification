@@ -146,15 +146,12 @@ class kmap
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
 vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const int & height)
 {
-
     //initialise vector of quads
     vector<quad> vect;
     for(int i = 0; i < doubs.size(); i++)
     {
         for(int j = 0; j < doubs.size(); j++)
         {
-            //cout << doubs[i].sone.first << ";" << doubs[j].sone.first << " " << i << ";" << j << endl;
-
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
