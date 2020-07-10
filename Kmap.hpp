@@ -140,14 +140,11 @@ class kmap
             }
             return vect;            
         }
-
-
-
 };
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const int & length)
+vector<quad> mergedoubles (const vector<doub> & doubs, const int & height, const int & width)
 {
     //initialise vector of quads
     vector<quad> vect;
@@ -170,7 +167,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
                     (doubs[i].sone.first + 1) == doubs[j].sone.first
                     //looping from top to bottom
                     || (doubs[i].sone.first + 1) != doubs[j].sone.first && 
-                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (width-1) || doubs[i].sone.first == (width-1) && doubs[j].sone.first == 0)
+                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (height-1) || doubs[i].sone.first == (height-1) && doubs[j].sone.first == 0)
                     )
                     {
                         //cout << i << " " << j << endl;
@@ -217,7 +214,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
                         (doubs[i].sone.second + 1) == doubs[j].sone.second
                         //looping from top to bottom
                         || (doubs[i].sone.second + 1) != doubs[j].sone.second && 
-                        (doubs[i].sone.second == 0 && doubs[j].sone.second == (length-1) || doubs[i].sone.second == (length-1) && doubs[j].sone.second == 0)
+                        (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-1) || doubs[i].sone.second == (width-1) && doubs[j].sone.second == 0)
                         )
                         {
                             cout << "A V" << endl;
