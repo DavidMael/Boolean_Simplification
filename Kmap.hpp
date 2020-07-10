@@ -22,18 +22,24 @@ class kmap
     //private: later make a reader function and make data member private
         
     public:
+        //actual squares in the kmap
         vector<vector<bool>> squares;
+
+        //signals if a square has been incorporated into a double
+        vector<vector<bool>> flags;
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
             squares = {{a, b, c, d}, {e, f, g, h}};
+
+            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
         vector<doub> horizontaldoubs()
         {
             //initialise vector of doubles
-            vector<doub>  vect;
+            vector<doub> vect;
             //height of the kmap
             int height = squares.size();
             //width of the kmap
@@ -46,19 +52,40 @@ class kmap
                     //square not at the end of a line
                     if(j != (width-1))
                     {
+                        //look forward
                         if(squares[i][j] == 1 && squares[i][j+1] == 1)
                         {
-                            vect.push_back({ {i, j}, {i, (j+1)} });
+                            //create double if the square pointed to doesn't belong to one, and flag the double in both squares
+                            //should this be a separate if?
+                            if (flags[i][j] == 0)
+                            {
+                                vect.push_back({ {i, j}, {i, (j+1)} });
+                                flags[i][j] = 1;
+                                flags[i][j+1] = 1;
+                            }
+                        //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
+                        } else if (squares[i][j] == 1 && squares[i][j-1] == 1 && flags[i][j] == 0) {
+                            vect.push_back({ {i, j-1}, {i, j} });
+                            flags[i][j] = 1;
+                            //ever needed?
+                            flags[i][j-1] = 1;
                         } 
                     } else {
                     //square at the end of a line    
-                        if(squares[i][j] == 1 && squares[i][0] == 1)
+                        if(squares[i][j] == 1 && squares[i][0] == 1 && flags[i][j] == 0)
                         {
                             vect.push_back({ {i, j}, {i, 0} });
+                            flags[i][j] = 1;
+                            //ever needed?
+                            flags[i][0] = 1;
                         }  
                     }
                 }
             }
+
+            //scrub flags for use in verticaldoubs
+            //redo properly for n var kmaps to work
+            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
 
             return vect;
         }
