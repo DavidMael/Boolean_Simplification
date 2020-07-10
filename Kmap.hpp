@@ -144,8 +144,9 @@ class kmap
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<quad> mergedoubles (const vector<doub> & doubs, const int & height, const int & width)
+vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const int & height)
 {
+
     //initialise vector of quads
     vector<quad> vect;
     for(int i = 0; i < doubs.size(); i++)
@@ -166,7 +167,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & height, const
                     if(
                     (doubs[i].sone.first + 1) == doubs[j].sone.first
                     //looping from top to bottom
-                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && 
+                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && (doubs[j].sone.first + 1) != doubs[i].sone.first &&
                     (doubs[i].sone.first == 0 && doubs[j].sone.first == (height-1) || doubs[i].sone.first == (height-1) && doubs[j].sone.first == 0)
                     )
                     {
