@@ -104,18 +104,36 @@ class kmap
             {
                 for(int j = 0; j<width; j++)
                 {
+                    //square not at the bottom of a column
                     if(i != (height-1))
                     {
-                        //square not at the bottom of a column
+                        //look down
                         if(squares[i][j] == 1 && squares[i+1][j] == 1)
                         {
-                            vect.push_back({ {i, j}, {(i+1), j} });
-                        } 
+                            //create double if the square pointed to doesn't belong to one, and flag the double in both squares
+                            //should this be a separate if?
+                            if (flags[i][j] == 0)
+                            {
+                                vect.push_back({ {i, j}, {(i+1), j} });
+                                flags[i][j] = 1;
+                                flags[i+1][j] = 1;
+                            }
+                        //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back up to make a pair
+                        } else if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0) {
+                            vect.push_back({ {i-1, j}, {i, j} });
+                            flags[i][j] = 1;
+                            //ever needed?
+                            flags[i-1][j] = 1;
+                        }
+
                     } else {
                         //square at the bottom of a column
-                        if(squares[i][j] == 1 && squares[0][j] == 1)
+                        if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0)
                         {
                             vect.push_back({ {i, j}, {0, j} });
+                            flags[i][j] = 1;
+                            //ever needed?
+                            flags[0][j] = 1;
                         }    
                     }   
                 }
@@ -184,7 +202,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs, const int & width, const 
                     if( (doubs[i].sone.second + 2) == doubs[j].sone.second)
                     {
                         //cout << i << " " << j << endl;
-                        cout << "A H " << doubs[i].sone.first << " " << doubs[i].sone.second << " " << doubs[j].stwo.first << " " << doubs[j].stwo.second << endl;
+                        cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
                         vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     }
