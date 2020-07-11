@@ -47,8 +47,10 @@ class kmap
             //cycle through each square of the kmap 
             for(int i = 0; i<height; i++)
             {
+                //cout<<"i= "<<i<<endl;
                 for(int j = 0; j<width; j++)
                 {
+                    //cout<<"j= "<<j<<endl;
                     //square not at the end of a line
                     if(j != (width-1))
                     {
@@ -64,28 +66,30 @@ class kmap
                                 flags[i][j+1] = 1;
                             }
                         //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
-                        } else if (squares[i][j] == 1 && squares[i][j-1] == 1 && flags[i][j] == 0) {
-                            vect.push_back({ {i, j-1}, {i, j} });
-                            flags[i][j] = 1;
-                            //ever needed?
-                            flags[i][j-1] = 1;
+                        } else if(j != 0) {
+                            if (squares[i][j] == 1 && squares[i][j-1] == 1 && flags[i][j] == 0) {
+                                vect.push_back({ {i, j-1}, {i, j} });
+                                flags[i][j] = 1;
+                                //ever needed?
+                                flags[i][j-1] = 1;
+                            }
                         } 
-                    } else {
-                    //square at the end of a line    
-                        if(squares[i][j] == 1 && squares[i][0] == 1 && flags[i][j] == 0)
-                        {
-                            vect.push_back({ {i, j}, {i, 0} });
-                            flags[i][j] = 1;
-                            //ever needed?
-                            flags[i][0] = 1;
-                        }  
+                    } else if(squares[i][j] == 1 && squares[i][0] == 1 && flags[i][j] == 0) {
+                        //square at the end of a line    
+                        vect.push_back({ {i, j}, {i, 0} });
+                        flags[i][j] = 1;
+                        //ever needed?
+                        flags[i][0] = 1; 
                     }
+                //cout<<"square "<<i<<":"<<j<<" done"<<endl;
                 }
             }
 
             //scrub flags for use in verticaldoubs
             //redo properly for n var kmaps to work
             flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+
+            cout<<"endl"<<endl;
 
             return vect;
         }
@@ -154,6 +158,12 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
         {
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
+            /*/
+            cout<<"i = "<<i<<"&j = "<<j<<endl;
+            cout << doubs[i].sone.first << ";" << doubs[i].sone.second << " " << doubs[i].stwo.first << ";" << doubs[i].stwo.second << endl;
+            cout << doubs[j].sone.first << ";" << doubs[j].sone.second << " " << doubs[j].stwo.first << ";" << doubs[j].stwo.second << endl;
+            cout << "."<<endl;
+            /*/
 
             //stacked doubs
             if(i != j && doubs[i].sone.second == doubs[j].sone.second)
@@ -194,7 +204,6 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
             //adjacent doubs
             if(i != j && doubs[i].sone.first == doubs[j].sone.first)
             {
-                //cout << "A" << endl;
                 //horizontal doubs
                 if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
                 {
@@ -204,7 +213,6 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                     (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-2) || doubs[i].sone.second == (width-2) && doubs[j].sone.second == 0)
                     )
                     {
-                        //cout << i << " " << j << endl;
                         cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
                         vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
@@ -214,23 +222,19 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                 //vertical doubs
                 if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
                 {
-                    if(i != j && doubs[i].sone.first == doubs[j].sone.second)
+                    if(
+                    (doubs[i].sone.second + 1) == doubs[j].sone.second
+                    //looping from top to bottom
+                    || (doubs[i].sone.second + 1) != doubs[j].sone.second && (doubs[j].sone.second + 1) != doubs[i].sone.second && 
+                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-1) || doubs[i].sone.second == (width-1) && doubs[j].sone.second == 0)
+                    )
                     {
-                        if(
-                        (doubs[i].sone.second + 1) == doubs[j].sone.second
-                        //looping from top to bottom
-                        || (doubs[i].sone.second + 1) != doubs[j].sone.second && 
-                        (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-1) || doubs[i].sone.second == (width-1) && doubs[j].sone.second == 0)
-                        )
-                        {
-                            cout << "A V" << endl;
-                            //push back a quad made from doub[i] and doub[j]
-                            vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
-                        }
+                        cout << "A V" << endl;
+                        //push back a quad made from doub[i] and doub[j]
+                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     }
                 }
             } 
-
         }
     }
 

@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {1, 1, 0, 0, 1, 1, 1, 1};
+    kmap testmap {1, 0, 1, 0, 1, 1, 1, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -38,8 +38,13 @@ int main()
 
     int length = testmap.squares.size();
     int width = testmap.squares[0].size();
+   
+    vector<doub> alldoubs;
+    alldoubs.reserve( onedoubs.size() + onedoubsv.size() ); // preallocate memory
+    alldoubs.insert( alldoubs.end(), onedoubs.begin(), onedoubs.end() );
+    alldoubs.insert( alldoubs.end(), onedoubsv.begin(), onedoubsv.end() );
 
-    vector<quad> quadsvector = mergedoubles(onedoubs, width, length);
+    vector<quad> quadsvector = mergedoubles(alldoubs, width, length);
 
     for(int i = 0; i<quadsvector.size(); i++)
     {
