@@ -89,8 +89,6 @@ class kmap
             //redo properly for n var kmaps to work
             flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
 
-            cout<<"endl"<<endl;
-
             return vect;
         }
 
@@ -123,11 +121,13 @@ class kmap
                                 flags[i+1][j] = 1;
                             }
                         //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back up to make a pair
-                        } else if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0) {
+                        } else if(i != 0) {
+                            if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0) {
                             vect.push_back({ {i-1, j}, {i, j} });
                             flags[i][j] = 1;
                             //ever needed?
                             flags[i-1][j] = 1;
+                            }
                         }
 
                     } else {
