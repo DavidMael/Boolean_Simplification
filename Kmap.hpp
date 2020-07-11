@@ -180,6 +180,8 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                 {
                     if( 
                     (doubs[i].sone.first + 2) == doubs[j].sone.first
+                    || (doubs[i].sone.first + 2) != doubs[j].sone.first && (doubs[j].sone.first + 2) != doubs[i].sone.first &&
+                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (height-2) || doubs[i].sone.first == (height-2) && doubs[j].sone.first == 0)
                     )
                     {
                         cout << "S V" << endl;
@@ -199,7 +201,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                     if( (doubs[i].sone.second + 2) == doubs[j].sone.second
                     //looping around edges
                     || (doubs[i].sone.second + 2) != doubs[j].sone.second && (doubs[j].sone.second + 2) != doubs[i].sone.second &&
-                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (width-2) || doubs[i].sone.first == (width-2) && doubs[j].sone.first == 0)
+                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-2) || doubs[i].sone.second == (width-2) && doubs[j].sone.second == 0)
                     )
                     {
                         //cout << i << " " << j << endl;
