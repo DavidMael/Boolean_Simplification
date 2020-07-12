@@ -15,7 +15,6 @@ vector<doub> kmap::horizontaldoubs()
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
-
         //simplify state machine
 
         //cout<<"i= "<<i<<endl;
@@ -24,42 +23,49 @@ vector<doub> kmap::horizontaldoubs()
             //cout<<"j= "<<j<<endl;
             //square not at the end of a line
 
-            if(squares[i][j] == 1 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
-            {
-                orphans[i][j] == 1;
-            } else {
-                if(j != (width-1)){
-                    //look forward
-                    if(squares[i][j] == 1 && squares[i][j+1] == 1)
-                    {
-                        //create double if the square pointed to doesn't belong to one, and flag the double in both squares
-                        //should this be a separate if?
-                        if (flags[i][j] == 0)
+            if(squares[i][j] == 1)
+            {            
+                if(j != (squares[0].size()-1) && j != 0 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
+                {
+                    orphans[i][j] == 1;
+                } else if (j == (squares[0].size()-1) && squares[i][0] == 0 && squares[i][j-1] == 0){
+                    orphans[i][j] == 1;
+                } else if (j == 0 && squares[i][j+1] == 0 && squares[i][squares[0].size()-1] == 0){
+                    orphans[i][j] == 1;
+                } else {
+                    if(j != (width-1)){
+                        //look forward
+                        if(squares[i][j+1] == 1)
                         {
-                            vect.push_back({ {i, j}, {i, (j+1)} });
-                            flags[i][j] = 1;
-                            flags[i][j+1] = 1;
-                        }
-                    //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
-                    } else if(j != 0) {
-                        if (squares[i][j] == 1 && squares[i][j-1] == 1 && flags[i][j] == 0) {
-                            vect.push_back({ {i, j-1}, {i, j} });
-                            flags[i][j] = 1;
-                            //ever needed?
-                            flags[i][j-1] = 1;
-                        }
-                    } 
-                } else if(squares[i][j] == 1 && squares[i][0] == 1 && flags[i][j] == 0) {
-                    //square at the end of a line    
-                    vect.push_back({ {i, j}, {i, 0} });
-                    flags[i][j] = 1;
-                    //ever needed?
-                    flags[i][0] = 1; 
+                            //create double if the square pointed to doesn't belong to one, and flag the double in both squares
+                            //should this be a separate if?
+                            if (flags[i][j] == 0)
+                            {
+                                vect.push_back({ {i, j}, {i, (j+1)} });
+                                flags[i][j] = 1;
+                                flags[i][j+1] = 1;
+                            }
+                        //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
+                        } else if(j != 0) {
+                            if (squares[i][j-1] == 1 && flags[i][j] == 0) {
+                                vect.push_back({ {i, j-1}, {i, j} });
+                                flags[i][j] = 1;
+                                //ever needed?
+                                flags[i][j-1] = 1;
+                            }
+                        } 
+                    } else if(squares[i][0] == 1 && flags[i][j] == 0) {
+                        //square at the end of a line    
+                        vect.push_back({ {i, j}, {i, 0} });
+                        flags[i][j] = 1;
+                        //ever needed?
+                        flags[i][0] = 1; 
+                    }
                 }
             }
+        }
 
         //cout<<"square "<<i<<":"<<j<<" done"<<endl;
-        }
     }
 
     //scrub flags for use in verticaldoubs
