@@ -25,18 +25,26 @@ class kmap
         //actual squares in the kmap
         vector<vector<bool>> squares;
 
-        //signals if a square has been incorporated into a double
+        //flags 1s that have been incorporated in a double
         vector<vector<bool>> flags;
+
+        //flags 1s that haven't been incoprorated into a double
+        vector<vector<bool>> orphans;
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
             squares = {{a, b, c, d}, {e, f, g, h}};
 
             flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+
+            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
-        vector<doub> horizontaldoubs();   
+        vector<doub> horizontaldoubs(); 
+
+        //identify 1s in the kmap not belonging to a double
+        void identify_orphans();  
 
         //scans the kmap for vertical doubles
         vector<doub> verticaldoubs();     
