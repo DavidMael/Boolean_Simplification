@@ -28,15 +28,11 @@ vector<doub> kmap::horizontaldoubs()
                 if(j != (squares[0].size()-1) && j != 0 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
                 {
                     orphans[i][j] = 1;
-                    //cout<<"o basic "<<orphans[i][j]<<endl;
                 } else if (j == (squares[0].size()-1) && squares[i][0] == 0 && squares[i][j-1] == 0){
                     orphans[i][j] = 1;
-                    //cout<<"o end "<<orphans[i][j]<<endl;
                 } else if (j == 0 && squares[i][j+1] == 0 && squares[i][squares[0].size()-1] == 0){
                     orphans[i][j] = 1;
-                    //cout<<"o start "<<orphans[i][j]<<endl;
                 } else {
-                    cout<<"else"<<endl;
                     if(j != (width-1)){
                         //look forward
                         if(squares[i][j+1] == 1)
@@ -81,8 +77,9 @@ vector<doub> kmap::horizontaldoubs()
 
 //identify 1s in the kmap not belonging to a double
 void kmap::identify_orphans()
-{
-    cout<<"orphans"<<endl;
+{   
+    cout<<"orphans"<<endl; 
+    /*/print orphan grid
     for(int i = 0; i<orphans.size(); i++)
     {
         for(int j = 0; j<orphans[0].size(); j++)
@@ -90,6 +87,18 @@ void kmap::identify_orphans()
             cout<<orphans[i][j]<<" ";
         }
         cout<<endl;
+    }
+    /*/
+    //print orphan indices
+    for(int i = 0; i<orphans.size(); i++)
+    {
+        for(int j = 0; j<orphans[0].size(); j++)
+        {
+            if(orphans[i][j] == 1)
+            {
+                cout<<i<<';'<<j<<endl;
+            }
+        }
     }
 }
 
