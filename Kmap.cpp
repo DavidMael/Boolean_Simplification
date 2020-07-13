@@ -27,12 +27,16 @@ vector<doub> kmap::horizontaldoubs()
             {            
                 if(j != (squares[0].size()-1) && j != 0 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
                 {
-                    orphans[i][j] == 1;
+                    orphans[i][j] = 1;
+                    //cout<<"o basic "<<orphans[i][j]<<endl;
                 } else if (j == (squares[0].size()-1) && squares[i][0] == 0 && squares[i][j-1] == 0){
-                    orphans[i][j] == 1;
+                    orphans[i][j] = 1;
+                    //cout<<"o end "<<orphans[i][j]<<endl;
                 } else if (j == 0 && squares[i][j+1] == 0 && squares[i][squares[0].size()-1] == 0){
-                    orphans[i][j] == 1;
+                    orphans[i][j] = 1;
+                    //cout<<"o start "<<orphans[i][j]<<endl;
                 } else {
+                    cout<<"else"<<endl;
                     if(j != (width-1)){
                         //look forward
                         if(squares[i][j+1] == 1)
@@ -78,7 +82,15 @@ vector<doub> kmap::horizontaldoubs()
 //identify 1s in the kmap not belonging to a double
 void kmap::identify_orphans()
 {
-    
+    cout<<"orphans"<<endl;
+    for(int i = 0; i<orphans.size(); i++)
+    {
+        for(int j = 0; j<orphans[0].size(); j++)
+        {
+            cout<<orphans[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
 
 //scans the kmap for vertical doubles
@@ -99,11 +111,11 @@ vector<doub> kmap::verticaldoubs()
             if(i != (height-1))
             {
                 //look down
-                if(squares[i][j] == 1 && squares[i+1][j] == 1)
+                if(squares[i][j] == 1 && squares[i+1][j] == 1 && orphans[i][j] == 1)
                 {
                     //create double if the square pointed to doesn't belong to one, and flag the double in both squares
                     //should this be a separate if?
-                    if (flags[i][j] == 0 && orphans[i][j] == 1)
+                    if (flags[i][j] == 0)
                     {
                         vect.push_back({ {i, j}, {(i+1), j} });
                         flags[i][j] = 1;
@@ -123,7 +135,7 @@ vector<doub> kmap::verticaldoubs()
                 }
             } else {
                 //square at the bottom of a column
-                if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0 && orphans[i][j] == 1)
+                if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0  && orphans[i][j] == 1)
                 {
                     vect.push_back({ {i, j}, {0, j} });
                     flags[i][j] = 1;
