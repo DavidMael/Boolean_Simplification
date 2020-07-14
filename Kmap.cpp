@@ -4,10 +4,8 @@
 using namespace std;
 
 //scans the kmap for horizontal doubles
-vector<group> kmap::horizontaldoubs()
+void kmap::horizontaldoubs()
 {
-    //initialise vector of doubles
-    vector<group> vect;
     //height of the kmap
     int height = squares.size();
     //width of the kmap
@@ -41,16 +39,14 @@ vector<group> kmap::horizontaldoubs()
                             //should this be a separate if?
                             if (flags[i][j] == 0)
                             {
-                                vect.push_back({2, 0, {i, j}, {i, (j+1)} });
-                                cout<<"d"<<endl;
+                                groups.push_back({2, 0, {i, j}, {i, (j+1)} });
                                 flags[i][j] = 1;
                                 flags[i][j+1] = 1;
                             }
                         //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
                         } else if(j != 0) {
                             if (squares[i][j-1] == 1 && flags[i][j] == 0) {
-                                vect.push_back({2, 0, {i, j-1}, {i, j} });
-                                cout<<"d lookback"<<endl;
+                                groups.push_back({2, 0, {i, j-1}, {i, j} });;
                                 flags[i][j] = 1;
                                 //ever needed?
                                 flags[i][j-1] = 1;
@@ -58,8 +54,7 @@ vector<group> kmap::horizontaldoubs()
                         } 
                     } else if(squares[i][0] == 1 && (flags[0][0] == 0 || flags[i][j] == 0) ) {
                         //square at the end of a line    
-                        vect.push_back({2, 0, {i, j}, {i, 0} });
-                        cout<<"d wrap to front"<<endl;
+                        groups.push_back({2, 0, {i, j}, {i, 0} });
                         flags[i][j] = 1;
                         //ever needed?
                         flags[i][0] = 1; 
@@ -74,24 +69,12 @@ vector<group> kmap::horizontaldoubs()
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
     flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
-
-    return vect;
 }
 
 //identify 1s in the kmap not belonging to a double
 void kmap::identify_orphans()
 {   
-    cout<<"orphans"<<endl; 
-    /*/print orphan grid
-    for(int i = 0; i<orphans.size(); i++)
-    {
-        for(int j = 0; j<orphans[0].size(); j++)
-        {
-            cout<<orphans[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    /*/
+    cout<<"orphans"<<endl;
     //print orphan indices
     for(int i = 0; i<orphans.size(); i++)
     {
@@ -106,10 +89,8 @@ void kmap::identify_orphans()
 }
 
 //scans the kmap for vertical doubles
-vector<group> kmap::verticaldoubs()
+void kmap::verticaldoubs()
 {
-    //initialise vector of doubles
-    vector<group> vect;
     //height of the kmap
     int height = squares.size();
     //width of the kmap
@@ -129,7 +110,7 @@ vector<group> kmap::verticaldoubs()
                     //should this be a separate if?
                     if (flags[i][j] == 0)
                     {
-                        vect.push_back({2, 0, {i, j}, {(i+1), j} });
+                        groups.push_back({2, 0, {i, j}, {(i+1), j} });
                         flags[i][j] = 1;
                         flags[i+1][j] = 1;
                         orphans[i][j] = 0;
@@ -138,7 +119,7 @@ vector<group> kmap::verticaldoubs()
                 } else if(i != 0) {
                     if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0 && orphans[i][j] == 1) 
                     {
-                        vect.push_back({2, 0, {i-1, j}, {i, j} });
+                        groups.push_back({2, 0, {i-1, j}, {i, j} });
                         flags[i][j] = 1;
                         //ever needed?
                         flags[i-1][j] = 1;
@@ -149,7 +130,7 @@ vector<group> kmap::verticaldoubs()
                 //square at the bottom of a column
                 if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0  && orphans[i][j] == 1)
                 {
-                    vect.push_back({2, 0, {i, j}, {0, j} });
+                    groups.push_back({2, 0, {i, j}, {0, j} });
                     flags[i][j] = 1;
                     //ever needed?
                     flags[0][j] = 1;
@@ -157,19 +138,19 @@ vector<group> kmap::verticaldoubs()
                 }    
             }   
         }
-    }
-    return vect;            
+    }         
 }
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<group> mergegroups (const vector<group> & doubs,  const int & width, const int & height)
+void kmap::mergegroups (const int & width, const int & height)
 {
-    //initialise vector of quads
-    vector<group> vect;
-    for(int i = 0; i < doubs.size(); i++)
+    //capture group size before adding merges
+    int groups_size = groups.size();
+
+    for(int i = 0; i < groups_size; i++)
     {
-        for(int j = 0; j < doubs.size(); j++)
+        for(int j = 0; j < groups_size; j++)
         {
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
@@ -181,77 +162,75 @@ vector<group> mergegroups (const vector<group> & doubs,  const int & width, cons
             /*/
 
             //stacked doubs
-            if(i != j && doubs[i].sone.second == doubs[j].sone.second)
+            if(i != j && groups[i].sone.second == groups[j].sone.second)
             {
                 //horizontal doubs
-                if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
+                if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
                 {
                     if(
-                    (doubs[i].sone.first + 1) == doubs[j].sone.first
+                    (groups[i].sone.first + 1) == groups[j].sone.first
                     //looping from top to bottom
-                    || (doubs[i].sone.first + 1) != doubs[j].sone.first && (doubs[j].sone.first + 1) != doubs[i].sone.first &&
-                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (height-1) || doubs[i].sone.first == (height-1) && doubs[j].sone.first == 0)
+                    || (groups[i].sone.first + 1) != groups[j].sone.first && (groups[j].sone.first + 1) != groups[i].sone.first &&
+                    (groups[i].sone.first == 0 && groups[j].sone.first == (height-1) || groups[i].sone.first == (height-1) && groups[j].sone.first == 0)
                     )
                     {
                         //cout << i << " " << j << endl;
                         cout << "S H" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
                     }
                 }
 
                 //vertical doubs
-                if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
+                if(groups[i].stwo.second == groups[i].sone.second && groups[j].stwo.second == groups[j].sone.second)
                 {
                     if( 
-                    (doubs[i].sone.first + 2) == doubs[j].sone.first
-                    || (doubs[i].sone.first + 2) != doubs[j].sone.first && (doubs[j].sone.first + 2) != doubs[i].sone.first &&
-                    (doubs[i].sone.first == 0 && doubs[j].sone.first == (height-2) || doubs[i].sone.first == (height-2) && doubs[j].sone.first == 0)
+                    (groups[i].sone.first + 2) == groups[j].sone.first
+                    || (groups[i].sone.first + 2) != groups[j].sone.first && (groups[j].sone.first + 2) != groups[i].sone.first &&
+                    (groups[i].sone.first == 0 && groups[j].sone.first == (height-2) || groups[i].sone.first == (height-2) && groups[j].sone.first == 0)
                     )
                     {
                         cout << "S V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
                     } 
                 }
             }
 
             //adjacent doubs
-            if(i != j && doubs[i].sone.first == doubs[j].sone.first)
+            if(i != j && groups[i].sone.first == groups[j].sone.first)
             {
                 //horizontal doubs
-                if(doubs[i].stwo.first == doubs[i].sone.first && doubs[j].stwo.first == doubs[j].sone.first)
+                if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
                 {
-                    if( (doubs[i].sone.second + 2) == doubs[j].sone.second
+                    if( (groups[i].sone.second + 2) == groups[j].sone.second
                     //looping around edges
-                    || (doubs[i].sone.second + 2) != doubs[j].sone.second && (doubs[j].sone.second + 2) != doubs[i].sone.second &&
-                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-2) || doubs[i].sone.second == (width-2) && doubs[j].sone.second == 0)
+                    || (groups[i].sone.second + 2) != groups[j].sone.second && (groups[j].sone.second + 2) != groups[i].sone.second &&
+                    (groups[i].sone.second == 0 && groups[j].sone.second == (width-2) || groups[i].sone.second == (width-2) && groups[j].sone.second == 0)
                     )
                     {
                         cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
                     }
                 }
 
                 //vertical doubs
-                if(doubs[i].stwo.second == doubs[i].sone.second && doubs[j].stwo.second == doubs[j].sone.second)
+                if(groups[i].stwo.second == groups[i].sone.second && groups[j].stwo.second == groups[j].sone.second)
                 {
                     if(
-                    (doubs[i].sone.second + 1) == doubs[j].sone.second
+                    (groups[i].sone.second + 1) == groups[j].sone.second
                     //looping from top to bottom
-                    || (doubs[i].sone.second + 1) != doubs[j].sone.second && (doubs[j].sone.second + 1) != doubs[i].sone.second && 
-                    (doubs[i].sone.second == 0 && doubs[j].sone.second == (width-1) || doubs[i].sone.second == (width-1) && doubs[j].sone.second == 0)
+                    || (groups[i].sone.second + 1) != groups[j].sone.second && (groups[j].sone.second + 1) != groups[i].sone.second && 
+                    (groups[i].sone.second == 0 && groups[j].sone.second == (width-1) || groups[i].sone.second == (width-1) && groups[j].sone.second == 0)
                     )
                     {
                         cout << "A V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
                     }
                 }
             } 
         }
     }
-
-    return vect;
 }

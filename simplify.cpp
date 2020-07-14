@@ -18,22 +18,15 @@ int main()
 
     cout << "horizontal doubs" << endl;  
 
-    vector<group> onedoubs = testmap.horizontaldoubs();
-
-    for(int i = 0; i<onedoubs.size(); i++)
-    {
-        cout << onedoubs[i].sone.first << ";" << onedoubs[i].sone.second << " " << onedoubs[i].stwo.first << ";" << onedoubs[i].stwo.second << endl;
-    }  
-
-    testmap.identify_orphans();
+    testmap.horizontaldoubs();
 
     cout << "vertical doubs" << endl;  
 
-    vector<group> onedoubsv = testmap.verticaldoubs();
+    testmap.verticaldoubs();
 
-    for(int i = 0; i<onedoubsv.size(); i++)
+    for(int i = 0; i<testmap.groups.size(); i++)
     {
-        cout << onedoubsv[i].sone.first << ";" << onedoubsv[i].sone.second << " " << onedoubsv[i].stwo.first << ";" << onedoubsv[i].stwo.second << endl;
+        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
     }   
 
     testmap.identify_orphans();
@@ -42,16 +35,14 @@ int main()
 
     int length = testmap.squares.size();
     int width = testmap.squares[0].size();
-   
-    vector<group> alldoubs;
-    alldoubs.reserve( onedoubs.size() + onedoubsv.size() ); // preallocate memory
-    alldoubs.insert( alldoubs.end(), onedoubs.begin(), onedoubs.end() );
-    alldoubs.insert( alldoubs.end(), onedoubsv.begin(), onedoubsv.end() );
 
-    vector<group> quadsvector = mergegroups(alldoubs, width, length);
+    testmap.mergegroups(width, length);
 
-    for(int i = 0; i<quadsvector.size(); i++)
+    for(int i = 0; i<testmap.groups.size(); i++)
     {
-        cout << quadsvector[i].sone.first << ";" << quadsvector[i].sone.second << " " << quadsvector[i].stwo.first << ";" << quadsvector[i].stwo.second << endl;
+        if(testmap.groups[i].n == 4)
+        {
+            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
+        }
     } 
 }

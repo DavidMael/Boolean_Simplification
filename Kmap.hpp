@@ -44,8 +44,11 @@ class kmap
         //flags 1s that have been incorporated in a double
         vector<vector<bool>> flags;
 
-        //flags 1s that haven't been incoprorated into a double
+        //flags 1 squares that haven't been incoprorated into a double
         vector<vector<bool>> orphans;
+
+        //groups of all sizes
+        vector<group> groups;
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
@@ -57,17 +60,17 @@ class kmap
         }
 
         //scans the kmap for horizontal doubles
-        vector<group> horizontaldoubs(); 
+        void horizontaldoubs(); 
 
         //identify 1s in the kmap not belonging to a double
         void identify_orphans();  
 
         //scans the kmap for vertical doubles
-        vector<group> verticaldoubs();     
-};
+        void verticaldoubs();  
 
-//merges quads in the results of verticaldoubs or horizontaldoubs
-//atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<group> mergegroups (const vector<group> & doubs,  const int & width, const int & height);
+        //merges quads in the results of verticaldoubs or horizontaldoubs
+        //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
+        void mergegroups (const int & width, const int & height);   
+};
 
 
