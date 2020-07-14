@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {0, 1, 0, 0, 1, 0, 1, 1};
+    kmap testmap {0, 1, 0, 0, 1, 1, 1, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -41,6 +41,16 @@ int main()
     for(int i = 0; i<testmap.groups.size(); i++)
     {
         if(testmap.groups[i].n == 4)
+        {
+            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
+        }
+    } 
+
+    cout<<"independant groups"<<endl;
+
+        for(int i = 0; i<testmap.groups.size(); i++)
+    {
+        if(testmap.groups[i].merged == 0)
         {
             cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
         }
