@@ -42,6 +42,7 @@ vector<group> kmap::horizontaldoubs()
                             if (flags[i][j] == 0)
                             {
                                 vect.push_back({2, 0, {i, j}, {i, (j+1)} });
+                                cout<<"d"<<endl;
                                 flags[i][j] = 1;
                                 flags[i][j+1] = 1;
                             }
@@ -49,14 +50,16 @@ vector<group> kmap::horizontaldoubs()
                         } else if(j != 0) {
                             if (squares[i][j-1] == 1 && flags[i][j] == 0) {
                                 vect.push_back({2, 0, {i, j-1}, {i, j} });
+                                cout<<"d lookback"<<endl;
                                 flags[i][j] = 1;
                                 //ever needed?
                                 flags[i][j-1] = 1;
                             }
                         } 
-                    } else if(squares[i][0] == 1 && flags[i][j] == 0) {
+                    } else if(squares[i][0] == 1 && (flags[0][0] == 0 || flags[i][j] == 0) ) {
                         //square at the end of a line    
                         vect.push_back({2, 0, {i, j}, {i, 0} });
+                        cout<<"d wrap to front"<<endl;
                         flags[i][j] = 1;
                         //ever needed?
                         flags[i][0] = 1; 

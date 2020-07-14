@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {0, 1, 0, 0, 1, 1, 1, 1};
+    kmap testmap {0, 1, 0, 0, 1, 0, 1, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -25,7 +25,7 @@ int main()
         cout << onedoubs[i].sone.first << ";" << onedoubs[i].sone.second << " " << onedoubs[i].stwo.first << ";" << onedoubs[i].stwo.second << endl;
     }  
 
-    //testmap.identify_orphans();
+    testmap.identify_orphans();
 
     cout << "vertical doubs" << endl;  
 
