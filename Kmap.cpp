@@ -4,10 +4,10 @@
 using namespace std;
 
 //scans the kmap for horizontal doubles
-vector<doub> kmap::horizontaldoubs()
+vector<group> kmap::horizontaldoubs()
 {
     //initialise vector of doubles
-    vector<doub> vect;
+    vector<group> vect;
     //height of the kmap
     int height = squares.size();
     //width of the kmap
@@ -41,14 +41,14 @@ vector<doub> kmap::horizontaldoubs()
                             //should this be a separate if?
                             if (flags[i][j] == 0)
                             {
-                                vect.push_back({ {i, j}, {i, (j+1)} });
+                                vect.push_back({2, 0, {i, j}, {i, (j+1)} });
                                 flags[i][j] = 1;
                                 flags[i][j+1] = 1;
                             }
                         //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
                         } else if(j != 0) {
                             if (squares[i][j-1] == 1 && flags[i][j] == 0) {
-                                vect.push_back({ {i, j-1}, {i, j} });
+                                vect.push_back({2, 0, {i, j-1}, {i, j} });
                                 flags[i][j] = 1;
                                 //ever needed?
                                 flags[i][j-1] = 1;
@@ -56,7 +56,7 @@ vector<doub> kmap::horizontaldoubs()
                         } 
                     } else if(squares[i][0] == 1 && flags[i][j] == 0) {
                         //square at the end of a line    
-                        vect.push_back({ {i, j}, {i, 0} });
+                        vect.push_back({2, 0, {i, j}, {i, 0} });
                         flags[i][j] = 1;
                         //ever needed?
                         flags[i][0] = 1; 
@@ -103,10 +103,10 @@ void kmap::identify_orphans()
 }
 
 //scans the kmap for vertical doubles
-vector<doub> kmap::verticaldoubs()
+vector<group> kmap::verticaldoubs()
 {
     //initialise vector of doubles
-    vector<doub> vect;
+    vector<group> vect;
     //height of the kmap
     int height = squares.size();
     //width of the kmap
@@ -126,7 +126,7 @@ vector<doub> kmap::verticaldoubs()
                     //should this be a separate if?
                     if (flags[i][j] == 0)
                     {
-                        vect.push_back({ {i, j}, {(i+1), j} });
+                        vect.push_back({2, 0, {i, j}, {(i+1), j} });
                         flags[i][j] = 1;
                         flags[i+1][j] = 1;
                         orphans[i][j] = 0;
@@ -135,7 +135,7 @@ vector<doub> kmap::verticaldoubs()
                 } else if(i != 0) {
                     if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0 && orphans[i][j] == 1) 
                     {
-                        vect.push_back({ {i-1, j}, {i, j} });
+                        vect.push_back({2, 0, {i-1, j}, {i, j} });
                         flags[i][j] = 1;
                         //ever needed?
                         flags[i-1][j] = 1;
@@ -146,7 +146,7 @@ vector<doub> kmap::verticaldoubs()
                 //square at the bottom of a column
                 if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0  && orphans[i][j] == 1)
                 {
-                    vect.push_back({ {i, j}, {0, j} });
+                    vect.push_back({2, 0, {i, j}, {0, j} });
                     flags[i][j] = 1;
                     //ever needed?
                     flags[0][j] = 1;
@@ -160,10 +160,10 @@ vector<doub> kmap::verticaldoubs()
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const int & height)
+vector<group> mergegroups (const vector<group> & doubs,  const int & width, const int & height)
 {
     //initialise vector of quads
-    vector<quad> vect;
+    vector<group> vect;
     for(int i = 0; i < doubs.size(); i++)
     {
         for(int j = 0; j < doubs.size(); j++)
@@ -193,7 +193,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                         //cout << i << " " << j << endl;
                         cout << "S H" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     }
                 }
 
@@ -208,7 +208,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                     {
                         cout << "S V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     } 
                 }
             }
@@ -227,7 +227,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                     {
                         cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     }
                 }
 
@@ -243,7 +243,7 @@ vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const
                     {
                         cout << "A V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        vect.push_back({ {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
+                        vect.push_back({4, 0, {doubs[i].sone.first, doubs[i].sone.second}, {doubs[j].stwo.first, doubs[j].stwo.second} });
                     }
                 }
             } 

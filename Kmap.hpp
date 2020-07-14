@@ -2,6 +2,7 @@
 
 using namespace std;
 
+/*/
 struct doub
 //basically a pair of pairs of ints, renamed for brevity in declarations and consistency with quad and oct types
 {
@@ -15,6 +16,21 @@ struct quad
     //quads are defined with the first square of the top/left double and second of the bottom/right one
     pair<int, int> qtopleft;
     pair<int, int> qbottomright;
+};
+/*/
+
+struct group
+//group of 1s of size n larger than 1
+{
+    //size of the group, might not actually be used
+    int n;
+
+    //flag indicating whether the group has yet been merged
+    bool merged;
+
+    //pairs the i (height) and j (width) indices of the two squares in the pair
+    pair<int, int> sone;
+    pair<int, int> stwo;
 };
 
 class kmap
@@ -41,17 +57,17 @@ class kmap
         }
 
         //scans the kmap for horizontal doubles
-        vector<doub> horizontaldoubs(); 
+        vector<group> horizontaldoubs(); 
 
         //identify 1s in the kmap not belonging to a double
         void identify_orphans();  
 
         //scans the kmap for vertical doubles
-        vector<doub> verticaldoubs();     
+        vector<group> verticaldoubs();     
 };
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-vector<quad> mergedoubles (const vector<doub> & doubs,  const int & width, const int & height);
+vector<group> mergegroups (const vector<group> & doubs,  const int & width, const int & height);
 
 
