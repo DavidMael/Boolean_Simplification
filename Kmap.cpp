@@ -143,8 +143,12 @@ void kmap::verticaldoubs()
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-void kmap::mergegroups (const int & width, const int & height)
+void kmap::mergegroups (const int & new_n)
 {
+    int width = squares.size();
+
+    int height = squares[0].size();
+
     //capture group size before adding merges
     int groups_size = groups.size();
 
@@ -177,7 +181,7 @@ void kmap::mergegroups (const int & width, const int & height)
                         //cout << i << " " << j << endl;
                         cout << "S H" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -196,7 +200,7 @@ void kmap::mergegroups (const int & width, const int & height)
                     {
                         cout << "S V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -219,7 +223,7 @@ void kmap::mergegroups (const int & width, const int & height)
                     {
                         cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -239,7 +243,7 @@ void kmap::mergegroups (const int & width, const int & height)
                     {
                         cout << "A V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({4, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
 
                         //flag merged groups as such
                         groups[i].merged = 1;

@@ -33,10 +33,7 @@ int main()
 
     cout << "quads" << endl;
 
-    int length = testmap.squares.size();
-    int width = testmap.squares[0].size();
-
-    testmap.mergegroups(width, length);
+    testmap.mergegroups(4);
 
     for(int i = 0; i<testmap.groups.size(); i++)
     {

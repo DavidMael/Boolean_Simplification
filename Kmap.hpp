@@ -70,7 +70,7 @@ class kmap
 
         //merges quads in the results of verticaldoubs or horizontaldoubs
         //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-        void mergegroups (const int & width, const int & height);   
+        void mergegroups (const int & new_n);   
 };
 
 
