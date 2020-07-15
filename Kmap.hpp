@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -38,6 +39,18 @@ class kmap
     //private: later make a reader function and make data member private
         
     public:
+        //format
+        int width;
+        int height;
+
+        //boolean variables
+        string horizontal_vars = "AB";
+        string vertical_vars = "C";
+
+        //Gray code
+        vector<vector<bool>> horizontal_gray = { {0,0}, {0,1}, {1,1}, {1,0} };
+        vector<vector<bool>> vertical_gray = { {0}, {1} };
+
         //actual squares in the kmap
         vector<vector<bool>> squares;
 
