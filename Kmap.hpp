@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -48,8 +49,8 @@ class kmap
         string vertical_vars = "C";
 
         //Gray code
-        vector<vector<bool>> horizontal_gray = { {0,0}, {0,1}, {1,1}, {1,0} };
-        vector<vector<bool>> vertical_gray = { {0}, {1} };
+        vector<string> horizontal_gray = { "00", "01", "11", "10" };
+        vector<string> vertical_gray = { "0", "1" };
 
         //actual squares in the kmap
         vector<vector<bool>> squares;
@@ -83,7 +84,10 @@ class kmap
 
         //merges quads in the results of verticaldoubs or horizontaldoubs
         //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-        void mergegroups (const int & new_n);   
+        void mergegroups (const int & new_n);
+
+        //cout the simplified expression
+        void solve();   
 };
 
 

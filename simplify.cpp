@@ -1,11 +1,10 @@
-#include <iostream>
 #include "Kmap.hpp"
 
 using namespace std;
 
 int main()
 {
-    kmap testmap {0, 1, 0, 0, 1, 1, 1, 1};
+    kmap testmap {1, 1, 0, 0, 1, 1, 1, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -52,4 +51,6 @@ int main()
             cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
         }
     } 
+
+    testmap.solve();
 }
