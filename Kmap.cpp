@@ -114,6 +114,7 @@ void kmap::verticaldoubs()
                         flags[i][j] = 1;
                         flags[i+1][j] = 1;
                         orphans[i][j] = 0;
+                        orphans[i+1][j] = 0;
                     }
                 //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back up to make a pair
                 } else if(i != 0) {
@@ -124,6 +125,7 @@ void kmap::verticaldoubs()
                         //ever needed?
                         flags[i-1][j] = 1;
                         orphans[i][j] = 0;
+                        orphans[i-1][j] = 0;
                     }
                 }
             } else {
@@ -135,6 +137,7 @@ void kmap::verticaldoubs()
                     //ever needed?
                     flags[0][j] = 1;
                     orphans[i][j] = 0;
+                    orphans[0][j] = 0;
                 }    
             }   
         }
