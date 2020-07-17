@@ -220,7 +220,8 @@ void kmap::mergegroups (const int & new_n)
                 {
                     for(int k = 0 ;k<groups_size; k++)
                     {
-                        if(groups[i].stwo.second == groups[k].sone.second)
+                        if(groups[i].stwo.second == groups[k].sone.second && 
+                        groups[k].sone.first == groups[k].stwo.first && groups[k].sone.first == groups[j].sone.first)
                         {
                             if(
                             (groups[i].sone.first + 1) == groups[j].sone.first
