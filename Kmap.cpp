@@ -212,6 +212,57 @@ void kmap::mergegroups (const int & new_n)
                 }
             }
 
+            //horizontal doubs
+            if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
+            {
+                //shifted stacked doubs
+                if(i != j && groups[i].sone.second == groups[j].stwo.second)
+                {
+                    for(int k = 0 ;k<groups_size; k++)
+                    {
+                        if(groups[i].stwo.second == groups[k].sone.second)
+                        {
+                            if(
+                            (groups[i].sone.first + 1) == groups[j].sone.first
+                            //looping from top to bottom
+                            || (groups[i].sone.first + 1) != groups[j].sone.first && (groups[j].sone.first + 1) != groups[i].sone.first &&
+                            (groups[i].sone.first == 0 && groups[j].sone.first == (height-1) || groups[i].sone.first == (height-1) && groups[j].sone.first == 0)
+                            )
+                            {
+                                //cout << i << " " << j << endl;
+                                cout << "S S H" << endl;
+                                //push back a quad made from doub[i] and doub[j]
+                                groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+
+                                //only flag as merged n groups entirely in the n+1 group
+                                groups[i].merged = 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            /*/
+            //vertical doubs
+            if(groups[i].stwo.second == groups[i].sone.second && groups[j].stwo.second == groups[j].sone.second)
+            {
+                if( 
+                (groups[i].sone.first + 2) == groups[j].sone.first
+                || (groups[i].sone.first + 2) != groups[j].sone.first && (groups[j].sone.first + 2) != groups[i].sone.first &&
+                (groups[i].sone.first == 0 && groups[j].sone.first == (height-2) || groups[i].sone.first == (height-2) && groups[j].sone.first == 0)
+                )
+                {
+                    cout << "S V" << endl;
+                    //push back a quad made from doub[i] and doub[j]
+                    groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+
+                    //flag merged groups as such
+                    groups[i].merged = 1;
+                    groups[j].merged = 1;
+                } 
+            }
+            /*/
+
             //adjacent doubs
             if(i != j && groups[i].sone.first == groups[j].sone.first)
             {
