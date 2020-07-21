@@ -50,66 +50,6 @@ void kmap::horizontaldoubs()
         //cout<<"i= "<<i<<endl;
         for(int j = 0; j<width; j++)
         {
-            /*/cout<<"j= "<<j<<endl;
-            //square not at the end of a line
-
-            if(squares[i][j] == 1)
-            {            
-                if(j != (squares[0].size()-1) && j != 0 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
-                {
-                    orphans[i][j] = 1;
-                } else if (j == (squares[0].size()-1) && squares[i][0] == 0 && squares[i][j-1] == 0){
-                    orphans[i][j] = 1;
-                } else if (j == 0 && squares[i][j+1] == 0 && squares[i][squares[0].size()-1] == 0){
-                    orphans[i][j] = 1;
-                } else {
-                    if(j != (width-1)){
-                        //look forward
-                        if(squares[i][j+1] == 1)
-                        {
-                            //create double if the square pointed to doesn't belong to one, and flag the double in both squares
-                            //should this be a separate if?
-                            if (flags[i][j] == 0)
-                            {
-                                groups.push_back({2, 0, {i, j}, {i, (j+1)} });
-                                flags[i][j] = 1;
-                                flags[i][j+1] = 1;
-                            }
-                        //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back to make a pair
-                        } else if(j != 0) {
-                            if (squares[i][j-1] == 1 && flags[i][j] == 0) {
-                                groups.push_back({2, 0, {i, j-1}, {i, j} });;
-                                flags[i][j] = 1;
-                                //ever needed?
-                                flags[i][j-1] = 1;
-                            }
-                        } 
-                    } else if(squares[i][0] == 1 && (flags[i][0] == 0 || flags[i][j] == 0) ) {
-                        //square at the end of a line 
-                        groups.push_back({2, 0, {i, j}, {i, 0} });
-                        flags[i][j] = 1;
-                        //ever needed?
-                        flags[i][0] = 1; 
-                    }
-
-
-                    //creat marked redundant doubles for merging
-                    //look forward
-                    if(squares[i][j+1] == 1)
-                    {
-                        //create double if the square pointed to doesn't belong to one, and flag the double in both squares
-                        //should this be a separate if?
-                        if (flags[i][j] == 0)
-                        {
-                            groups.push_back({2, 0, {i, j}, {i, (j+1)} });
-                            flags[i][j] = 1;
-                            flags[i][j+1] = 1;
-                        }
-                    }
-                }
-            }/*/
-
-
             if(squares[i][j] == 1)
             {
                 if(one_right(i, j, 1) )
@@ -118,14 +58,10 @@ void kmap::horizontaldoubs()
                     {
                         if( one_right(i, j, 2) )
                         {
-                            cout<<"merged "<<i<<";"<<j<<endl;
+                            //cout<<"merged "<<i<<";"<<j<<endl;
                             groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
-                            //flags[i][j] = 1;
-                            //flags[i][j+1] = 1;
                         } else {
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
-                            //flags[i][j] = 1;
-                            //flags[i][j+1] = 1;
                         }
                     } else {
                     groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
