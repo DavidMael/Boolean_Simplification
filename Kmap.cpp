@@ -99,11 +99,6 @@ void kmap::horizontaldoubs()
 
             if(squares[i][j] == 1)
             {
-                if( one_right(i, j, 1) == 0 && one_right(i, j, -1) == 0 )
-                {
-                    orphans[i][j] = 1;
-                }
-
                 if(one_right(i, j, 1) )
                 {
                     if(flags[i][j]==0)
@@ -118,11 +113,13 @@ void kmap::horizontaldoubs()
                             flags[i][j] = 1;
                             flags[i][j+1] = 1;
                         }
-                    }
-                } else {
+                    } else {
                     groups.push_back({2, 0, {i, j}, {i, (j+1)} });
                     flags[i][j] = 1;
                     flags[i][j+1] = 1;
+                    }
+                } else if(one_right(i, j, -1) == 0 ) {
+                    orphans[i][j] = 1;
                 }
             }
         }
