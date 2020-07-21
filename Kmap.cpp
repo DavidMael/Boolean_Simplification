@@ -9,10 +9,14 @@ bool kmap::one_right(const int & i, const int & j, const int & increment)
     int width;
     width = squares[i].size();
 
-    if( (j+increment) >(width-1) )
+    cout<<"one_right "<<increment<<": "<<i<<";"<<j<<" -> ";
+
+    if( (j+increment) > (width-1) )
     {
-        return squares[i][width-1-j];
+        cout<<i<<";"<<increment-width+j<<" wrap : "<<squares[i][increment-width+j]<<endl;
+        return squares[i][increment-width+j];
     } else {
+        cout<<i<<";"<<j+increment<<" : "<<squares[i][j+increment]<<endl;
         return squares[i][j+increment];
     }
 
