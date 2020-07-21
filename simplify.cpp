@@ -20,14 +20,14 @@ int main()
 
     testmap.horizontaldoubs();
 
-    cout << "vertical doubs" << endl;  
-
-    testmap.verticaldoubs();
-
     for(int i = 0; i<testmap.groups.size(); i++)
     {
-        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
-    }   
+        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
+    } 
+
+    cout << "vertical doubs" << endl;  
+
+    testmap.verticaldoubs();  
 
     testmap.identify_orphans();
 

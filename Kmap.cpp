@@ -3,6 +3,21 @@
 
 using namespace std;
 
+//return true if a 1 is increment squares to the right of the square in question, inculding wrap around
+bool kmap::one_right(const int & i, const int & j, const int & increment)
+{
+    int width;
+    width = squares[i].size();
+
+    if( (j+increment) >(width-1) )
+    {
+        return squares[i][width-1-j];
+    } else {
+        return squares[i][j+increment];
+    }
+
+}
+
 //scans the kmap for horizontal doubles
 void kmap::horizontaldoubs()
 {
@@ -18,7 +33,7 @@ void kmap::horizontaldoubs()
         //cout<<"i= "<<i<<endl;
         for(int j = 0; j<width; j++)
         {
-            //cout<<"j= "<<j<<endl;
+            /*/cout<<"j= "<<j<<endl;
             //square not at the end of a line
 
             if(squares[i][j] == 1)
@@ -59,6 +74,55 @@ void kmap::horizontaldoubs()
                         //ever needed?
                         flags[i][0] = 1; 
                     }
+
+
+                    //creat marked redundant doubles for merging
+                    //look forward
+                    if(squares[i][j+1] == 1)
+                    {
+                        //create double if the square pointed to doesn't belong to one, and flag the double in both squares
+                        //should this be a separate if?
+                        if (flags[i][j] == 0)
+                        {
+                            groups.push_back({2, 0, {i, j}, {i, (j+1)} });
+                            flags[i][j] = 1;
+                            flags[i][j+1] = 1;
+                        }
+                    }
+                }
+            }/*/
+
+
+            if(squares[i][j] == 1)
+            {
+                if(j != (squares[0].size()-1) && j != 0 && squares[i][j+1] == 0 && squares[i][j-1] == 0)
+                {
+                    orphans[i][j] = 1;
+                } else if (j == (squares[0].size()-1) && squares[i][0] == 0 && squares[i][j-1] == 0){
+                    orphans[i][j] = 1;
+                } else if (j == 0 && squares[i][j+1] == 0 && squares[i][squares[0].size()-1] == 0){
+                    orphans[i][j] = 1;
+                }
+
+                if(one_right(i, j, 1) )
+                {
+                    if(flags[i][j]==0)
+                    {
+                        if(one_right(i, j, 2) )
+                        {
+                            groups.push_back({2, 1, {i, j}, {i, (j+1)} });
+                            flags[i][j] = 1;
+                            flags[i][j+1] = 1;
+                        } else {
+                            groups.push_back({2, 0, {i, j}, {i, (j+1)} });
+                            flags[i][j] = 1;
+                            flags[i][j+1] = 1;
+                        }
+                    }
+                } else {
+                    groups.push_back({2, 0, {i, j}, {i, (j+1)} });
+                    flags[i][j] = 1;
+                    flags[i][j+1] = 1;
                 }
             }
         }
@@ -68,7 +132,7 @@ void kmap::horizontaldoubs()
 
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
-    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 }
 
 //identify 1s in the kmap not belonging to a double
@@ -161,12 +225,6 @@ void kmap::mergegroups (const int & new_n)
         {
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
-            /*/
-            cout<<"i = "<<i<<"&j = "<<j<<endl;
-            cout << doubs[i].sone.first << ";" << doubs[i].sone.second << " " << doubs[i].stwo.first << ";" << doubs[i].stwo.second << endl;
-            cout << doubs[j].sone.first << ";" << doubs[j].sone.second << " " << doubs[j].stwo.first << ";" << doubs[j].stwo.second << endl;
-            cout << "."<<endl;
-            /*/
 
             //stacked doubs
             if(i != j && groups[i].sone.second == groups[j].sone.second)
@@ -182,7 +240,7 @@ void kmap::mergegroups (const int & new_n)
                     )
                     {
                         //cout << i << " " << j << endl;
-                        cout << "S H" << endl;
+                        cout << "S H " << endl;
                         //push back a quad made from doub[i] and doub[j]
                         groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
 
@@ -212,7 +270,7 @@ void kmap::mergegroups (const int & new_n)
                 }
             }
 
-            //horizontal doubs
+            /*/horizontal doubs
             if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
             {
                 //shifted stacked doubs
@@ -241,7 +299,7 @@ void kmap::mergegroups (const int & new_n)
                         }
                     }
                 }
-            }
+            }/*/
 
             /*/
             //vertical doubs

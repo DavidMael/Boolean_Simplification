@@ -2,23 +2,6 @@
 
 using namespace std;
 
-/*/
-struct doub
-//basically a pair of pairs of ints, renamed for brevity in declarations and consistency with quad and oct types
-{
-    //pairs the i (height) and j (width) indices of the two squares in the pair
-    pair<int, int> sone;
-    pair<int, int> stwo;
-};
-
-struct quad
-{
-    //quads are defined with the first square of the top/left double and second of the bottom/right one
-    pair<int, int> qtopleft;
-    pair<int, int> qbottomright;
-};
-/*/
-
 struct group
 //group of 1s of size n larger than 1
 {
@@ -52,11 +35,11 @@ class kmap
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
-            squares = {{a, b, c, d}, {e, f, g, h}};
+            squares = {{a, b, c, d}, {e, f, g, h}, {e, f, g, h}, {a, b, c, d}};
 
-            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
-            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
@@ -71,6 +54,10 @@ class kmap
         //merges quads in the results of verticaldoubs or horizontaldoubs
         //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
         void mergegroups (const int & new_n);   
-};
 
+        //return true if a 1 is adjacent to the right of the square in question, inculding wrap around
+        bool one_right(const int & i, const int & j, const int & increment);
+
+        bool one_below(const int & i, const int & j, const int & increment);
+};
 
