@@ -59,5 +59,10 @@ class kmap
         bool one_right(const int & i, const int & j, const int & increment);
 
         bool one_below(const int & i, const int & j, const int & increment);
+
+        //return the index to the immediate right of j, accounting for wrap around
+        int next_right(const int & j);
+
+        int next_below(const int & i);
 };
 

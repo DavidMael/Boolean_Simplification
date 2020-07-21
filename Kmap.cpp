@@ -22,6 +22,19 @@ bool kmap::one_right(const int & i, const int & j, const int & increment)
 
 }
 
+//return the index to the immediate right of j, accounting for wrap around 
+int kmap::next_right(const int & j)
+{
+    int width = squares[0].size();
+
+    if(j+1 > width-1) 
+    {
+        return 0;
+    } else {
+        return j+1;
+    }
+}
+
 //scans the kmap for horizontal doubles
 void kmap::horizontaldoubs()
 {
@@ -106,16 +119,16 @@ void kmap::horizontaldoubs()
                         if( one_right(i, j, 2) )
                         {
                             cout<<"merged "<<i<<";"<<j<<endl;
-                            groups.push_back({2, 1, {i, j}, {i, (j+1)} });
+                            groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
                             //flags[i][j] = 1;
                             //flags[i][j+1] = 1;
                         } else {
-                            groups.push_back({2, 0, {i, j}, {i, (j+1)} });
+                            groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                             //flags[i][j] = 1;
                             //flags[i][j+1] = 1;
                         }
                     } else {
-                    groups.push_back({2, 0, {i, j}, {i, (j+1)} });
+                    groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                     flags[i][j] = 1;
                     flags[i][j+1] = 1;
                     }
