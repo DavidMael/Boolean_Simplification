@@ -101,17 +101,18 @@ void kmap::horizontaldoubs()
             {
                 if(one_right(i, j, 1) )
                 {
-                    if(flags[i][j]==0)
+                    if(flags[i][j]==1)
                     {
                         if( one_right(i, j, 2) )
                         {
+                            cout<<"merged "<<i<<";"<<j<<endl;
                             groups.push_back({2, 1, {i, j}, {i, (j+1)} });
-                            flags[i][j] = 1;
-                            flags[i][j+1] = 1;
+                            //flags[i][j] = 1;
+                            //flags[i][j+1] = 1;
                         } else {
                             groups.push_back({2, 0, {i, j}, {i, (j+1)} });
-                            flags[i][j] = 1;
-                            flags[i][j+1] = 1;
+                            //flags[i][j] = 1;
+                            //flags[i][j+1] = 1;
                         }
                     } else {
                     groups.push_back({2, 0, {i, j}, {i, (j+1)} });
