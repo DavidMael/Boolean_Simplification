@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {0, 1, 1, 0, 1, 1, 1, 1};
+    kmap testmap {0, 1, 0, 0, 0, 0, 1, 0};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -25,11 +25,11 @@ int main()
         cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
     } 
 
+    testmap.identify_orphans();
+
     cout << "vertical doubs" << endl;  
 
     testmap.verticaldoubs();  
-
-    testmap.identify_orphans();
 
     cout << "quads" << endl;
 
