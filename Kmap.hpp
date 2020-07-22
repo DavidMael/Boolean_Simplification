@@ -55,14 +55,16 @@ class kmap
         //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
         void mergegroups (const int & new_n);   
 
-        //return true if a 1 is adjacent to the right of the square in question, inculding wrap around
+        //return bool in square increment columns to the right of i;j, accounting for wrap around
         bool one_right(const int & i, const int & j, const int & increment);
 
+        //return bool in square increment rows below i;j, accounting for wrap around
         bool one_below(const int & i, const int & j, const int & increment);
 
-        //return the index to the immediate right of j, accounting for wrap around
+        //return the row index to the immediate right of j, accounting for wrap around 
         int next_right(const int & j);
 
+        //return the column index immediately below i, accounting for wrap around 
         int next_below(const int & i);
 };
 

@@ -3,26 +3,38 @@
 
 using namespace std;
 
-//return true if a 1 is increment squares to the right of the square in question, inculding wrap around
+//return bool in square increment columns to the right of i;j, accounting for wrap around
 bool kmap::one_right(const int & i, const int & j, const int & increment)
 {
-    int width;
-    width = squares[i].size();
+    int width = squares[i].size();
 
-    cout<<"one_right "<<increment<<": "<<i<<";"<<j<<" -> ";
+    //cout<<"one_right "<<increment<<": "<<i<<";"<<j<<" -> ";
 
     if( (j+increment) > (width-1) )
     {
-        cout<<i<<";"<<increment-width+j<<" wrap : "<<squares[i][increment-width+j]<<endl;
+        //cout<<i<<";"<<increment-width+j<<" wrap : "<<squares[i][increment-width+j]<<endl;
         return squares[i][increment-width+j];
     } else {
-        cout<<i<<";"<<j+increment<<" : "<<squares[i][j+increment]<<endl;
+        //cout<<i<<";"<<j+increment<<" : "<<squares[i][j+increment]<<endl;
         return squares[i][j+increment];
     }
 
 }
 
-//return the index to the immediate right of j, accounting for wrap around 
+//return bool in square increment rows below i;j, accounting for wrap around
+bool kmap::one_below(const int & i, const int & j, const int & increment)
+{
+    int height = squares.size();
+
+    if( (i + increment) > (height - 1) )
+    {
+        return squares[increment-height+i][j];
+    } else {
+        return squares[i+increment][j];
+    }
+}
+
+//return the row index to the immediate right of j, accounting for wrap around 
 int kmap::next_right(const int & j)
 {
     int width = squares[0].size();
@@ -32,6 +44,19 @@ int kmap::next_right(const int & j)
         return 0;
     } else {
         return j+1;
+    }
+}
+
+//return the column index immediately below i, accounting for wrap around 
+int kmap::next_below(const int & i)
+{
+    int height = squares.size();
+
+    if(i+1 > height-1)
+    {
+        return 0;
+    } else {
+        return i+1;
     }
 }
 
@@ -73,8 +98,6 @@ void kmap::horizontaldoubs()
                 }
             }
         }
-
-        //cout<<"square "<<i<<":"<<j<<" done"<<endl;
     }
 
     //scrub flags for use in verticaldoubs
@@ -111,7 +134,7 @@ void kmap::verticaldoubs()
     {
         for(int j = 0; j<width; j++)
         {
-            //square not at the bottom of a column
+            /*/square not at the bottom of a column
             if(i != (height-1))
             {
                 //look down
@@ -150,7 +173,12 @@ void kmap::verticaldoubs()
                     orphans[i][j] = 0;
                     orphans[0][j] = 0;
                 }    
-            }   
+            }/*/  
+
+            if(squares[i][j] == 1)
+            {
+                if()
+            }
         }
     }         
 }
