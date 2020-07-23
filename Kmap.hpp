@@ -55,6 +55,8 @@ class kmap
         //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
         void mergegroups (const int & new_n);   
 
+        //helper functions use to read the kmap and simplify the state machine
+
         //return bool in square increment columns to the right of i;j, accounting for wrap around
         bool one_right(const int & i, const int & j, const int & increment);
 

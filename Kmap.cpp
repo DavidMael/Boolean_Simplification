@@ -91,7 +91,7 @@ void kmap::horizontaldoubs()
                     } else {
                     groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                     flags[i][j] = 1;
-                    flags[i][j+1] = 1;
+                    flags[i][ next_right(j) ] = 1;
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
                     orphans[i][j] = 1;
@@ -100,6 +100,7 @@ void kmap::horizontaldoubs()
         }
     }
 
+    //might not be relevant
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
     flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
@@ -177,7 +178,23 @@ void kmap::verticaldoubs()
 
             if(squares[i][j] == 1)
             {
-                if()
+                if( one_below(i, j, 1) )
+                {
+                    if(orphans[i][j] || orphans[ next_below(i) ][j])
+                    {
+                        groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+                        orphans[i][j] = 0;
+                        orphans[ next_below(i) ][j] = 0;
+                        //is this relevant?
+                        flags[i][j] = 1;
+                        flags[ next_below(i) ][j] = 1;
+                    } else {
+                        groups.push_back({2, 1, {i, j}, { next_below(i), j} });
+                        //is this relevant?
+                        flags[i][j] = 1;
+                        flags[ next_below(i) ][j] = 1;
+                    }
+                }
             }
         }
     }         
