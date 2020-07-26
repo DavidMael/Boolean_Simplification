@@ -8,12 +8,17 @@ bool kmap::one_right(const int & i, const int & j, const int & increment)
 {
     int width = squares[i].size();
 
+    //cout<<"one_right function"<<endl;
+
     //cout<<"one_right "<<increment<<": "<<i<<";"<<j<<" -> ";
 
     if( (j+increment) > (width-1) )
     {
-        //cout<<i<<";"<<increment-width+j<<" wrap : "<<squares[i][increment-width+j]<<endl;
+        //cout<<i<<";"<<increment-width+j<<" wrap forwards : "<<squares[i][increment-width+j]<<endl;
         return squares[i][increment-width+j];
+    } else if ( (j+increment) < 0 ){
+        //cout<<i<<";"<<increment+width-j<<" wrap backwards : "<<squares[i][increment+width-j]<<endl;
+        return squares[i][increment+width-j];
     } else {
         //cout<<i<<";"<<j+increment<<" : "<<squares[i][j+increment]<<endl;
         return squares[i][j+increment];
@@ -75,25 +80,33 @@ void kmap::horizontaldoubs()
         //cout<<"i= "<<i<<endl;
         for(int j = 0; j<width; j++)
         {
+            //cout<<i<<";"<<j<<endl;
             if(squares[i][j] == 1)
             {
+                //cout<<"1 in square"<<endl;
                 if(one_right(i, j, 1) )
                 {
+                    //cout<<"one_right 1"<<endl;
                     if(flags[i][j]==1)
                     {
+                        //cout<<"flagged"<<endl;
                         if( one_right(i, j, 2) )
                         {
+                            //cout<<"one_right 2"<<endl;
                             //cout<<"merged "<<i<<";"<<j<<endl;
                             groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
                         } else {
+                            //cout<<"not one_right 2"<<endl;
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                         }
                     } else {
+                    //cout<<"not flagged"<<endl;
                     groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                     flags[i][j] = 1;
                     flags[i][ next_right(j) ] = 1;
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
+                    //cout<<"orphan"<<endl;
                     orphans[i][j] = 1;
                 }
             }
@@ -135,47 +148,6 @@ void kmap::verticaldoubs()
     {
         for(int j = 0; j<width; j++)
         {
-            /*/square not at the bottom of a column
-            if(i != (height-1))
-            {
-                //look down
-                if(squares[i][j] == 1 && squares[i+1][j] == 1 && orphans[i][j] == 1)
-                {
-                    //create double if the square pointed to doesn't belong to one, and flag the double in both squares
-                    //should this be a separate if?
-                    if (flags[i][j] == 0)
-                    {
-                        groups.push_back({2, 0, {i, j}, {(i+1), j} });
-                        flags[i][j] = 1;
-                        flags[i+1][j] = 1;
-                        orphans[i][j] = 0;
-                        orphans[i+1][j] = 0;
-                    }
-                //1110 case: if pointing to a 1 followed by a 0, not in a pair bc the previous 1 was skipped, look back up to make a pair
-                } else if(i != 0) {
-                    if(squares[i][j] == 1 && squares[i-1][j] == 1 && flags[i][j] == 0 && orphans[i][j] == 1) 
-                    {
-                        groups.push_back({2, 0, {i-1, j}, {i, j} });
-                        flags[i][j] = 1;
-                        //ever needed?
-                        flags[i-1][j] = 1;
-                        orphans[i][j] = 0;
-                        orphans[i-1][j] = 0;
-                    }
-                }
-            } else {
-                //square at the bottom of a column
-                if(squares[i][j] == 1 && squares[0][j] == 1 && flags[i][j] == 0  && orphans[i][j] == 1)
-                {
-                    groups.push_back({2, 0, {i, j}, {0, j} });
-                    flags[i][j] = 1;
-                    //ever needed?
-                    flags[0][j] = 1;
-                    orphans[i][j] = 0;
-                    orphans[0][j] = 0;
-                }    
-            }/*/  
-
             if(squares[i][j] == 1)
             {
                 if( one_below(i, j, 1) )
@@ -196,6 +168,7 @@ void kmap::verticaldoubs()
                     }
                 }
             }
+            
         }
     }         
 }
