@@ -68,5 +68,9 @@ class kmap
 
         //return the column index immediately below i, accounting for wrap around 
         int next_below(const int & i);
+
+        bool group_below(const int & increment, const int & i, const int & j);
+
+        bool group_right(const int & increment, const int & i, const int & j);
 };
 

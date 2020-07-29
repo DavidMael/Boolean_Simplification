@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {1, 0, 1, 1, 1, 1, 1, 1};
+    kmap testmap {1, 1, 0, 0, 0, 0, 1, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
