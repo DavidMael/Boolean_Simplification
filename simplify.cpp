@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {1, 1, 0, 0, 0, 0, 1, 1};
+    kmap testmap {1, 1, 1, 1, 0, 0, 0, 0};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -41,7 +41,7 @@ int main()
     {
         if(testmap.groups[i].n == 4)
         {
-            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
+            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second<<" "<<testmap.groups[i].merged << endl;
         }
     } 
 

@@ -87,3 +87,16 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
     groups[i].sone.second == (width-increment) && groups[j].sone.second == 0
     );
 }
+
+/*/
+group kmap::find_extrema(const group & gi; const group & gj)
+{
+    if(gi.sone.first > gi.stwo.first || gi.sone.second > gi.stwo.second)
+    {
+        return {n, m, {}, {}}  
+    } else if()
+    {
+
+    }
+}
+/*/

@@ -54,7 +54,7 @@ void kmap::horizontaldoubs()
     //might not be relevant
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
-    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
 }
 
 //identify 1s in the kmap not belonging to a double
@@ -128,6 +128,9 @@ void kmap::mergegroups (const int & new_n)
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
+            cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
+            << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<" -> "<<endl;
+
             //stacked doubs
             if(i != j && groups[i].sone.second == groups[j].sone.second)
             {
@@ -139,7 +142,12 @@ void kmap::mergegroups (const int & new_n)
                         //cout << i << " " << j << endl;
                         cout << "S H " << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        } else {
+                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        }
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -154,7 +162,12 @@ void kmap::mergegroups (const int & new_n)
                     {
                         cout << "S V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        } else {
+                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        }
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -173,7 +186,12 @@ void kmap::mergegroups (const int & new_n)
                     {
                         cout << "A H " << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        } else {
+                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        }
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -188,7 +206,12 @@ void kmap::mergegroups (const int & new_n)
                     {
                         cout << "A V" << endl;
                         //push back a quad made from doub[i] and doub[j]
-                        groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        } else {
+                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                        }
 
                         //flag merged groups as such
                         groups[i].merged = 1;

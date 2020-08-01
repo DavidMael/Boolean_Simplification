@@ -4,6 +4,7 @@ using namespace std;
 
 struct group
 //group of 1s of size n larger than 1
+//stwo is below and to the right of sone: 0;0 3;3 is a normal group and 0;3 1;0 wraps around the edge
 {
     //size of the group, might not actually be used
     int n;
@@ -35,11 +36,11 @@ class kmap
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
-            squares = {{a, b, c, d}, {e, f, g, h}, {e, f, g, h}, {a, b, c, d}};
+            squares = {{a, b, c, d}, {e, f, g, h}};
 
-            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
 
-            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
