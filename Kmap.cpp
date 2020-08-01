@@ -129,7 +129,8 @@ void kmap::mergegroups (const int & new_n)
             //perhaps remove mention of stwo from quad?
 
             cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
-            << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<" -> "<<endl;
+            << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+            "(groups right: "<<group_right(2, i, j)<<")"<<" -> "<<endl;
 
             //stacked doubs
             if(i != j && groups[i].sone.second == groups[j].sone.second)
