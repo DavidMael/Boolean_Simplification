@@ -72,7 +72,7 @@ bool kmap::group_below(const int & increment, const int & i, const int & j)
     (groups[i].sone.first + increment) == groups[j].sone.first
     //looping from top to bottom
     || (groups[i].sone.first + increment) != groups[j].sone.first && (groups[j].sone.first + increment) != groups[i].sone.first &&
-    groups[i].sone.first == (height-increment) && groups[j].sone.first == 0
+    groups[i].sone.second > (width-1-increment) && groups[j].sone.second == (width-groups[i].sone.second)
     );
 }
 
@@ -80,6 +80,7 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
 {
     int width = squares[0].size();
 
+    /*/
     if((groups[i].sone.second + increment) == groups[j].sone.second)
     {
         cout<<"no wrap "<<endl;
@@ -93,7 +94,7 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
     if( groups[i].sone.second > (width-1-increment) )
     {
         cout<<"groups[i].sone.second > (width-1-increment) "<<endl;
-    }
+    }/*/
  
     return(
     (groups[i].sone.second + increment) == groups[j].sone.second
