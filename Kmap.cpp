@@ -54,7 +54,7 @@ void kmap::horizontaldoubs()
     //might not be relevant
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
-    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+    flags = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
 }
 
 //identify 1s in the kmap not belonging to a double
@@ -130,7 +130,7 @@ void kmap::mergegroups (const int & new_n)
 
             cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
             << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-            "(groups right: "<<group_right(2, i, j)<<")"<<" -> "<<endl;
+            " (groups right: "<<group_right(2, i, j)<<")"<<" -> "<<endl;
 
             //stacked doubs
             if(i != j && groups[i].sone.second == groups[j].sone.second)

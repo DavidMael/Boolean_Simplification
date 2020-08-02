@@ -80,11 +80,26 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
 {
     int width = squares[0].size();
 
+    if((groups[i].sone.second + increment) == groups[j].sone.second)
+    {
+        cout<<"no wrap "<<endl;
+    }
+
+    if( groups[j].sone.second == (width-groups[i].sone.second) )
+    {
+        cout<<"groups[j].sone.second == (width-groups[i].sone.second) "<<endl;
+    }
+
+    if( groups[i].sone.second > (width-1-increment) )
+    {
+        cout<<"groups[i].sone.second > (width-1-increment) "<<endl;
+    }
+ 
     return(
     (groups[i].sone.second + increment) == groups[j].sone.second
     //looping around edges
     || (groups[i].sone.second + increment) != groups[j].sone.second && (groups[j].sone.second + increment) != groups[i].sone.second &&
-    groups[i].sone.second == (width-increment) && groups[j].sone.second == 0
+    groups[i].sone.second > (width-1-increment) && groups[j].sone.second == (width-groups[i].sone.second)
     );
 }
 

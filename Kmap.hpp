@@ -36,11 +36,11 @@ class kmap
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
-            squares = {{a, b, c, d}, {e, f, g, h}};
+            squares = {{a, b, c, d, e, f, g, h}, {0, 0, 0, 0, 0, 0, 0, 0}};
 
-            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+            flags = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
 
-            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+            orphans = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
