@@ -72,7 +72,7 @@ bool kmap::group_below(const int & increment, const int & i, const int & j)
     (groups[i].sone.first + increment) == groups[j].sone.first
     //looping from top to bottom
     || (groups[i].sone.first + increment) != groups[j].sone.first && (groups[j].sone.first + increment) != groups[i].sone.first &&
-    groups[i].sone.second > (width-1-increment) && groups[j].sone.second == (width-groups[i].sone.second)
+    groups[i].sone.first > (height-1-increment) && groups[j].sone.first == (height-groups[i].sone.first)
     );
 }
 
