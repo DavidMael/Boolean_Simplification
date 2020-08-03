@@ -54,7 +54,7 @@ void kmap::horizontaldoubs()
     //might not be relevant
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
-    flags = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
+    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 }
 
 //identify 1s in the kmap not belonging to a double
@@ -145,9 +145,9 @@ void kmap::mergegroups (const int & new_n)
                         //push back a quad made from doub[i] and doub[j]
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
-                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
                         } else {
-                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                         }
 
                         //flag merged groups as such
@@ -165,9 +165,9 @@ void kmap::mergegroups (const int & new_n)
                         //push back a quad made from doub[i] and doub[j]
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
-                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
                         } else {
-                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                         }
 
                         //flag merged groups as such
@@ -189,9 +189,9 @@ void kmap::mergegroups (const int & new_n)
                         //push back a quad made from doub[i] and doub[j]
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
-                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
                         } else {
-                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                         }
 
                         //flag merged groups as such
@@ -209,9 +209,9 @@ void kmap::mergegroups (const int & new_n)
                         //push back a quad made from doub[i] and doub[j]
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
-                            groups.push_back({new_n, 1, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
                         } else {
-                            groups.push_back({new_n, 0, {groups[i].sone.first, groups[i].sone.second}, {groups[j].stwo.first, groups[j].stwo.second} });
+                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                         }
 
                         //flag merged groups as such

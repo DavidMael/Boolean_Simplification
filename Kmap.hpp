@@ -36,11 +36,11 @@ class kmap
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
-            squares = {{a, b, c, d, e, f, g, h}, {0, 0, 0, 0, 0, 0, 0, 0}};
+            squares = {{a, b, c, d}, {e, f, g, h}, {e, f, g, h}, {a, b, c, d}};
 
-            flags = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
+            flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
-            orphans = {{0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
+            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
         }
 
         //scans the kmap for horizontal doubles
@@ -73,5 +73,7 @@ class kmap
         bool group_below(const int & increment, const int & i, const int & j);
 
         bool group_right(const int & increment, const int & i, const int & j);
+
+        group find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag);
 };
 

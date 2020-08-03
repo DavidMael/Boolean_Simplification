@@ -104,15 +104,49 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
     );
 }
 
-/*/
-group kmap::find_extrema(const group & gi; const group & gj)
-{
-    if(gi.sone.first > gi.stwo.first || gi.sone.second > gi.stwo.second)
-    {
-        return {n, m, {}, {}}  
-    } else if()
-    {
 
+group kmap::find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag)
+{
+    int width = squares[0].size();
+    int height = squares.size();
+
+    int minrow;
+    int maxrow;
+    int mincol;
+    int maxcol;
+
+    //if group j's leftmost column is 1 to the right of the rightmost column of group i
+    if( next_right(gi.stwo.second) == gj.sone.second )
+    {
+        //if group i's leftmost column is 1 to the right of the rightmost column of group j
+        if( next_right(gj.stwo.second) == gi.sone.second )
+        {
+            //groups are joined at both ends
+            minrow = 0;
+            maxrow = width-1;
+        } else {
+            minrow = gi.sone.second;
+            maxrow = gj.stwo.second;
+        }
+    } else {
+        minrow = gi.sone.second;
+        maxrow = gj.stwo.second;
     }
+
+    if( next_below(gi.stwo.first) == gj.sone.first )
+    {
+        if( next_below(gj.stwo.second) == gi.sone.second )
+        {
+            mincol = 0;
+            maxcol = height;
+        } else {
+            mincol = gi.sone.first;
+            maxcol = gj.stwo.first;
+        }
+    } else {
+        mincol = gi.sone.first;
+        maxcol = gj.stwo.first;
+    }
+
+    return {n, m_flag, {minrow, mincol}, {maxrow, maxcol} };
 }
-/*/
