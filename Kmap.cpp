@@ -128,98 +128,42 @@ void kmap::mergegroups (const int & new_n)
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
-            cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
-            << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-            " (groups right: "<<group_right(2, i, j)<<")"<<" -> "<<endl;
-
-            //stacked doubs
-            if(i != j && groups[i].sone.second == groups[j].sone.second)
+            //stacked groups of same format
+            if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
+            groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
             {
-                //horizontal doubs
-                if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
+                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
+                << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                " (groups right: "<<group_right(2, i, j)<<")"<<" -> stacked"<<endl;
+
+                if(groups[i].merged == 1 && groups[j].merged == 1)
                 {
-                    if(group_below(1, i, j) )
-                    {
-                        //cout << i << " " << j << endl;
-                        cout << "S H " << endl;
-                        //push back a quad made from doub[i] and doub[j]
-                        if(groups[i].merged == 1 && groups[j].merged == 1)
-                        {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
-                        } else {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
-                        }
-
-                        //flag merged groups as such
-                        groups[i].merged = 1;
-                        groups[j].merged = 1;
-                    }
+                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
+                } else {
+                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                 }
-
-                //vertical doubs
-                if(groups[i].stwo.second == groups[i].sone.second && groups[j].stwo.second == groups[j].sone.second)
-                {
-                    if( group_below(2, i, j) )
-                    {
-                        cout << "S V" << endl;
-                        //push back a quad made from doub[i] and doub[j]
-                        if(groups[i].merged == 1 && groups[j].merged == 1)
-                        {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
-                        } else {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
-                        }
-
-                        //flag merged groups as such
-                        groups[i].merged = 1;
-                        groups[j].merged = 1;
-                    } 
-                }
-            }
-
-            //adjacent doubs
-            if(i != j && groups[i].sone.first == groups[j].sone.first)
+                //flag merged groups as such
+                groups[i].merged = 1;
+                groups[j].merged = 1;
+                
+            } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
+            groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
+            //adjacent groups of same format
             {
-                //horizontal doubs
-                if(groups[i].stwo.first == groups[i].sone.first && groups[j].stwo.first == groups[j].sone.first)
+                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
+                << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                " (groups right: "<<group_right(2, i, j)<<")"<<" -> adjacent"<<endl;
+               
+                if(groups[i].merged == 1 && groups[j].merged == 1)
                 {
-                    if( group_right(2, i, j) )
-                    {
-                        cout << "A H " << endl;
-                        //push back a quad made from doub[i] and doub[j]
-                        if(groups[i].merged == 1 && groups[j].merged == 1)
-                        {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
-                        } else {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
-                        }
-
-                        //flag merged groups as such
-                        groups[i].merged = 1;
-                        groups[j].merged = 1;
-                    }
+                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
+                } else {
+                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
                 }
-
-                //vertical doubs
-                if(groups[i].stwo.second == groups[i].sone.second && groups[j].stwo.second == groups[j].sone.second)
-                {
-                    if( group_right(1, i, j) )
-                    {
-                        cout << "A V" << endl;
-                        //push back a quad made from doub[i] and doub[j]
-                        if(groups[i].merged == 1 && groups[j].merged == 1)
-                        {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
-                        } else {
-                            groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
-                        }
-
-                        //flag merged groups as such
-                        groups[i].merged = 1;
-                        groups[j].merged = 1;
-                    }
-                }
-            } 
+                //flag merged groups as such
+                groups[i].merged = 1;
+                groups[j].merged = 1;
+                } 
         }
     }
 }

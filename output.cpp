@@ -1,4 +1,3 @@
 #include "output.hpp"
 
-using namespace std;
-
+using namespace std;           
