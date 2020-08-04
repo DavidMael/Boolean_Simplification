@@ -131,7 +131,7 @@ void kmap::mergegroups (const int & new_n, bool merge_type)
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
-            if( merge_type || !(groups[i].merged || groups[j].merged) )
+            if( (merge_type || !(groups[i].merged || groups[j].merged) ) && groups[i].n == new_n/2 && groups[j].n == new_n/2 )
             {
                 //stacked groups of same format
                 if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
