@@ -122,30 +122,30 @@ group kmap::find_extrema(const group & gi, const group & gj, const int & n, cons
         if( next_right(gj.stwo.second) == gi.sone.second )
         {
             //groups are joined at both ends
-            minrow = 0;
-            maxrow = width-1;
+            mincol = 0;
+            maxcol = width-1;
         } else {
-            minrow = gi.sone.second;
-            maxrow = gj.stwo.second;
+            mincol = gi.sone.second;
+            maxcol = gj.stwo.second;
         }
     } else {
-        minrow = gi.sone.second;
-        maxrow = gj.stwo.second;
+        mincol = gi.sone.second;
+        maxcol = gj.stwo.second;
     }
 
     if( next_below(gi.stwo.first) == gj.sone.first )
     {
-        if( next_below(gj.stwo.second) == gi.sone.second )
+        if( next_below(gj.stwo.first) == gi.sone.first )
         {
-            mincol = 0;
-            maxcol = height;
+            minrow = 0;
+            maxrow = height-1;
         } else {
-            mincol = gi.sone.first;
-            maxcol = gj.stwo.first;
+            minrow = gi.sone.first;
+            maxrow = gj.stwo.first;
         }
     } else {
-        mincol = gi.sone.first;
-        maxcol = gj.stwo.first;
+        minrow = gi.sone.first;
+        maxrow = gj.stwo.first;
     }
 
     return {n, m_flag, {minrow, mincol}, {maxrow, maxcol} };
