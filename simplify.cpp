@@ -33,9 +33,13 @@ int main()
 
     testmap.identify_orphans();
 
-    cout << "quads" << endl;
+    cout << "first quads" << endl;
 
-    testmap.mergegroups(4);
+    testmap.mergegroups(4, 0);
+
+    cout << "second quads" << endl;
+
+    testmap.mergegroups(4, 1);
 
     /*/for(int i = 0; i<testmap.groups.size(); i++)
     {

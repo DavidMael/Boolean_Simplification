@@ -112,7 +112,8 @@ void kmap::verticaldoubs()
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
-void kmap::mergegroups (const int & new_n)
+//merge_type, when true, allows merges between merge and non merge-flagged groups
+void kmap::mergegroups (const int & new_n, bool merge_type)
 {
     int width = squares.size();
 
@@ -130,52 +131,55 @@ void kmap::mergegroups (const int & new_n)
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
-            //stacked groups of same format
-            if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
-            groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
+            if( merge_type || !(groups[i].merged || groups[j].merged) )
             {
-                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
-                << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
-
-                if(groups[i].merged == 1 && groups[j].merged == 1)
+                //stacked groups of same format
+                if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
+                groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
                 {
-                    merger = find_extrema(groups[i], groups[j], new_n, 1);
-                    groups.push_back( merger );
- 
-                } else {
-                    merger = find_extrema(groups[i], groups[j], new_n, 0);
-                    groups.push_back( merger );
-                }
-                cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                    cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                    << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                    " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
 
-                //flag merged groups as such
-                groups[i].merged = 1;
-                groups[j].merged = 1;
+                    if(groups[i].merged == 1 && groups[j].merged == 1)
+                    {
+                        merger = find_extrema(groups[i], groups[j], new_n, 1);
+                        groups.push_back( merger );
+    
+                    } else {
+                        merger = find_extrema(groups[i], groups[j], new_n, 0);
+                        groups.push_back( merger );
+                    }
+                    cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+
+                    //flag merged groups as such
+                    groups[i].merged = 1;
+                    groups[j].merged = 1;
+                    
+                } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
+                groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
+                //adjacent groups of same format
+                {
+                    cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                    << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                    " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
                 
-            } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
-            groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
-            //adjacent groups of same format
-            {
-                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
-                << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
-               
-                if(groups[i].merged == 1 && groups[j].merged == 1)
-                {
-                    merger = find_extrema(groups[i], groups[j], new_n, 1);
-                    groups.push_back( merger );
- 
-                } else {
-                    merger = find_extrema(groups[i], groups[j], new_n, 0);
-                    groups.push_back( merger );
-                }
-                cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                    if(groups[i].merged == 1 && groups[j].merged == 1)
+                    {
+                        merger = find_extrema(groups[i], groups[j], new_n, 1);
+                        groups.push_back( merger );
+    
+                    } else {
+                        merger = find_extrema(groups[i], groups[j], new_n, 0);
+                        groups.push_back( merger );
+                    }
+                    cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
 
-                //flag merged groups as such
-                groups[i].merged = 1;
-                groups[j].merged = 1;
-                } 
+                    //flag merged groups as such
+                    groups[i].merged = 1;
+                    groups[j].merged = 1;
+                }
+            } 
         }
     }
 }
