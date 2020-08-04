@@ -121,6 +121,8 @@ void kmap::mergegroups (const int & new_n)
     //capture group size before adding merges
     int groups_size = groups.size();
 
+    group merger;
+
     for(int i = 0; i < groups_size; i++)
     {
         for(int j = 0; j < groups_size; j++)
@@ -132,16 +134,21 @@ void kmap::mergegroups (const int & new_n)
             if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
             groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
             {
-                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
+                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
                 << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                " (groups right: "<<group_right(2, i, j)<<")"<<" -> stacked"<<endl;
+                " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
 
                 if(groups[i].merged == 1 && groups[j].merged == 1)
                 {
-                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
+                    merger = find_extrema(groups[i], groups[j], new_n, 1);
+                    groups.push_back( merger );
+ 
                 } else {
-                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
+                    merger = find_extrema(groups[i], groups[j], new_n, 0);
+                    groups.push_back( merger );
                 }
+                cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+
                 //flag merged groups as such
                 groups[i].merged = 1;
                 groups[j].merged = 1;
@@ -150,16 +157,21 @@ void kmap::mergegroups (const int & new_n)
             groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
             //adjacent groups of same format
             {
-                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" | "
+                cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
                 << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                " (groups right: "<<group_right(2, i, j)<<")"<<" -> adjacent"<<endl;
+                " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
                
                 if(groups[i].merged == 1 && groups[j].merged == 1)
                 {
-                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 1) );
+                    merger = find_extrema(groups[i], groups[j], new_n, 1);
+                    groups.push_back( merger );
+ 
                 } else {
-                    groups.push_back( find_extrema(groups[i], groups[j], new_n, 0) );
+                    merger = find_extrema(groups[i], groups[j], new_n, 0);
+                    groups.push_back( merger );
                 }
+                cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+
                 //flag merged groups as such
                 groups[i].merged = 1;
                 groups[j].merged = 1;

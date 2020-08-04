@@ -37,13 +37,13 @@ int main()
 
     testmap.mergegroups(4);
 
-    for(int i = 0; i<testmap.groups.size(); i++)
+    /*/for(int i = 0; i<testmap.groups.size(); i++)
     {
         if(testmap.groups[i].n == 4)
         {
             cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second<<" "<<testmap.groups[i].merged << endl;
         }
-    } 
+    }/*/
 
     cout<<"independant groups"<<endl;
 
