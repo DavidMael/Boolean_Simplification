@@ -6,8 +6,6 @@ using namespace std;
 //return bool in square increment columns to the right of i;j, accounting for wrap around
 bool kmap::one_right(const int & i, const int & j, const int & increment)
 {
-    int width = squares[i].size();
-
     //cout<<"one_right function"<<endl;
 
     //cout<<"one_right "<<increment<<": "<<i<<";"<<j<<" -> ";
@@ -28,8 +26,6 @@ bool kmap::one_right(const int & i, const int & j, const int & increment)
 //return bool in square increment rows below i;j, accounting for wrap around
 bool kmap::one_below(const int & i, const int & j, const int & increment)
 {
-    int height = squares.size();
-
     if( (i + increment) > (height - 1) )
     {
         return squares[increment-height+i][j];
@@ -41,8 +37,6 @@ bool kmap::one_below(const int & i, const int & j, const int & increment)
 //return the row index to the immediate right of j, accounting for wrap around 
 int kmap::next_right(const int & j)
 {
-    int width = squares[0].size();
-
     if(j+1 > width-1) 
     {
         return 0;
@@ -54,8 +48,6 @@ int kmap::next_right(const int & j)
 //return the column index immediately below i, accounting for wrap around 
 int kmap::next_below(const int & i)
 {
-    int height = squares.size();
-
     if(i+1 > height-1)
     {
         return 0;
@@ -66,8 +58,6 @@ int kmap::next_below(const int & i)
 
 bool kmap::group_below(const int & increment, const int & i, const int & j)
 {
-    int height = squares.size();
-
     return(
     (groups[i].sone.first + increment) == groups[j].sone.first
     //looping from top to bottom
@@ -78,8 +68,6 @@ bool kmap::group_below(const int & increment, const int & i, const int & j)
 
 bool kmap::group_right(const int & increment, const int & i, const int & j)
 {
-    int width = squares[0].size();
-
     /*/
     if((groups[i].sone.second + increment) == groups[j].sone.second)
     {
@@ -107,9 +95,6 @@ bool kmap::group_right(const int & increment, const int & i, const int & j)
 
 group kmap::find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag)
 {
-    int width = squares[0].size();
-    int height = squares.size();
-
     int minrow;
     int maxrow;
     int mincol;

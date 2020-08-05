@@ -6,10 +6,6 @@ using namespace std;
 //scans the kmap for horizontal doubles
 void kmap::horizontaldoubs()
 {
-    //height of the kmap
-    int height = squares.size();
-    //width of the kmap
-    int width = squares[1].size();
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
@@ -77,10 +73,6 @@ void kmap::identify_orphans()
 //scans the kmap for vertical doubles
 void kmap::verticaldoubs()
 {
-    //height of the kmap
-    int height = squares.size();
-    //width of the kmap
-    int width = squares[1].size();
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
@@ -115,10 +107,6 @@ void kmap::verticaldoubs()
 //merge_type, when true, allows merges between merge and non merge-flagged groups
 void kmap::mergegroups (const int & new_n, bool merge_type)
 {
-    int width = squares.size();
-
-    int height = squares[0].size();
-
     //capture group size before adding merges
     int groups_size = groups.size();
 
@@ -183,3 +171,8 @@ void kmap::mergegroups (const int & new_n, bool merge_type)
         }
     }
 }
+
+/*/void kmap::merge_function()
+{
+    for(int n = 4; n<;n = n + 2)
+}/*/
