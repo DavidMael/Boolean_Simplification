@@ -135,3 +135,39 @@ group kmap::find_extrema(const group & gi, const group & gj, const int & n, cons
 
     return {n, m_flag, {minrow, mincol}, {maxrow, maxcol} };
 }
+
+bool operator== (const group & lhs, const group & rhs)
+{
+    return(
+        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
+        lhs.n == rhs.n && lhs.merged == rhs.merged
+    );
+}
+
+bool operator!= (const group & lhs, const group & rhs)
+{
+    return(
+        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
+        lhs.n == rhs.n && lhs.merged == rhs.merged)
+    );
+}
+
+//compare two groups only by their coordinates, return true if equal
+bool operator>= (const group & lhs, const group & rhs)
+{
+    return(
+        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second
+    );
+}
+
+//compare two groups only by their coordinates, return false if equal
+bool operator<= (const group & lhs, const group & rhs)
+{
+    return(
+        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second)
+    );
+}

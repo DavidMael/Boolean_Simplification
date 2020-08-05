@@ -119,60 +119,74 @@ void kmap::mergegroups (const int & new_n, bool merge_type)
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
 
-            if( (merge_type || !(groups[i].merged || groups[j].merged) ) && groups[i].n == new_n/2 && groups[j].n == new_n/2 )
+            //check that merged groups are of the right size and don't cover identical areas
+            if( groups[i] <= groups[j] && groups[j].n == new_n/2 )
             {
-                //stacked groups of same format
-                if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
-                groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
+                //check that the groups satisfy merge_type conditions
+                if( (merge_type || !(groups[i].merged || groups[j].merged) ) && groups[i].n == new_n/2 )
                 {
-                    cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
-                    << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                    " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
-
-                    if(groups[i].merged == 1 && groups[j].merged == 1)
+                    //stacked groups of same format
+                    if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
+                    groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
                     {
-                        merger = find_extrema(groups[i], groups[j], new_n, 1);
-                        groups.push_back( merger );
-    
-                    } else {
-                        merger = find_extrema(groups[i], groups[j], new_n, 0);
-                        groups.push_back( merger );
-                    }
-                    cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                        cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                        << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                        " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
 
-                    //flag merged groups as such
-                    groups[i].merged = 1;
-                    groups[j].merged = 1;
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            merger = find_extrema(groups[i], groups[j], new_n, 1);
+                            groups.push_back( merger );
+        
+                        } else {
+                            merger = find_extrema(groups[i], groups[j], new_n, 0);
+                            groups.push_back( merger );
+                        }
+                        cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+
+                        //flag merged groups as such
+                        groups[i].merged = 1;
+                        groups[j].merged = 1;
+                        
+                    //adjacent groups of same format
+                    } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
+                    groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
+                    {
+                        cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                        << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
+                        " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
                     
-                } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
-                groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
-                //adjacent groups of same format
-                {
-                    cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
-                    << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                    " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
-                
-                    if(groups[i].merged == 1 && groups[j].merged == 1)
-                    {
-                        merger = find_extrema(groups[i], groups[j], new_n, 1);
-                        groups.push_back( merger );
-    
-                    } else {
-                        merger = find_extrema(groups[i], groups[j], new_n, 0);
-                        groups.push_back( merger );
-                    }
-                    cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                        if(groups[i].merged == 1 && groups[j].merged == 1)
+                        {
+                            merger = find_extrema(groups[i], groups[j], new_n, 1);
+                            groups.push_back( merger );
+        
+                        } else {
+                            merger = find_extrema(groups[i], groups[j], new_n, 0);
+                            groups.push_back( merger );
+                        }
+                        cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
 
-                    //flag merged groups as such
-                    groups[i].merged = 1;
-                    groups[j].merged = 1;
-                }
-            } 
+                        //flag merged groups as such
+                        groups[i].merged = 1;
+                        groups[j].merged = 1;
+                    }
+                } 
+            }
         }
     }
 }
-
-/*/void kmap::merge_function()
+ 
+void kmap::merge_function()
 {
-    for(int n = 4; n<;n = n + 2)
-}/*/
+    for(int n = 4; n<(width*height) ;n = n*2)
+    {
+        cout << "first quads n= " <<n<< endl;
+
+        mergegroups(n, 0);
+
+        cout << "second quads n= " <<n<< endl;
+
+        mergegroups(n, 1);
+    }
+}
