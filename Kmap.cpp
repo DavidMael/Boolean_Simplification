@@ -50,7 +50,9 @@ void kmap::horizontaldoubs()
     //might not be relevant
     //scrub flags for use in verticaldoubs
     //redo properly for n var kmaps to work
-    flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    //flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+
+    wipe_flags();
 }
 
 //identify 1s in the kmap not belonging to a double

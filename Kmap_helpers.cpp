@@ -3,6 +3,44 @@
 
 using namespace std;
 
+//compare two groups, return true if identical
+bool operator== (const group & lhs, const group & rhs)
+{
+    return(
+        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
+        lhs.n == rhs.n && lhs.merged == rhs.merged
+    );
+}
+
+//compare two groups, return false if identical
+bool operator!= (const group & lhs, const group & rhs)
+{
+    return(
+        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
+        lhs.n == rhs.n && lhs.merged == rhs.merged)
+    );
+}
+
+//compare two groups only by their coordinates, return true if equal
+bool operator>= (const group & lhs, const group & rhs)
+{
+    return(
+        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second
+    );
+}
+
+//compare two groups only by their coordinates, return false if equal
+bool operator<= (const group & lhs, const group & rhs)
+{
+    return(
+        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
+        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second)
+    );
+}
+
 //return bool in square increment columns to the right of i;j, accounting for wrap around
 bool kmap::one_right(const int & i, const int & j, const int & increment)
 {
@@ -68,22 +106,6 @@ bool kmap::group_below(const int & increment, const int & i, const int & j)
 
 bool kmap::group_right(const int & increment, const int & i, const int & j)
 {
-    /*/
-    if((groups[i].sone.second + increment) == groups[j].sone.second)
-    {
-        cout<<"no wrap "<<endl;
-    }
-
-    if( groups[j].sone.second == (width-groups[i].sone.second) )
-    {
-        cout<<"groups[j].sone.second == (width-groups[i].sone.second) "<<endl;
-    }
-
-    if( groups[i].sone.second > (width-1-increment) )
-    {
-        cout<<"groups[i].sone.second > (width-1-increment) "<<endl;
-    }/*/
- 
     return(
     (groups[i].sone.second + increment) == groups[j].sone.second
     //looping around edges
@@ -136,40 +158,10 @@ group kmap::find_extrema(const group & gi, const group & gj, const int & n, cons
     return {n, m_flag, {minrow, mincol}, {maxrow, maxcol} };
 }
 
-//compare two groups, return true if identical
-bool operator== (const group & lhs, const group & rhs)
+void kmap::wipe_flags()
 {
-    return(
-        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
-        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
-        lhs.n == rhs.n && lhs.merged == rhs.merged
-    );
-}
-
-//compare two groups, return false if identical
-bool operator!= (const group & lhs, const group & rhs)
-{
-    return(
-        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
-        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second &&
-        lhs.n == rhs.n && lhs.merged == rhs.merged)
-    );
-}
-
-//compare two groups only by their coordinates, return true if equal
-bool operator>= (const group & lhs, const group & rhs)
-{
-    return(
-        lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
-        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second
-    );
-}
-
-//compare two groups only by their coordinates, return false if equal
-bool operator<= (const group & lhs, const group & rhs)
-{
-    return(
-        !(lhs.sone.first == rhs.sone.first && lhs.sone.second == rhs.sone.second &&
-        lhs.stwo.first == rhs.stwo.first && lhs.stwo.second == rhs.stwo.second)
-    );
+    for(int i = 0; i<height; i++)
+    {
+       fill(flags[i].begin(), flags[i].end(), 0); 
+    }
 }

@@ -97,5 +97,7 @@ class kmap
         bool group_right(const int & increment, const int & i, const int & j);
 
         group find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag);
+
+        void wipe_flags();
 };
 
