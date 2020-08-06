@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    kmap testmap {1, 1, 1, 0, 1, 0, 0, 0};
+    kmap testmap {1, 1, 1, 1, 1, 0, 0, 1};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
@@ -15,32 +15,36 @@ int main()
         cout << endl;
     }
 
+    //cout<<testmap;
+
     cout << "horizontal doubs" << endl;  
 
     testmap.horizontaldoubs();
 
+    testmap.identify_orphans();
+
     cout << "vertical doubs" << endl;  
 
-    testmap.verticaldoubs();
+    testmap.verticaldoubs();  
 
     for(int i = 0; i<testmap.groups.size(); i++)
     {
-        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
-    }   
+        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
+    } 
 
     testmap.identify_orphans();
 
     cout << "quads" << endl;
 
-    testmap.mergegroups(4);
+    testmap.merge_function();
 
-    for(int i = 0; i<testmap.groups.size(); i++)
+    /*/for(int i = 0; i<testmap.groups.size(); i++)
     {
         if(testmap.groups[i].n == 4)
         {
-            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
+            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second<<" "<<testmap.groups[i].merged << endl;
         }
-    } 
+    }/*/
 
     cout<<"independant groups"<<endl;
 
