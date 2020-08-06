@@ -82,19 +82,34 @@ void kmap::verticaldoubs()
             {
                 if( one_below(i, j, 1) )
                 {
-                    if(orphans[i][j] || orphans[ next_below(i) ][j])
-                    {
+                    if( orphans[i][j] || orphans[ next_below(i) ][j]  )
+                    {    
+                        if(flags[i][j]==1)
+                        {
+                            //cout<<"flagged"<<endl;
+                            if( one_below(i, j, 2) )
+                            {
+                                //cout<<"one_right 2"<<endl;
+                                //cout<<"merged "<<i<<";"<<j<<endl;
+                                groups.push_back({2, 1, {i, j}, { next_below(i), j} });
+                            } else {
+                                //cout<<"not one_right 2"<<endl;
+                                groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+                            }
+                        } else {
+                        //cout<<"not flagged"<<endl;
                         groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+                        flags[i][j] = 1;
+                        flags[ next_below(i) ][j] = 1;
+                        }
+
                         orphans[i][j] = 0;
                         orphans[ next_below(i) ][j] = 0;
-                        //is this relevant?
-                        flags[i][j] = 1;
-                        flags[ next_below(i) ][j] = 1;
                     } else {
                         groups.push_back({2, 1, {i, j}, { next_below(i), j} });
-                        //is this relevant?
-                        flags[i][j] = 1;
-                        flags[ next_below(i) ][j] = 1;
+                        //is this correct?
+                        //flags[i][j] = 1;
+                        //flags[ next_below(i) ][j] = 1;
                     }
                 }
             } 
@@ -179,7 +194,7 @@ void kmap::mergegroups (const int & new_n, bool merge_type)
  
 void kmap::merge_function()
 {
-    for(int n = 4; n<(width*height) ;n = n*2)
+    for(int n = 4; n<=(width*height) ;n = n*2)
     {
         cout << "first quads n= " <<n<< endl;
 

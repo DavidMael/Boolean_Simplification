@@ -17,14 +17,16 @@ struct group
     pair<int, int> stwo;
 };
 
+//compare two groups, return true if identical
 bool operator== (const group & lhs, const group & rhs);
 
+//compare two groups, return false if identical
 bool operator!= (const group & lhs, const group & rhs);
 
-//compare two groups only by their coordinates
+//compare two groups only by their coordinates and return true if equal
 bool operator>= (const group & lhs, const group & rhs);
 
-//compare two groups only by their coordinates, return false if equal
+//compare two groups only by their coordinates and return false if equal
 bool operator<= (const group & lhs, const group & rhs);
 
 class kmap
@@ -51,7 +53,7 @@ class kmap
 
         kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
-            squares = {{a, b, c, d}, {e, f, g, h}, {e, f, g, h}, {a, b, c, d}};
+            squares = {{a, b, c, d}, {a, b, c, d}, {e, f, g, h}, {e, f, g, h}};
 
             flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 

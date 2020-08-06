@@ -136,6 +136,7 @@ group kmap::find_extrema(const group & gi, const group & gj, const int & n, cons
     return {n, m_flag, {minrow, mincol}, {maxrow, maxcol} };
 }
 
+//compare two groups, return true if identical
 bool operator== (const group & lhs, const group & rhs)
 {
     return(
@@ -145,6 +146,7 @@ bool operator== (const group & lhs, const group & rhs)
     );
 }
 
+//compare two groups, return false if identical
 bool operator!= (const group & lhs, const group & rhs)
 {
     return(
