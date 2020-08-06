@@ -16,6 +16,8 @@ int main()
         cout << endl;
     }
 
+    //cout<<testmap;
+
     cout << "horizontal doubs" << endl;  
 
     testmap.horizontaldoubs();

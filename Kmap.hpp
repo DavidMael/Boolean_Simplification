@@ -101,3 +101,6 @@ class kmap
         void wipe_flags();
 };
 
+//kmap cout override, no newline after last line
+//std::ostream& operator<<(std::ostream& out, const kmap & karnaugh)
+

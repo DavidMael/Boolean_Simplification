@@ -103,10 +103,10 @@ void kmap::verticaldoubs()
                         groups.push_back({2, 0, {i, j}, { next_below(i), j} });
                         flags[i][j] = 1;
                         flags[ next_below(i) ][j] = 1;
-                        }
 
                         orphans[i][j] = 0;
                         orphans[ next_below(i) ][j] = 0;
+                        }
                     } else {
                         groups.push_back({2, 1, {i, j}, { next_below(i), j} });
                         //is this correct?
