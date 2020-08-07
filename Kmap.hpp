@@ -90,7 +90,7 @@ class kmap
         void merge_function();
 
         //cout the simplified expression
-        void solve();
+        string solve();
 
         //helper functions use to read the kmap and simplify the state machine
 
