@@ -12,30 +12,33 @@ void kmap::solve()
     //store the simplified expression
     string expression;
 
+    //used to cycle through the gray codes while accounting for wrap-around
+    int index;
+
     for(int i = 0; i<groups.size(); i++)
     {
         if(groups[i].merged == false)
         {
+            cout<<"group"<<endl;
+
             gray = vertical_gray[ groups[i].sone.first ];
 
-            //first, test what this gives for 1 height/width groups
-            /*/
-            if(groups[i].sone.first != groups[i].stwo.second)
-            {/*/
-                for(int j = groups[i].sone.first+1; j<=groups[i].stwo.first; j++)
+            index = next_below(groups[i].sone.first);
+
+            for(int j = next_below(groups[i].sone.first); j<=groups[i].stwo.first; j++ )
+            {
+                for(int k = 0; k<gray.size(); k++)
                 {
-                    for(int k = 0; k<gray.size(); k++)
+                    cout<<"i index: "<<index<<endl;
+                    if(gray[k] != vertical_gray[index][k])
                     {
-                        if(gray[k] != vertical_gray[j][k])
-                        {
-                            gray[k] = 'x';
-                        }
+                        gray[k] = 'x';
                     }
                 }
-            /*/} else {
+                index = next_below(index);
+            }
 
-            }/*/
-
+            //printing the minterm
             for(int j = 0; j<gray.size(); j++)
             {
                 if(gray[j] == '1')
@@ -50,18 +53,23 @@ void kmap::solve()
             }
 
             gray = horizontal_gray[ groups[i].sone.second ];
+
+            index = next_right(groups[i].sone.second);
      
-            for(int j = groups[i].sone.second+1; j<=groups[i].stwo.second; j++)
+            for(int j = next_right(groups[i].sone.second); j<=groups[i].stwo.second; j++ )
             {
+                cout<<"j index: "<<index<<endl;
                 for(int k = 0; k<gray.size(); k++)
                 {
-                    if(gray[k] != horizontal_gray[j][k])
+                    if(gray[k] != horizontal_gray[index][k])
                     {
-                        gray[k] = 2;
+                        gray[k] = 'x';
                     }
                 }
-            }
+                index = next_right(index);
+            })
 
+            //printing the minterm
             for(int j = 0; j<gray.size(); j++)
             {
                 if(gray[j] == '1')
@@ -74,8 +82,8 @@ void kmap::solve()
                     cout<<"(~"<<horizontal_vars[j]<<")";
                 }
             }
-        }
 
-        cout<<" + ";
+            cout<<" + ";
+        }
     }
 }

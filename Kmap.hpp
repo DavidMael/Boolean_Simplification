@@ -36,10 +36,6 @@ class kmap
     //private: later make a reader function and make data member private
         
     public:
-        //format
-        int width;
-        int height;
-
         //boolean variables
         string horizontal_vars = "AB";
         string vertical_vars = "C";
