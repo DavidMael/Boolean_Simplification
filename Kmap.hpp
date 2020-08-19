@@ -61,7 +61,7 @@ class kmap
         //width of the kmap
         int width;
 
-        kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
+        /*/kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
             squares = {{a, b, c, d}, {e, f, g, h} };
 
@@ -71,7 +71,10 @@ class kmap
 
             height = squares.size();
             width = squares[0].size();
-        }
+        }/*/
+
+        //constructor taking a boolean expression as argument
+        kmap(const string & boolean_expression);
 
         //scans the kmap for horizontal doubles
         void horizontaldoubs(); 

@@ -115,10 +115,10 @@ string kmap::solve()
                 to_append = horizontal_vars[j];
                 if(gray[j] == '1')
                 {
-                    cerr<<"expression before appending: "<<expression<<endl;
-                    cerr<<"append the following: "<<to_append<<endl;
+                    //cerr<<"expression before appending: "<<expression<<endl;
+                    //cerr<<"append the following: "<<to_append<<endl;
                     expression.append(to_append);
-                    cerr<<"expression after appending: "<<expression<<endl;
+                    //cerr<<"expression after appending: "<<expression<<endl;
                 }
 
                 if(gray[j] == '0')
