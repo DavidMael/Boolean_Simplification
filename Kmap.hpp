@@ -61,6 +61,8 @@ class kmap
         //width of the kmap
         int width;
 
+        kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const string & boolean_expression);
+
         /*/kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
         {
             squares = {{a, b, c, d}, {e, f, g, h} };

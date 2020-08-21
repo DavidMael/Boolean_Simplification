@@ -2,9 +2,11 @@
 
 using namespace std;
 
+string expr = "Ab+aCB";
+
 int main()
 {
-    kmap testmap {1, 1, 0, 0, 1, 1, 0, 0};
+    kmap testmap {1, 1, 0, 0, 1, 1, 0, 0, expr};
 
     for(int i =  0; i<testmap.squares.size(); i++)
     {
