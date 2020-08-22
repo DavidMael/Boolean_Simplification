@@ -20,16 +20,21 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
         if(boolean_expression[i] != '+')
         {
             //add new variable to list
-            for(int j = 0; j<vars.size(); j++)
+            if(vars.size() == 0)
             {
-                if(vars[j] == toupper(boolean_expression[i]) )
+                vars.push_back( toupper(boolean_expression[i]) );
+            } else {
+                for(int j = 0; j<vars.size(); j++)
                 {
-                    break;
-                }
+                    if(vars[j] == toupper(boolean_expression[i]) )
+                    {
+                        break;
+                    }
 
-                if(j == (vars.size()-1) )
-                {
-                    vars.push_back( toupper(boolean_expression[i]) );
+                    if(j == (vars.size()-1) )
+                    {
+                        vars.push_back( toupper(boolean_expression[i]) );
+                    }
                 }
             }
 
@@ -38,7 +43,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
         }
     }
 
-    cout<<"vars vector size: "<<vars.size();
+    cout<<"vars vector size: "<<vars.size()<<", variables: ";
     for(int i = 0; i<vars.size(); i++)
     {
         cout<<vars[i];
