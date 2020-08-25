@@ -105,3 +105,30 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
 
     }
 }
+
+vector<string> make_gray(int n)
+{
+    vector<string> gray = {"0", "1"};
+
+    if(n>1)
+    {
+        vector<string> reflected;
+        for(int i=1; i<n; i++)
+        {
+            //reflect gray code
+            reflected.resize(gray.size());
+            reverse_copy(gray.begin(), gray.end(), reflected.begin());
+            //prefix original codes with 0 and reflected with 1
+            for(int j=0; j<gray.size(); j++)
+            {
+                gray[j].insert(0, 1, '0');
+                reflected[j].insert(0, 1, '1');
+            }
+            //add reflected to the end of gray
+            gray.insert(gray.end(), reflected.begin(), reflected.end());
+        }
+        
+    }
+
+    return gray;
+}

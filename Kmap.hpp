@@ -33,6 +33,9 @@ bool operator>= (const group & lhs, const group & rhs);
 //compare two groups only by their coordinates and return false if equal
 bool operator<= (const group & lhs, const group & rhs);
 
+//return n bit gray codes
+vector<string> make_gray(int n);
+
 class kmap
 {
     //private: later make a reader function and make data member private
