@@ -67,6 +67,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
 
     cout<<endl;
 
+    //set kmap parameters, temporary
     squares = {{a, b, c, d}, {e, f, g, h} };
 
     flags = {{0, 0, 0, 0}, {0, 0, 0, 0} };
@@ -75,4 +76,32 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
 
     height = squares.size();
     width = squares[0].size();
+
+    //divide variables into row and column
+    int halfpoint = vars.size()/2;
+    //later change to set kmap members
+    vector<char> row_vars;
+    row_vars.assign( vars.begin(), vars.begin()+halfpoint );
+    vector<char> column_vars;
+    column_vars.assign( vars.begin()+halfpoint, vars.end() );
+    /*/
+    for(int i = 0; i<row_vars.size(); i++)
+    {
+        cout<<row_vars[i];
+    }
+    cout<<endl;
+    for(int i = 0; i<column_vars.size(); i++)
+    {
+        cout<<column_vars[i];
+    }
+    cout<<endl;/*/
+
+    //make vertical and horizontal gray vectors
+
+    //create initial groups
+    //cycle through each minterm
+    for(int i = 0; i<minterms.size(); i++)
+    {
+
+    }
 }
