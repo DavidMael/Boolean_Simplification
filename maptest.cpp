@@ -6,56 +6,37 @@
 
 using namespace std;
 
-vector<string> make_gray(int n)
-{
-    vector<string> gray = {"0", "1"};
-
-    if(n>1)
-    {
-        vector<string> reflected;
-        for(int i=1; i<n; i++)
-        {
-            //reflect gray code
-            reflected.resize(gray.size());
-            reverse_copy(gray.begin(), gray.end(), reflected.begin());
-            //prefix original codes with 0 and reflected with 1
-            for(int j=0; j<gray.size(); j++)
-            {
-                gray[j].insert(0, 1, '0');
-                reflected[j].insert(0, 1, '1');
-            }
-            //add reflected to the end of gray
-            gray.insert(gray.end(), reflected.begin(), reflected.end());
-        }
-        
-    }
-
-    return gray;
-}
-
 int main() {
 
-    /*/map<char, int> Map;
+    /*/map<char, char> Map;
 
-    Map['A'] = 2;
-    Map['B'] = 1;
+    Map['A'] = 'a';
+    Map['B'] = 'b';
 
-    cout<<Map['A']<<" "<<Map['B']<<" "<<Map['C']<<" "<<Map['C']<<endl;
+    cout<<Map['A']<<"|"<<Map['B']<<"|"<<Map['C']<<"|"<<Map['C']<<"|"<<endl;
 
-    int half = 5/2;
+    /*/
 
-    cout<<half;/*/
+    string s = "string";
+    char * p = &s[2];
+    char c = s[2];
 
-    int n;
 
-    cin>>n;
+    cout<<s[2]<<endl;
+    cout<<*p<<endl;
+    cout<<p<<endl;
+    cout<<c<<endl;
+    
+    cout<<endl;
 
-    vector<string> gray_n;
-    gray_n = make_gray(n);
+    char a [6] = {'s', 't', 'r', 'i', 'n', 'g'};
+    char * o = &a[2];
+    char h = a[2];
 
-    for(int i=0; i<gray_n.size(); i++)
-    {
-        cout<<gray_n[i]<<" ";
-    }
+    cout<<a[2]<<endl;
+    cout<<*o<<endl;
+    cout<<o<<endl;
+    cout<<h<<endl;
+
 
 }
