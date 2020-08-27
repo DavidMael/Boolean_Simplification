@@ -143,6 +143,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     cout<<"relevant vector sizes: "<<minterms.size()<<" "<<row_maps.size()<<" "<<column_maps.size()<<endl;
     for(int i=0; i<minterms.size(); i++)
     {
+        cout<<"----"<<endl;
         cout<<"minterms i="<<i<<endl;
         //iterate through each row map
         for(int j=0; j<row_maps.size(); j++)
@@ -154,28 +155,28 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
                 cout<<"minterm var k="<<k<<endl;
                 if(varok == true)
                 {
-                    //cout<<minterms[i][k]<<" "<<*row_maps[j][ minterms[i][k] ]<<endl;    
-                    //cout<<"%"<<*row_maps[j][ 'A' ]<<"%"<<endl;
-                    if( isupper(minterms[i][k]) && row_maps[j][ toupper(minterms[i][k]) ] == 0 )
+                    //cout<<"!: "<<minterms[i][k]<<" "<<islower(minterms[i][k])<<" "<<row_maps[j][ toupper(minterms[i][k])]<<endl;
+                    if( isupper(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '0') )
                     {
+                        cout<<"aaa"<<endl;
                         varok = false;
                         break;
-                    } else if ( islower(minterms[i][k]) && row_maps[j][ toupper(minterms[i][k]) ] == 1 ) {
+                    } else if ( islower(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '1') ) {
+                        cout<<"bbb"<<endl;
                         varok = false;
                         break;
                     }
                 }
             }
 
-            cout<<"before varok"<<endl;
             if(varok == true)
             {
+                cout<<"OKed row: "<<j<<endl;
                 rows.push_back(j);
             }
             varok = true;
-            cout<<"end of row loop"<<endl;
         }
-        cout<<"after row loop"<<endl;
+        cout<<"(saved) rows size: "<<rows.size()<<endl;
 
         //iterate through each column map
         for(int j=0; j<column_maps.size(); j++)
@@ -187,11 +188,11 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
                 cout<<"minterm var k="<<k<<endl;
                 if(varok == true)
                 {
-                    if( isupper(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == 0 )
+                    if( isupper(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == '0' )
                     {
                         varok = false;
                         break;
-                    } else if ( islower(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == 1 ) {
+                    } else if ( islower(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == '1' ) {
                         varok = false;
                         break;
                     }
@@ -202,7 +203,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
             {
                 for(int k=0; k<rows.size(); k++)
                 {
-                    cout<<"column for row #"<<j<<" k="<<k<<endl;
+                    cout<<"write one in: row "<<rows[k]<<", column "<<j<<endl;
                     squares[ rows[k] ][j] = 1;
                 }
             }
