@@ -38,7 +38,7 @@ bool operator<= (const group & lhs, const group & rhs);
 vector<string> make_gray(int n);
 
 //return a vector of mappings between variables and binary values to represent row/column gray code minterms
-vector<map<char, const char *>> map_variables(const vector<char> & variables, const vector<string> & grays);
+vector<map<char, char>> map_variables(const vector<char> & variables, const vector<string> & grays);
 
 class kmap
 {

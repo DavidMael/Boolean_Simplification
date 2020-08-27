@@ -68,7 +68,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     cout<<endl;
 
     //set kmap parameters, temporary
-    squares = {{a, b, c, d}, {e, f, g, h} };
+    squares = {{0, 0, 0, 0}, {0, 0, 0, 0} };
 
     flags = {{0, 0, 0, 0}, {0, 0, 0, 0} };
 
@@ -85,7 +85,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     vector<char> column_vars;
     column_vars.assign( vars.begin()+halfpoint, vars.end() );
     
-    /*/cout<<"row vars"<<endl;
+    cout<<"row vars"<<endl;
     for(int i = 0; i<row_vars.size(); i++)
     {
         cout<<row_vars[i];
@@ -96,7 +96,7 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     {
         cout<<column_vars[i];
     }
-    cout<<endl;/*/
+    cout<<endl;
 
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors
     vector<string> row_grays;
@@ -104,17 +104,19 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     vector<string> column_grays;
     column_grays = make_gray( column_vars.size() );
 
-    vector<map<char, const char *>> row_maps;
+    cout<<"grays check"<<endl;
+
+    vector<map<char, char>> row_maps;
     row_maps = map_variables( row_vars, row_grays );  
-    vector<map<char, const char *>> column_maps;
+    vector<map<char, char>> column_maps;
     column_maps = map_variables( column_vars, column_grays );
 
-    /*/cout<<"map check rows "<<row_maps.size()<<" "<<row_vars.size()<<endl;
+    cout<<"map check rows "<<row_maps.size()<<" "<<row_vars.size()<<endl;
     for(int i=0; i<row_maps.size(); i++)
     {
         for(int j=0; j<row_vars.size(); j++)
         {
-            cout<<row_vars[j]<<" "<<*row_maps[i][ row_vars[j] ]<<"| ";
+            cout<<row_vars[j]<<" "<<row_maps[i][ row_vars[j] ]<<"| ";
         }
         cout<<endl;
     }
@@ -124,11 +126,10 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     {
         for(int j=0; j<column_vars.size(); j++)
         {
-            cout<<column_vars[j]<<" "<<*column_maps[i][ column_vars[j] ]<<"| ";
+            cout<<column_vars[j]<<" "<<column_maps[i][ column_vars[j] ]<<"| ";
         }
         cout<<endl;
-    }/*/
-
+    }
 
     //determine bounds of groups for each minterm
     //set to false if there is a mismatch between equivalent gray and minterm variables
@@ -136,24 +137,62 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     //indicates that the lower value bound of the group has not been found
     bool mapmin = false;
     //containts lower and upper value bounds of each minterm group
-    vector<pair<int, int> groupcoords(minterms.size());
+    vector<int> rows(minterms.size());
+    //vector<pair<int, int> columnbounds(minterms.size());
     //iterate through each minterm
+    cout<<"relevant vector sizes: "<<minterms.size()<<" "<<row_maps.size()<<" "<<column_maps.size()<<endl;
     for(int i=0; i<minterms.size(); i++)
     {
+        cout<<"minterms i="<<i<<endl;
         //iterate through each row map
-        for(int j=0; j<row_map.size(); j++)
+        for(int j=0; j<row_maps.size(); j++)
         {
+            cout<<"row_maps j="<<j<<endl;
             //for each minterm variable
             for(int k=0; k<minterms[i].size(); k++)
             {
+                cout<<"minterm var k="<<k<<endl;
                 if(varok == true)
                 {
-                   if( isupper(minterms[i][k]) && row_map[j][ minterms[i][k] ] == 0 )
+                    //cout<<minterms[i][k]<<" "<<*row_maps[j][ minterms[i][k] ]<<endl;    
+                    //cout<<"%"<<*row_maps[j][ 'A' ]<<"%"<<endl;
+                    if( isupper(minterms[i][k]) && row_maps[j][ toupper(minterms[i][k]) ] == 0 )
                     {
                         varok = false;
                         break;
-                    } else if ( islower(minterms[i][k]) && row_map[j][ minterms[i][k] ] == 1 ) {
-                        varok = false
+                    } else if ( islower(minterms[i][k]) && row_maps[j][ toupper(minterms[i][k]) ] == 1 ) {
+                        varok = false;
+                        break;
+                    }
+                }
+            }
+
+            cout<<"before varok"<<endl;
+            if(varok == true)
+            {
+                rows.push_back(j);
+            }
+            varok = true;
+            cout<<"end of row loop"<<endl;
+        }
+        cout<<"after row loop"<<endl;
+
+        //iterate through each column map
+        for(int j=0; j<column_maps.size(); j++)
+        {
+            cout<<"column_maps j="<<j<<endl;
+            //for each minterm variable
+            for(int k=0; k<minterms[i].size(); k++)
+            {
+                cout<<"minterm var k="<<k<<endl;
+                if(varok == true)
+                {
+                    if( isupper(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == 0 )
+                    {
+                        varok = false;
+                        break;
+                    } else if ( islower(minterms[i][k]) && column_maps[j][ toupper(minterms[i][k]) ] == 1 ) {
+                        varok = false;
                         break;
                     }
                 }
@@ -161,13 +200,13 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
 
             if(varok == true)
             {
-                if(mapmin == true)
+                for(int k=0; k<rows.size(); k++)
                 {
-                    groupcoords[i].second = j;
-                } else {
-                    groupcoords[i].first = j;
+                    cout<<"column for row #"<<j<<" k="<<k<<endl;
+                    squares[ rows[k] ][j] = 1;
                 }
             }
+            varok = true;
         }
 
     }
@@ -200,10 +239,10 @@ vector<string> make_gray(int n)
     return gray;
 }
 
-vector<map<char, const char *>> map_variables(const vector<char> & variables, const vector<string> & grays)
+vector<map<char, char>> map_variables(const vector<char> & variables, const vector<string> & grays)
 {
-    map<char, const char *> varmap;
-    vector<map<char, const char *>> mapvector;
+    map<char, char> varmap;
+    vector<map<char, char>> mapvector;
 
     //for each gray code
     for(int i=0; i<grays.size(); i++ )
@@ -211,7 +250,7 @@ vector<map<char, const char *>> map_variables(const vector<char> & variables, co
         //for each variable
         for(int j=0; j<variables.size(); j++)
         {
-            varmap[variables[j]] = &grays[i][j];
+            varmap[variables[j]] = grays[i][j];
         }
         mapvector.push_back( varmap );
         varmap.erase( varmap.begin(), varmap.end() );

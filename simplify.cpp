@@ -2,7 +2,7 @@
 
 using namespace std;
 
-string expr = "cD+sr+R";
+string expr = "ca+ab+aB";
 
 int main()
 {
