@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
+#include <cmath>
 
 using namespace std;
 
@@ -69,20 +70,6 @@ class kmap
         int height;
         //width of the kmap
         int width;
-
-        kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const string & boolean_expression);
-
-        /*/kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h)
-        {
-            squares = {{a, b, c, d}, {e, f, g, h} };
-
-            flags = {{0, 0, 0, 0}, {0, 0, 0, 0} };
-
-            orphans = {{0, 0, 0, 0}, {0, 0, 0, 0} };
-
-            height = squares.size();
-            width = squares[0].size();
-        }/*/
 
         //constructor taking a boolean expression as argument
         kmap(const string & boolean_expression);

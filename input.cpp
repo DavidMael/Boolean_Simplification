@@ -3,7 +3,7 @@
 using namespace std;
 
 //constructor
-kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const string & boolean_expression)
+kmap::kmap(const string & boolean_expression)
 {
     int string_s = boolean_expression.size();
 
@@ -67,16 +67,6 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
 
     cout<<endl;
 
-    //set kmap parameters, temporary
-    squares = {{0, 0, 0, 0}, {0, 0, 0, 0} };
-
-    flags = {{0, 0, 0, 0}, {0, 0, 0, 0} };
-
-    orphans = {{0, 0, 0, 0}, {0, 0, 0, 0} };
-
-    height = squares.size();
-    width = squares[0].size();
-
     //divide variables into row and column
     int halfpoint = vars.size()/2;
     //later change to set kmap members
@@ -84,19 +74,19 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     row_vars.assign( vars.begin(), vars.begin()+halfpoint );
     vector<char> column_vars;
     column_vars.assign( vars.begin()+halfpoint, vars.end() );
+
+    height = pow(2, row_vars.size());
+    width = pow(2, column_vars.size());
     
-    cout<<"row vars"<<endl;
-    for(int i = 0; i<row_vars.size(); i++)
-    {
-        cout<<row_vars[i];
-    }
-    cout<<endl;
-    cout<<"column vars"<<endl;
-    for(int i = 0; i<column_vars.size(); i++)
-    {
-        cout<<column_vars[i];
-    }
-    cout<<endl;
+    vector<bool> squares_row ( width , 0);
+
+    //replace copy by pointers or dynamic allocation, making necessary adjustments in rest of code
+    vector<vector<bool>> sq ( height , squares_row);
+    squares = sq;
+    vector<vector<bool>> fl ( height , squares_row);
+    flags = fl;
+    vector<vector<bool>> orph ( height , squares_row);
+    orphans = orph;
 
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors
     vector<string> row_grays;
@@ -104,32 +94,10 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     vector<string> column_grays;
     column_grays = make_gray( column_vars.size() );
 
-    cout<<"grays check"<<endl;
-
     vector<map<char, char>> row_maps;
     row_maps = map_variables( row_vars, row_grays );  
     vector<map<char, char>> column_maps;
     column_maps = map_variables( column_vars, column_grays );
-
-    cout<<"map check rows "<<row_maps.size()<<" "<<row_vars.size()<<endl;
-    for(int i=0; i<row_maps.size(); i++)
-    {
-        for(int j=0; j<row_vars.size(); j++)
-        {
-            cout<<row_vars[j]<<" "<<row_maps[i][ row_vars[j] ]<<"| ";
-        }
-        cout<<endl;
-    }
-    
-    cout<<"map check columns "<<column_maps.size()<<" "<<column_vars.size()<<endl;
-    for(int i=0; i<column_maps.size(); i++)
-    {
-        for(int j=0; j<column_vars.size(); j++)
-        {
-            cout<<column_vars[j]<<" "<<column_maps[i][ column_vars[j] ]<<"| ";
-        }
-        cout<<endl;
-    }
 
     //determine bounds of groups for each minterm
     //set to false if there is a mismatch between equivalent gray and minterm variables
@@ -140,7 +108,6 @@ kmap::kmap(bool a,bool b,bool c,bool d, bool e, bool f, bool g, bool h, const st
     vector<int> rows(minterms.size());
     //vector<pair<int, int> columnbounds(minterms.size());
     //iterate through each minterm
-    cout<<"relevant vector sizes: "<<minterms.size()<<" "<<row_maps.size()<<" "<<column_maps.size()<<endl;
     for(int i=0; i<minterms.size(); i++)
     {
         cout<<"----"<<endl;

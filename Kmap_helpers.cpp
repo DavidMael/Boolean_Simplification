@@ -165,34 +165,3 @@ void kmap::wipe_flags()
        fill(flags[i].begin(), flags[i].end(), 0); 
     }
 }
-
-//kmap cout override, no newline after last line
-/*/std::ostream& operator<<(std::ostream& out, const kmap & karnaugh)
-{
-    //string containing each line of the map, separated with linebreak characters
-    string printed;
-
-    for(int i =  0; i<karnaugh.height; i++)
-    {
-        for(int j = 0; j<karnaugh.width; j++)
-        {
-            printed.append(i); 
-            printed.append(";");
-            printed.append(j);
-            printed.append(" ");
-            printed.append(testmap.squares[i][j]);
-            
-            if(j != (karnaugh.width-1) )
-            {
-                printed.append(" ");
-            }
-        }
-
-        if(i != (karnaugh.height-1) )
-        {
-            printed.append(" | ");
-        }
-    }
-
-    return out << printed;
-}/*/
