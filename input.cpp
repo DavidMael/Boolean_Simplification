@@ -72,8 +72,12 @@ kmap::kmap(const string & boolean_expression)
     //later change to set kmap members
     vector<char> row_vars;
     row_vars.assign( vars.begin(), vars.begin()+halfpoint );
+    string rv (row_vars.begin(), row_vars.end());
+    vertical_vars = rv;
     vector<char> column_vars;
     column_vars.assign( vars.begin()+halfpoint, vars.end() );
+    string cv (column_vars.begin(), column_vars.end());
+    horizontal_vars = cv;
 
     height = pow(2, row_vars.size());
     width = pow(2, column_vars.size());
@@ -91,8 +95,10 @@ kmap::kmap(const string & boolean_expression)
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors
     vector<string> row_grays;
     row_grays = make_gray( row_vars.size() );
+    vertical_gray = row_grays;
     vector<string> column_grays;
     column_grays = make_gray( column_vars.size() );
+    horizontal_gray = column_grays;
 
     vector<map<char, char>> row_maps;
     row_maps = map_variables( row_vars, row_grays );  
