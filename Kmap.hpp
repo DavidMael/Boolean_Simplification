@@ -35,7 +35,7 @@ bool operator>= (const group & lhs, const group & rhs);
 //compare two groups only by their coordinates and return false if equal
 bool operator<= (const group & lhs, const group & rhs);
 
-//return n bit gray codes
+//produces n bit gray codes using a recursive algorithm
 vector<string> make_gray(int n);
 
 //return a vector of mappings between variables and binary values to represent row/column gray code minterms
@@ -115,7 +115,4 @@ class kmap
 
         void wipe_flags();
 };
-
-//kmap cout override, no newline after last line
-//std::ostream& operator<<(std::ostream& out, const kmap & karnaugh)
 
