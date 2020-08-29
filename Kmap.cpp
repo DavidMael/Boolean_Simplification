@@ -197,11 +197,11 @@ void kmap::merge_function()
 {
     for(int n = 4; n<=(width*height) ;n = n*2)
     {
-        cout << "first quads n= " <<n<< endl;
+        cout << "first merge n= " <<n<< endl;
 
         mergegroups(n, 0);
 
-        cout << "second quads n= " <<n<< endl;
+        cout << "second merge n= " <<n<< endl;
 
         mergegroups(n, 1);
     }

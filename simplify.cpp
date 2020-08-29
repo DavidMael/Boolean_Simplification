@@ -14,7 +14,7 @@ int main()
     {
         for(int j = 0; j<testmap.squares[1].size(); j++)
         {
-            cout << i << ";" << j << " " << testmap.squares[i][j] << " ";
+            cout <<'('<< i << ";" << j << ") " << testmap.squares[i][j] << " ";
         }
         cout << endl;
     }
@@ -31,14 +31,14 @@ int main()
 
     testmap.verticaldoubs();  
 
+    testmap.identify_orphans();
+
     for(int i = 0; i<testmap.groups.size(); i++)
     {
         cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
     } 
 
-    testmap.identify_orphans();
-
-    cout << "quads" << endl;
+    cout << "merged groups" << endl;
 
     testmap.merge_function();
 

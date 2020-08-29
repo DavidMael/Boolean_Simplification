@@ -141,26 +141,26 @@ kmap::kmap(const string & boolean_expression)
             cout<<minterms[i][j];
         }
         cout<<endl;
-        cout<<"minterms i="<<i<<endl;
+        //cout<<"minterms i="<<i<<endl;
         //iterate through each row map
         for(int j=0; j<row_maps.size(); j++)
         {
-            cout<<"row_maps j="<<j<<endl;
+            //cout<<"row_maps j="<<j<<endl;
             //for each minterm variable
             for(int k=0; k<minterms[i].size(); k++)
             {
-                cout<<"minterm var k="<<k<<endl;
+                //cout<<"minterm var k="<<k<<endl;
                 //if none have been found, check for mismatches between minterm and row variables
                 if(varok == true)
                 {
                     //cout<<"!: "<<minterms[i][k]<<" "<<islower(minterms[i][k])<<" "<<row_maps[j][ toupper(minterms[i][k])]<<endl;
                     if( isupper(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '0') )
                     {
-                        cout<<"aaa"<<endl;
+                        //cout<<"aaa"<<endl;
                         varok = false;
                         break;
                     } else if ( islower(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '1') ) {
-                        cout<<"bbb"<<endl;
+                        //cout<<"bbb"<<endl;
                         varok = false;
                         break;
                     }
@@ -180,11 +180,11 @@ kmap::kmap(const string & boolean_expression)
         //iterate through each column map
         for(int j=0; j<column_maps.size(); j++)
         {
-            cout<<"column_maps j="<<j<<endl;
+            //cout<<"column_maps j="<<j<<endl;
             //for each minterm variable
             for(int k=0; k<minterms[i].size(); k++)
             {
-                cout<<"minterm var k="<<k<<endl;
+                //cout<<"minterm var k="<<k<<endl;
                 //if none have been found, check for mismatches between minterm and column variables
                 if(varok == true)
                 {
