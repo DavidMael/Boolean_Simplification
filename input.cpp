@@ -81,6 +81,20 @@ kmap::kmap(const string & boolean_expression)
     string cv (column_vars.begin(), column_vars.end());
     horizontal_vars = cv;
 
+    
+    cout<<"row vars: ";
+    for( int i=0; i<row_vars.size(); i++ )
+    {
+        cout<<row_vars[i]<<" ";
+    }
+    cout<<endl;
+    cout<<"column vars: ";
+    for( int i=0; i<column_vars.size(); i++ )
+    {
+        cout<<column_vars[i]<<" ";
+    }
+    cout<<endl;
+
     //take length of rows and columns
     height = pow(2, row_vars.size());
     width = pow(2, column_vars.size());
@@ -116,12 +130,17 @@ kmap::kmap(const string & boolean_expression)
     //indicates that the lower value bound of the group has not been found
     bool mapmin = false;
     //containts rows corresponding to each minterm group
-    vector<int> rows(minterms.size());
+    vector<int> rows;
 
     //iterate through each minterm
     for(int i=0; i<minterms.size(); i++)
     {
         cout<<"----"<<endl;
+        for(int j=0; j<minterms[i].size(); j++)
+        {
+            cout<<minterms[i][j];
+        }
+        cout<<endl;
         cout<<"minterms i="<<i<<endl;
         //iterate through each row map
         for(int j=0; j<row_maps.size(); j++)
@@ -192,6 +211,8 @@ kmap::kmap(const string & boolean_expression)
             varok = true;
         }
 
+        //clear saved rows once the minterm has been processed
+        rows.clear();
     }
 }
 
