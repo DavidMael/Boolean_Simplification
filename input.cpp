@@ -81,17 +81,17 @@ kmap::kmap(const string & boolean_expression)
     string cv (column_vars.begin(), column_vars.end());
     horizontal_vars = cv;
 
+    cout<<"column vars: ";
+    for( int i=0; i<column_vars.size(); i++ )
+    {
+        cout<<column_vars[i]<<" ";
+    }
+    cout<<endl;
     
     cout<<"row vars: ";
     for( int i=0; i<row_vars.size(); i++ )
     {
         cout<<row_vars[i]<<" ";
-    }
-    cout<<endl;
-    cout<<"column vars: ";
-    for( int i=0; i<column_vars.size(); i++ )
-    {
-        cout<<column_vars[i]<<" ";
     }
     cout<<endl;
 

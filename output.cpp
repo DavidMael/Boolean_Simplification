@@ -175,7 +175,7 @@ string kmap::solve()
 
                     if(gray[k] == '0')
                     {
-                        to_append = tolower(horizontal_vars[j]);
+                        to_append = tolower(horizontal_vars[k]);
                         //expression.append("(~");
                         expression.append(to_append);
                         //expression.append(")");
@@ -195,7 +195,7 @@ string kmap::solve()
 
                     if(gray[k] == '0')
                     {
-                        to_append = tolower(vertical_vars[j]);
+                        to_append = tolower(vertical_vars[k]);
                         //expression.append("(~");
                         expression.append(to_append);
                         //expression.append(")");
