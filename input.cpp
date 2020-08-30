@@ -74,8 +74,8 @@ kmap::kmap(const string & boolean_expression)
     int halfpoint = vars.size()/2;
     vector<char> row_vars;
     vector<char> column_vars;
-    column_vars.assign( vars.begin(), vars.begin()+halfpoint+1 );
-    row_vars.assign( vars.begin()+halfpoint+1, vars.end() );
+    column_vars.assign( vars.begin(), vars.begin()+halfpoint );
+    row_vars.assign( vars.begin()+halfpoint, vars.end() );
     string rv (row_vars.begin(), row_vars.end());
     vertical_vars = rv;
     string cv (column_vars.begin(), column_vars.end());
