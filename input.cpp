@@ -71,7 +71,7 @@ kmap::kmap(const string & boolean_expression)
     cout<<endl;
 
     //divide variables into row and column, !!optimise by merging with kmap data members or replacing members with maps!!
-    int halfpoint = vars.size()/2;
+    int halfpoint = (vars.size()+1)/2;
     vector<char> row_vars;
     vector<char> column_vars;
     column_vars.assign( vars.begin(), vars.begin()+halfpoint );
