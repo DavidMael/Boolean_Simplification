@@ -47,14 +47,12 @@ class kmap
         
     public:
         //boolean variables
-        //string horizontal_vars;
-        //string vertical_vars;
         vector<char> column_vars;
         vector<char> row_vars;
 
         //Gray code
-        vector<string> horizontal_gray;
-        vector<string> vertical_gray;
+        vector<string> column_grays;
+        vector<string> row_grays;
 
         //actual squares in the kmap
         vector<vector<bool>> squares;

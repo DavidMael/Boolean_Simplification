@@ -44,7 +44,7 @@ string kmap::solve()
             cerr<<"group: "<<i<<endl;
 
             //first: determine the horizontal/column variables of the minterm
-            gray = horizontal_gray[ groups[i].sone.second ];
+            gray = column_grays[ groups[i].sone.second ];
 
             //iterate through horizontal grays from the leftmost index of the group
             index = groups[i].sone.second;
@@ -54,7 +54,7 @@ string kmap::solve()
                 //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
-                    if(gray[k] != horizontal_gray[index][k])
+                    if(gray[k] != column_grays[index][k])
                     {
                         gray[k] = 'x';
                     }
@@ -65,7 +65,7 @@ string kmap::solve()
             cerr<<"j index: "<<groups[i].stwo.second<<endl;
             for(int k = 0; k<gray.size(); k++)
             {
-                if(gray[k] != horizontal_gray[groups[i].stwo.second][k])
+                if(gray[k] != column_grays[groups[i].stwo.second][k])
                 {
                     gray[k] = 'x';
                 }
@@ -95,7 +95,7 @@ string kmap::solve()
             }
 
             //second: determine the vertical/row variables of the minterm
-            gray = vertical_gray[ groups[i].sone.first ];
+            gray = row_grays[ groups[i].sone.first ];
 
             //iterate through vertical grays starting from the upper index of the group
             index = groups[i].sone.first;
@@ -105,7 +105,7 @@ string kmap::solve()
                 //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
-                    if(gray[k] != vertical_gray[index][k])
+                    if(gray[k] != row_grays[index][k])
                     {
                         gray[k] = 'x';
                     }
@@ -116,7 +116,7 @@ string kmap::solve()
             cerr<<"i index: "<<groups[i].stwo.first<<endl;
             for(int k = 0; k<gray.size(); k++)
             {
-                if(gray[k] != vertical_gray[groups[i].stwo.first][k])
+                if(gray[k] != row_grays[groups[i].stwo.first][k])
                 {
                     gray[k] = 'x';
                 }
@@ -163,7 +163,7 @@ string kmap::solve()
                 }
 
                 //horizontal/column vars
-                gray = horizontal_gray[ j ];
+                gray = column_grays[ j ];
                 for(int k = 0; k<gray.size(); k++)
                 {
                     //to_append = horizontal_vars[j];
@@ -183,7 +183,7 @@ string kmap::solve()
                 }
 
                 //vertical/row vars
-                gray = vertical_gray[ i ];
+                gray = row_grays[ i ];
                 for(int k = 0; k<gray.size(); k++)
                 {
                     //to_append = vertical_vars[j];

@@ -104,13 +104,8 @@ kmap::kmap(const string & boolean_expression)
     orphans = orph;
 
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors 
-    //!!optimise by merging with kmap data members or replacing members with maps!!
-    vector<string> row_grays;
     row_grays = make_gray( row_vars.size() );
-    vertical_gray = row_grays;
-    vector<string> column_grays;
     column_grays = make_gray( column_vars.size() );
-    horizontal_gray = column_grays;
 
     //create mappings from variables to gray code bits
     vector<map<char, char>> row_maps;
