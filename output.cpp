@@ -78,7 +78,7 @@ string kmap::solve()
                 //to_append = horizontal_vars[j];
                 if(gray[j] == '1')
                 {
-                    to_append = horizontal_vars[j];
+                    to_append = column_vars[j];
                     //cerr<<"expression before appending: "<<expression<<endl;
                     //cerr<<"append the following: "<<to_append<<endl;
                     expression.append(to_append);
@@ -87,7 +87,7 @@ string kmap::solve()
 
                 if(gray[j] == '0')
                 {
-                    to_append = tolower(horizontal_vars[j]);
+                    to_append = tolower(column_vars[j]);
                     //expression.append("(~");
                     expression.append(to_append);
                     //expression.append(")");
@@ -129,7 +129,7 @@ string kmap::solve()
                 //to_append = vertical_vars[j];
                 if(gray[j] == '1')
                 {
-                    to_append = vertical_vars[j];
+                    to_append = row_vars[j];
                     //cerr<<"expression before appending: "<<expression<<endl;
                     //cerr<<"append the following: "<<to_append<<endl;
                     expression.append(to_append);
@@ -138,7 +138,7 @@ string kmap::solve()
 
                 if(gray[j] == '0')
                 {
-                    to_append = tolower(vertical_vars[j]);
+                    to_append = tolower(row_vars[j]);
                     //expression.append("(~");
                     expression.append(to_append);
                     //expression.append(")");
@@ -169,13 +169,13 @@ string kmap::solve()
                     //to_append = horizontal_vars[j];
                     if(gray[k] == '1')
                     {
-                        to_append = horizontal_vars[k];
+                        to_append = column_vars[k];
                         expression.append(to_append);
                     }
 
                     if(gray[k] == '0')
                     {
-                        to_append = tolower(horizontal_vars[k]);
+                        to_append = tolower(column_vars[k]);
                         //expression.append("(~");
                         expression.append(to_append);
                         //expression.append(")");
@@ -189,13 +189,13 @@ string kmap::solve()
                     //to_append = vertical_vars[j];
                     if(gray[k] == '1')
                     {
-                        to_append = vertical_vars[k];
+                        to_append = row_vars[k];
                         expression.append(to_append);
                     }
 
                     if(gray[k] == '0')
                     {
-                        to_append = tolower(vertical_vars[k]);
+                        to_append = tolower(row_vars[k]);
                         //expression.append("(~");
                         expression.append(to_append);
                         //expression.append(")");

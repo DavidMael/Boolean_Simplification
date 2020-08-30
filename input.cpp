@@ -70,16 +70,10 @@ kmap::kmap(const string & boolean_expression)
 
     cout<<endl;
 
-    //divide variables into row and column, !!optimise by merging with kmap data members or replacing members with maps!!
+    //divide variables into row and column
     int halfpoint = (vars.size()+1)/2;
-    vector<char> row_vars;
-    vector<char> column_vars;
     column_vars.assign( vars.begin(), vars.begin()+halfpoint );
     row_vars.assign( vars.begin()+halfpoint, vars.end() );
-    string rv (row_vars.begin(), row_vars.end());
-    vertical_vars = rv;
-    string cv (column_vars.begin(), column_vars.end());
-    horizontal_vars = cv;
 
     cout<<"column vars: ";
     for( int i=0; i<column_vars.size(); i++ )
