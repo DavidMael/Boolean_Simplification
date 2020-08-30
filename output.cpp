@@ -5,8 +5,8 @@ using namespace std;
 //output the simplified expression
 string kmap::solve()
 {
-    //store gray code of terms for one side of the table, with 2 signifying "don't use"
-    //eg. a group spanning 100 and 110 has a gray of 120
+    //store gray code of terms for one side of the table, with 'x' signifying "don't use"
+    //eg. a group spanning 100 and 110 has a gray of 1x0
     string gray;
 
     //store the simplified expression
@@ -15,15 +15,18 @@ string kmap::solve()
     //used to cycle through the gray codes while accounting for wrap-around
     int index;
 
-    string to_append ;
+    //contains the variable to add to the expression
+    string to_append;
 
     bool first_minterm = true;
 
+    //iterate through each group
     for(int i = 0; i<groups.size(); i++)
     {
+        //only give minterms from non merge-flagged groups
         if(groups[i].merged == false)
         {
-
+            //print '+' before all minterms but the first
             if(first_minterm == false)
             {
                 expression.append("+");
@@ -33,14 +36,15 @@ string kmap::solve()
 
             cerr<<"group: "<<i<<endl;
 
+            //first: determine the vertical/row variables of the minterm
             gray = vertical_gray[ groups[i].sone.first ];
 
+            //iterate through vertical grays starting from the upper index of the group
             index = groups[i].sone.first;
-
-            //what about 1-width groups? while loop skipped? change index initialization
             while(index != groups[i].stwo.first)
             {
                 cerr<<"i index: "<<index<<endl;
+                //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
                     if(gray[k] != vertical_gray[index][k])
@@ -50,7 +54,6 @@ string kmap::solve()
                 }
                 index = next_below(index);
             }
-
             //manually add a cycle for the last row
             cerr<<"i index: "<<groups[i].stwo.first<<endl;
             for(int k = 0; k<gray.size(); k++)
@@ -61,7 +64,7 @@ string kmap::solve()
                 }
             }
 
-            //printing the minterm
+            //add variables to minterm as appropriate
             cerr<<"vertical gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
@@ -79,15 +82,15 @@ string kmap::solve()
                 }
             }
 
+            //second: determine the horizontal/column variables of the minterm
             gray = horizontal_gray[ groups[i].sone.second ];
 
+            //iterate through horizontal grays from the leftmost index of the group
             index = groups[i].sone.second;
-
-            //cout<<"debug "<<index<<" "<<groups[i].stwo.second<<" "<<next_right(groups[i].stwo.second)<<endl;
-
             while(index != groups[i].stwo.second)
             {
                 cerr<<"j index: "<<index<<endl;
+                //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
                     if(gray[k] != horizontal_gray[index][k])
@@ -97,8 +100,7 @@ string kmap::solve()
                 }
                 index = next_right(index);
             }
-
-            //manually add a cycle for the last row
+            //manually add a cycle for the last column
             cerr<<"j index: "<<groups[i].stwo.second<<endl;
             for(int k = 0; k<gray.size(); k++)
             {
@@ -108,7 +110,7 @@ string kmap::solve()
                 }
             }
 
-            //printing the minterm
+            //add variables to the minterm as appropriate
             cerr<<"horizontal gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
