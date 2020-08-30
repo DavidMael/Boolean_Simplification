@@ -27,7 +27,8 @@ string kmap::solve()
         if(groups[i].merged == false)
         {
             //return 1 if a group occupies the entire Kmap
-            if( groups[i].stwo.first == (height-1) && groups[i].stwo.second == (width-1) )
+            if( groups[i].sone.first == 0 && groups[i].sone.second == 0 &&
+                groups[i].stwo.first == (height-1) && groups[i].stwo.second == (width-1) )
             {
                 return "1";
             }
