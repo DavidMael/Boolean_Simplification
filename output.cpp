@@ -74,20 +74,21 @@ string kmap::solve()
             cerr<<"horizontal gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
-                to_append = horizontal_vars[j];
                 if(gray[j] == '1')
                 {
-                    cerr<<"expression before appending: "<<expression<<endl;
-                    cerr<<"append the following: "<<to_append<<endl;
+                    to_append = horizontal_vars[j];
+                    //cerr<<"expression before appending: "<<expression<<endl;
+                    //cerr<<"append the following: "<<to_append<<endl;
                     expression.append(to_append);
-                    cerr<<"expression after appending: "<<expression<<endl;
+                    //cerr<<"expression after appending: "<<expression<<endl;
                 }
 
                 if(gray[j] == '0')
                 {
-                    expression.append("(~");
+                    to_append = tolower(horizontal_vars[j]);
+                    //expression.append("(~");
                     expression.append(to_append);
-                    expression.append(")");
+                    //expression.append(")");
                 }
             }
 
@@ -123,9 +124,9 @@ string kmap::solve()
             cerr<<"vertical gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
-                to_append = vertical_vars[j];
                 if(gray[j] == '1')
                 {
+                    to_append = vertical_vars[j];
                     //cerr<<"expression before appending: "<<expression<<endl;
                     //cerr<<"append the following: "<<to_append<<endl;
                     expression.append(to_append);
@@ -134,9 +135,10 @@ string kmap::solve()
 
                 if(gray[j] == '0')
                 {
-                    expression.append("(~");
+                    to_append = tolower(horizontal_vars[j]);
+                    //expression.append("(~");
                     expression.append(to_append);
-                    expression.append(")");
+                    //expression.append(")");
                 }
             }
 
@@ -161,17 +163,18 @@ string kmap::solve()
                 gray = horizontal_gray[ j ];
                 for(int k = 0; k<gray.size(); k++)
                 {
-                    to_append = horizontal_vars[k];
                     if(gray[k] == '1')
                     {
+                        to_append = vertical_vars[k];
                         expression.append(to_append);
                     }
 
                     if(gray[k] == '0')
                     {
-                        expression.append("(~");
+                        to_append = tolower(horizontal_vars[j]);
+                        //expression.append("(~");
                         expression.append(to_append);
-                        expression.append(")");
+                        //expression.append(")");
                     }
                 }
 
@@ -179,17 +182,18 @@ string kmap::solve()
                 gray = vertical_gray[ i ];
                 for(int k = 0; k<gray.size(); k++)
                 {
-                    to_append = vertical_vars[k];
                     if(gray[k] == '1')
                     {
+                        to_append = vertical_vars[k];
                         expression.append(to_append);
                     }
 
                     if(gray[k] == '0')
                     {
-                        expression.append("(~");
+                        to_append = tolower(horizontal_vars[j]);
+                        //expression.append("(~");
                         expression.append(to_append);
-                        expression.append(")");
+                        //expression.append(")");
                     }
                 }               
             }
