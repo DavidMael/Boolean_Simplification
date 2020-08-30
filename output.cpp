@@ -26,6 +26,12 @@ string kmap::solve()
         //only give minterms from non merge-flagged groups
         if(groups[i].merged == false)
         {
+            //return 1 if a group occupies the entire Kmap
+            if( groups[i].stwo.first == (height-1) && groups[i].stwo.second == (width-1) )
+            {
+                return "1";
+            }
+
             //print '+' before all minterms but the first
             if(first_minterm == false)
             {
