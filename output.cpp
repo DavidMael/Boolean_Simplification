@@ -42,53 +42,7 @@ string kmap::solve()
 
             cerr<<"group: "<<i<<endl;
 
-            //first: determine the vertical/row variables of the minterm
-            gray = vertical_gray[ groups[i].sone.first ];
-
-            //iterate through vertical grays starting from the upper index of the group
-            index = groups[i].sone.first;
-            while(index != groups[i].stwo.first)
-            {
-                cerr<<"i index: "<<index<<endl;
-                //iterate through the gray bits, recording changes in bit values with an 'x'
-                for(int k = 0; k<gray.size(); k++)
-                {
-                    if(gray[k] != vertical_gray[index][k])
-                    {
-                        gray[k] = 'x';
-                    }
-                }
-                index = next_below(index);
-            }
-            //manually add a cycle for the last row
-            cerr<<"i index: "<<groups[i].stwo.first<<endl;
-            for(int k = 0; k<gray.size(); k++)
-            {
-                if(gray[k] != vertical_gray[groups[i].stwo.first][k])
-                {
-                    gray[k] = 'x';
-                }
-            }
-
-            //add variables to minterm as appropriate
-            cerr<<"vertical gray: "<<gray<<endl;
-            for(int j = 0; j<gray.size(); j++)
-            {
-                to_append = vertical_vars[j];
-                if(gray[j] == '1')
-                {
-                    expression.append(to_append);
-                }
-
-                if(gray[j] == '0')
-                {
-                    expression.append("(~");
-                    expression.append(to_append);
-                    expression.append(")");
-                }
-            }
-
-            //second: determine the horizontal/column variables of the minterm
+            //first: determine the horizontal/column variables of the minterm
             gray = horizontal_gray[ groups[i].sone.second ];
 
             //iterate through horizontal grays from the leftmost index of the group
@@ -136,16 +90,61 @@ string kmap::solve()
                     expression.append(")");
                 }
             }
+
+            //second: determine the vertical/row variables of the minterm
+            gray = vertical_gray[ groups[i].sone.first ];
+
+            //iterate through vertical grays starting from the upper index of the group
+            index = groups[i].sone.first;
+            while(index != groups[i].stwo.first)
+            {
+                cerr<<"i index: "<<index<<endl;
+                //iterate through the gray bits, recording changes in bit values with an 'x'
+                for(int k = 0; k<gray.size(); k++)
+                {
+                    if(gray[k] != vertical_gray[index][k])
+                    {
+                        gray[k] = 'x';
+                    }
+                }
+                index = next_below(index);
+            }
+            //manually add a cycle for the last row
+            cerr<<"i index: "<<groups[i].stwo.first<<endl;
+            for(int k = 0; k<gray.size(); k++)
+            {
+                if(gray[k] != vertical_gray[groups[i].stwo.first][k])
+                {
+                    gray[k] = 'x';
+                }
+            }
+
+            //add variables to minterm as appropriate
+            cerr<<"vertical gray: "<<gray<<endl;
+            for(int j = 0; j<gray.size(); j++)
+            {
+                to_append = vertical_vars[j];
+                if(gray[j] == '1')
+                {
+                    expression.append(to_append);
+                }
+
+                if(gray[j] == '0')
+                {
+                    expression.append("(~");
+                    expression.append(to_append);
+                    expression.append(")");
+                }
+            }
+
         }
     }
 
     //add minterms from orphans !!might want to add a mechanism signalling if there are variables at all/a better storage system!!
     for(int i=0; i<orphans.size(); i++)
     {
-        cout<<"i"<<endl;
         for(int j=0; j<orphans[i].size(); j++)
         {
-            cout<<"j"<<endl;
             if( orphans[i][j] == 1 )
             {
                 if(first_minterm == false)
@@ -153,25 +152,6 @@ string kmap::solve()
                     expression.append("+");
                 } else {
                     first_minterm = false;
-                }
-
-                cout<<"oo"<<endl;
-                //vertical/row vars
-                gray = vertical_gray[ i ];
-                for(int k = 0; k<gray.size(); k++)
-                {
-                    to_append = vertical_vars[k];
-                    if(gray[k] == '1')
-                    {
-                        expression.append(to_append);
-                    }
-
-                    if(gray[k] == '0')
-                    {
-                        expression.append("(~");
-                        expression.append(to_append);
-                        expression.append(")");
-                    }
                 }
 
                 //horizontal/column vars
@@ -191,7 +171,24 @@ string kmap::solve()
                         expression.append(")");
                     }
                 }
-                
+
+                //vertical/row vars
+                gray = vertical_gray[ i ];
+                for(int k = 0; k<gray.size(); k++)
+                {
+                    to_append = vertical_vars[k];
+                    if(gray[k] == '1')
+                    {
+                        expression.append(to_append);
+                    }
+
+                    if(gray[k] == '0')
+                    {
+                        expression.append("(~");
+                        expression.append(to_append);
+                        expression.append(")");
+                    }
+                }               
             }
         }
     }
