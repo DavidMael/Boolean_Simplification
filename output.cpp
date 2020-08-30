@@ -139,5 +139,62 @@ string kmap::solve()
         }
     }
 
+    //add minterms from orphans !!might want to add a mechanism signalling if there are variables at all/a better storage system!!
+    for(int i=0; i<orphans.size(); i++)
+    {
+        cout<<"i"<<endl;
+        for(int j=0; j<orphans[i].size(); j++)
+        {
+            cout<<"j"<<endl;
+            if( orphans[i][j] == 1 )
+            {
+                if(first_minterm == false)
+                {
+                    expression.append("+");
+                } else {
+                    first_minterm = false;
+                }
+
+                cout<<"oo"<<endl;
+                //vertical/row vars
+                gray = vertical_gray[ i ];
+                for(int k = 0; k<gray.size(); k++)
+                {
+                    to_append = vertical_vars[k];
+                    if(gray[k] == '1')
+                    {
+                        expression.append(to_append);
+                    }
+
+                    if(gray[k] == '0')
+                    {
+                        expression.append("(~");
+                        expression.append(to_append);
+                        expression.append(")");
+                    }
+                }
+
+                //horizontal/column vars
+                gray = horizontal_gray[ j ];
+                for(int k = 0; k<gray.size(); k++)
+                {
+                    to_append = horizontal_vars[k];
+                    if(gray[k] == '1')
+                    {
+                        expression.append(to_append);
+                    }
+
+                    if(gray[k] == '0')
+                    {
+                        expression.append("(~");
+                        expression.append(to_append);
+                        expression.append(")");
+                    }
+                }
+                
+            }
+        }
+    }
+
     return expression;
 }
