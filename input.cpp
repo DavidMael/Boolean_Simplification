@@ -103,6 +103,13 @@ kmap::kmap(const string & boolean_expression)
     vector<vector<bool>> orph ( height , squares_row);
     orphans = orph;
 
+    //setup the pointer grid
+    vector<group *> grps (0);
+    cout<<"!!!!!!"<<grps.size()<<"!!!!!!"<<endl;
+    vector<vector<group *>> vgrps ( width, grps );
+    vector<vector<vector<group *>>> vvv ( height, vgrps );
+    grouppointers = vvv;
+
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors 
     row_grays = make_gray( row_vars.size() );
     column_grays = make_gray( column_vars.size() );

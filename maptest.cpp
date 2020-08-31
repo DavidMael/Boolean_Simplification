@@ -55,4 +55,7 @@ int main() {
     2;2 3;3
     3;3 0;0
 
+            //pointers to doubles that include equivalent position in "squares" above
+        vector<vector<vector<group>>> grouppointers;
+
 }

@@ -31,12 +31,20 @@ void kmap::horizontaldoubs()
                         } else {
                             //cout<<"not one_right 2"<<endl;
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
+
+                            //push to the grid square-group pointers
+                            grouppointers[i][j].push_back( &groups[ groups.size() ] );
+                            grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size() ] );
                         }
                     } else {
                     //cout<<"not flagged"<<endl;
                     groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
                     flags[i][j] = 1;
                     flags[i][ next_right(j) ] = 1;
+
+                    //push to the grid square-group pointers
+                    grouppointers[i][j].push_back( &groups[ groups.size() ] );
+                    grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size() ] );
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
                     //cout<<"orphan"<<endl;
@@ -96,10 +104,19 @@ void kmap::verticaldoubs()
                             } else {
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+
+                                //push to the grid square-group pointers
+                                grouppointers[i][j].push_back( &groups[ groups.size() ] );
+                                grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size() ] );
                             }
                         } else {
                         //cout<<"not flagged"<<endl;
                         groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+
+                        //push to the grid square-group pointers
+                        grouppointers[i][j].push_back( &groups[ groups.size() ] );
+                        grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size() ] );
+                        
                         flags[i][j] = 1;
                         flags[ next_below(i) ][j] = 1;
 

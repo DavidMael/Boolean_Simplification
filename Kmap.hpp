@@ -63,6 +63,9 @@ class kmap
         //flags 1 squares that haven't been incoprorated into a double
         vector<vector<bool>> orphans;
 
+        //pointers to doubles that include equivalent position in "squares" above
+        vector<vector<vector<group *>>> grouppointers;
+
         //groups of all sizes
         vector<group> groups;
 
