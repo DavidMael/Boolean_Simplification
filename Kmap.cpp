@@ -28,23 +28,32 @@ void kmap::horizontaldoubs()
                             //cout<<"one_right 2"<<endl;
                             //cout<<"merged "<<i<<";"<<j<<endl;
                             groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
+
+                            cout<<"bruh 1"<<endl;
                         } else {
                             //cout<<"not one_right 2"<<endl;
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
 
+                            cout<<"reasonable number 3: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
+
                             //push to the grid square-group pointers
-                            grouppointers[i][j].push_back( &groups[ groups.size() ] );
-                            grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size() ] );
+                            grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
+                            grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size()-1 ] );
                         }
                     } else {
-                    //cout<<"not flagged"<<endl;
-                    groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
-                    flags[i][j] = 1;
-                    flags[i][ next_right(j) ] = 1;
+                        //cout<<"not flagged"<<endl;
+                        groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
 
-                    //push to the grid square-group pointers
-                    grouppointers[i][j].push_back( &groups[ groups.size() ] );
-                    grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size() ] );
+                        cout<<"reasonable number 2: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
+
+                        flags[i][j] = 1;
+                        flags[i][ next_right(j) ] = 1;
+
+                        //push to the grid square-group pointers
+                        grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
+                        grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size()-1 ] );
+                        cout<<"test sone first: 3rd v index="<<grouppointers[i][ next_right(j) ].size()-1<<" i="<<i<<" j="<<next_right(j)<<" e="<<grouppointers[i][ next_right(j) ][ grouppointers[i][ next_right(j) ].size()-1 ]->sone.first<<endl;
+                        cout<<"hmm: i="<<i<<" j="<<j<<" next j="<<next_right(j)<<endl;
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
                     //cout<<"orphan"<<endl;
@@ -101,36 +110,41 @@ void kmap::verticaldoubs()
                             //cout<<"flagged"<<endl;
                             if( one_below(i, j, 2) )
                             {
+                                cout<<"case 1"<<endl;
                                 merge_flag_set = overlap_check(i, j);
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
                                 groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
                             } else {
+                                cout<<"case 2"<<endl;
                                 merge_flag_set = overlap_check(i, j);
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });
 
                                 //push to the grid square-group pointers
-                                grouppointers[i][j].push_back( &groups[ groups.size() ] );
-                                grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size() ] );
+                                grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
+                                grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size()-1 ] );
                             }
                         } else {
-                        //cout<<"not flagged"<<endl;
-                        merge_flag_set = overlap_check(i, j);
+                            cout<<"case 3"<<endl;
+                            //cout<<"not flagged"<<endl;
+                            merge_flag_set = overlap_check(i, j);
 
-                        groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+                            groups.push_back({2, 0, {i, j}, { next_below(i), j} });
+                            cout<<"reasonable number: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
-                        //push to the grid square-group pointers
-                        grouppointers[i][j].push_back( &groups[ groups.size() ] );
-                        grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size() ] );
-                        
-                        flags[i][j] = 1;
-                        flags[ next_below(i) ][j] = 1;
+                            //push to the grid square-group pointers
+                            grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
+                            grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size()-1 ] );
+                            
+                            flags[i][j] = 1;
+                            flags[ next_below(i) ][j] = 1;
 
-                        orphans[i][j] = 0;
-                        orphans[ next_below(i) ][j] = 0;
+                            orphans[i][j] = 0;
+                            orphans[ next_below(i) ][j] = 0;
                         }
                     } else {
+                        cout<<"case 4"<<endl;
                         merge_flag_set = overlap_check(i, j);
 
                         groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });

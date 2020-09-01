@@ -9,6 +9,9 @@
 using namespace std;
 
 struct group
+
+//make a constructor to attemt to fix the arbitrary high values
+
 //group of 1s of size n larger than 1
 //stwo is below and to the right of sone: 0;0 3;3 is a normal group and 0;3 1;0 wraps around the edge
 {
@@ -40,6 +43,8 @@ vector<string> make_gray(int n);
 
 //return a vector of mappings between variables and binary values to represent row/column gray code minterms
 vector<map<char, char>> map_variables(const vector<char> & variables, const vector<string> & grays);
+
+//bool overlap_check(const int & i, const int & j, vector<vector<vector<group *>>> & grouppointers);
 
 class kmap
 {

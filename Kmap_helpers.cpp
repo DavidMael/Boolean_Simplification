@@ -176,30 +176,41 @@ bool kmap::overlap_check(const int & i, const int & j)
     //function must be applied twice, once for each square in the vertical double
     int y = next_below(i);
 
+    cout<<"first size: "<<grouppointers[i][j].size()<<endl;
+
     for(int c=0; c<grouppointers[i][j].size(); c++ )
     {
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
         if( grouppointers[i][j][c]->sone.first == i && grouppointers[i][j][c]->sone.second == j )
         {
+            cout<<"after comparing 1"<<endl;
             //look at stwo
             e = grouppointers[i][j][c]->stwo.first;
             g = grouppointers[i][j][c]->stwo.second;
-            if( grouppointers[e][g].size() > 0 )
+            cout<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
                 grouppointers[i][j][c]->merged = true;
+                cout<<"after this 1"<<endl;
             }
         } else {
+            cout<<"after comparing 2"<<endl;
             //look at sone
             e = grouppointers[i][j][c]->sone.first;
             g = grouppointers[i][j][c]->sone.second;
-            if( grouppointers[e][g].size() > 0 )
+            cout<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            cout<<"second size: "<<grouppointers[e][g].size()<<"|"<<endl;
+            if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
                 grouppointers[i][j][c]->merged = true;
+                cout<<"after this 2"<<endl;
             }
         }
     }
+
+    cout<<"third size: "<<grouppointers[y][j].size()<<endl;
 
     for(int c=0; c<grouppointers[y][j].size(); c++ )
     {
@@ -209,22 +220,27 @@ bool kmap::overlap_check(const int & i, const int & j)
             //look at stwo
             e = grouppointers[y][j][c]->stwo.first;
             g = grouppointers[y][j][c]->stwo.second;
-            if( grouppointers[e][g].size() > 0 )
+            cout<<"after assigning 3 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
                 grouppointers[y][j][c]->merged = true;
+                cout<<"after this 3"<<endl;
             }
         } else {
             //look at sone
             e = grouppointers[y][j][c]->sone.first;
             g = grouppointers[y][j][c]->sone.second;
-            if( grouppointers[e][g].size() > 0 )
+            cout<<"after assigning 4 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
                 grouppointers[y][j][c]->merged = true;
+                cout<<"after this 4"<<endl;
             }
         }
     }
+    cout<<"end of fcn: "<<retval<<endl;
 
     return retval;
 }

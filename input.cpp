@@ -105,7 +105,6 @@ kmap::kmap(const string & boolean_expression)
 
     //setup the pointer grid
     vector<group *> grps (0);
-    cout<<"!!!!!!"<<grps.size()<<"!!!!!!"<<endl;
     vector<vector<group *>> vgrps ( width, grps );
     vector<vector<vector<group *>>> vvv ( height, vgrps );
     grouppointers = vvv;
