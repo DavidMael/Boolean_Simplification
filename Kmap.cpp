@@ -82,6 +82,9 @@ void kmap::identify_orphans()
 //scans the kmap for vertical doubles
 void kmap::verticaldoubs()
 {
+    //in cases where merge would be 1, evaluate using the overlap_check function
+    bool merge_flag_set;
+
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
@@ -98,9 +101,10 @@ void kmap::verticaldoubs()
                             //cout<<"flagged"<<endl;
                             if( one_below(i, j, 2) )
                             {
+                                merge_flag_set = 
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
-                                groups.push_back({2, 1, {i, j}, { next_below(i), j} });
+                                groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
                             } else {
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });

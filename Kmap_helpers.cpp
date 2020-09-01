@@ -173,6 +173,8 @@ bool kmap::overlap_check(const int & i, const int & j)
     //indices of the other square of the overlapping double
     int e;
     int g;
+    //function must be applied twice, once for each square in the vertical double
+    int y = next_below(i);
 
     for(int c=0; c<grouppointers[i][j].size(); c++ )
     {
@@ -195,6 +197,31 @@ bool kmap::overlap_check(const int & i, const int & j)
             {
                 retval = false;
                 *grouppointers[i][j][c].merged = true;
+            }
+        }
+    }
+
+    for(int c=0; c<grouppointers[y][j].size(); c++ )
+    {
+        //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
+        if( *grouppointers[y][j][c].sone.first == y && *grouppointers[y][j][c].sone.second == j )
+        {
+            //look at stwo
+            e = *grouppointers[y][j][c].stwo.first;
+            g = *grouppointers[y][j][c].stwo.second;
+            if( grouppointers[e][g].size() > 0 )
+            {
+                retval = false;
+                *grouppointers[y][j][c].merged = true;
+            }
+        } else {
+            //look at sone
+            e = *grouppointers[y][j][c].sone.first;
+            g = *grouppointers[y][j][c].sone.second;
+            if( grouppointers[e][g].size() > 0 )
+            {
+                retval = false;
+                *grouppointers[y][j][c].merged = true;
             }
         }
     }
