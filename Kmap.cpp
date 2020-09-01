@@ -101,11 +101,12 @@ void kmap::verticaldoubs()
                             //cout<<"flagged"<<endl;
                             if( one_below(i, j, 2) )
                             {
-                                merge_flag_set = 
+                                merge_flag_set = overlap_check(i, j);
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
                                 groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
                             } else {
+                                merge_flag_set = overlap_check(i, j);
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });
 
@@ -115,6 +116,8 @@ void kmap::verticaldoubs()
                             }
                         } else {
                         //cout<<"not flagged"<<endl;
+                        merge_flag_set = overlap_check(i, j);
+
                         groups.push_back({2, 0, {i, j}, { next_below(i), j} });
 
                         //push to the grid square-group pointers
@@ -128,7 +131,9 @@ void kmap::verticaldoubs()
                         orphans[ next_below(i) ][j] = 0;
                         }
                     } else {
-                        groups.push_back({2, 1, {i, j}, { next_below(i), j} });
+                        merge_flag_set = overlap_check(i, j);
+
+                        groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
                         //is this correct?
                         //flags[i][j] = 1;
                         //flags[ next_below(i) ][j] = 1;

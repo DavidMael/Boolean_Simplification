@@ -179,24 +179,24 @@ bool kmap::overlap_check(const int & i, const int & j)
     for(int c=0; c<grouppointers[i][j].size(); c++ )
     {
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
-        if( *grouppointers[i][j][c].sone.first == i && *grouppointers[i][j][c].sone.second == j )
+        if( grouppointers[i][j][c]->sone.first == i && grouppointers[i][j][c]->sone.second == j )
         {
             //look at stwo
-            e = *grouppointers[i][j][c].stwo.first;
-            g = *grouppointers[i][j][c].stwo.second;
+            e = grouppointers[i][j][c]->stwo.first;
+            g = grouppointers[i][j][c]->stwo.second;
             if( grouppointers[e][g].size() > 0 )
             {
                 retval = false;
-                *grouppointers[i][j][c].merged = true;
+                grouppointers[i][j][c]->merged = true;
             }
         } else {
             //look at sone
-            e = *grouppointers[i][j][c].sone.first;
-            g = *grouppointers[i][j][c].sone.second;
+            e = grouppointers[i][j][c]->sone.first;
+            g = grouppointers[i][j][c]->sone.second;
             if( grouppointers[e][g].size() > 0 )
             {
                 retval = false;
-                *grouppointers[i][j][c].merged = true;
+                grouppointers[i][j][c]->merged = true;
             }
         }
     }
@@ -204,24 +204,24 @@ bool kmap::overlap_check(const int & i, const int & j)
     for(int c=0; c<grouppointers[y][j].size(); c++ )
     {
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
-        if( *grouppointers[y][j][c].sone.first == y && *grouppointers[y][j][c].sone.second == j )
+        if( grouppointers[y][j][c]->sone.first == y && grouppointers[y][j][c]->sone.second == j )
         {
             //look at stwo
-            e = *grouppointers[y][j][c].stwo.first;
-            g = *grouppointers[y][j][c].stwo.second;
+            e = grouppointers[y][j][c]->stwo.first;
+            g = grouppointers[y][j][c]->stwo.second;
             if( grouppointers[e][g].size() > 0 )
             {
                 retval = false;
-                *grouppointers[y][j][c].merged = true;
+                grouppointers[y][j][c]->merged = true;
             }
         } else {
             //look at sone
-            e = *grouppointers[y][j][c].sone.first;
-            g = *grouppointers[y][j][c].sone.second;
+            e = grouppointers[y][j][c]->sone.first;
+            g = grouppointers[y][j][c]->sone.second;
             if( grouppointers[e][g].size() > 0 )
             {
                 retval = false;
-                *grouppointers[y][j][c].merged = true;
+                grouppointers[y][j][c]->merged = true;
             }
         }
     }
