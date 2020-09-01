@@ -165,3 +165,39 @@ void kmap::wipe_flags()
        fill(flags[i].begin(), flags[i].end(), 0); 
     }
 }
+
+//if there is a double A over (i,j) and the other square is part of another double B, merge-flag A and return false
+bool kmap::overlap_check(const int & i, const int & j)
+{
+    bool retval = true;
+    //indices of the other square of the overlapping double
+    int e;
+    int g;
+
+    for(int c=0; c<grouppointers[i][j].size(); c++ )
+    {
+        //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
+        if( *grouppointers[i][j][c].sone.first == i && *grouppointers[i][j][c].sone.second == j )
+        {
+            //look at stwo
+            e = *grouppointers[i][j][c].stwo.first;
+            g = *grouppointers[i][j][c].stwo.second;
+            if( grouppointers[e][g].size() > 0 )
+            {
+                retval = false;
+                *grouppointers[i][j][c].merged = true;
+            }
+        } else {
+            //look at sone
+            e = *grouppointers[i][j][c].sone.first;
+            g = *grouppointers[i][j][c].sone.second;
+            if( grouppointers[e][g].size() > 0 )
+            {
+                retval = false;
+                *grouppointers[i][j][c].merged = true;
+            }
+        }
+    }
+
+    return retval;
+}

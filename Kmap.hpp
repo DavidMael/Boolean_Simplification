@@ -117,5 +117,8 @@ class kmap
         group find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag);
 
         void wipe_flags();
+
+        //if there is a double A over (i,j) and the other square is part of another double B, merge-flag A and return false
+        bool overlap_check(const int & i, const int & j);
 };
 
