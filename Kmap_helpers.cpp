@@ -197,7 +197,7 @@ bool kmap::overlap_check(const int & i, const int & j)
         } else {
             cout<<"after comparing 2"<<endl;
             //look at sone
-            e = grouppointers[i][j][c]->sone.first;
+            e = grouppointers[1][1][0]->sone.first;
             g = grouppointers[i][j][c]->sone.second;
             cout<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
             cout<<"second size: "<<grouppointers[e][g].size()<<"|"<<endl;

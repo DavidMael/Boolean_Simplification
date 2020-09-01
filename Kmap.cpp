@@ -53,7 +53,7 @@ void kmap::horizontaldoubs()
                         grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
                         grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size()-1 ] );
                         cout<<"test sone first: 3rd v index="<<grouppointers[i][ next_right(j) ].size()-1<<" i="<<i<<" j="<<next_right(j)<<" e="<<grouppointers[i][ next_right(j) ][ grouppointers[i][ next_right(j) ].size()-1 ]->sone.first<<endl;
-                        cout<<"hmm: i="<<i<<" j="<<j<<" next j="<<next_right(j)<<endl;
+                        cout<<"hmm: e="<<grouppointers[1][1][0]->sone.first<<endl;    
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
                     //cout<<"orphan"<<endl;
