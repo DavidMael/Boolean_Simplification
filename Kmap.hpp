@@ -69,7 +69,7 @@ class kmap
         vector<vector<bool>> orphans;
 
         //pointers to doubles that include equivalent position in "squares" above
-        vector<vector<vector<group *>>> grouppointers;
+        vector<vector<vector<int>>> grouppointers;
 
         //groups of all sizes
         vector<group> groups;

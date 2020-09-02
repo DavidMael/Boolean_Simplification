@@ -104,9 +104,9 @@ kmap::kmap(const string & boolean_expression)
     orphans = orph;
 
     //setup the pointer grid
-    vector<group *> grps (0);
-    vector<vector<group *>> vgrps ( width, grps );
-    vector<vector<vector<group *>>> vvv ( height, vgrps );
+    vector<int> grps (0);
+    vector<vector<int>> vgrps ( width, grps );
+    vector<vector<vector<int>>> vvv ( height, vgrps );
     grouppointers = vvv;
 
     //make vertical and horizontal gray vectors: generate grays then variable-bit map vectors 

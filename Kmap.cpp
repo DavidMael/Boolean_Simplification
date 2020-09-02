@@ -5,6 +5,9 @@ using namespace std;
 //scans the kmap for horizontal doubles
 void kmap::horizontaldoubs()
 {
+    //record the index at which new groups are stored in the vector
+    int group_index = groups.size()-1;
+
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
@@ -30,15 +33,19 @@ void kmap::horizontaldoubs()
                             groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
 
                             cout<<"bruh 1"<<endl;
+
+                            group_index++;
                         } else {
                             //cout<<"not one_right 2"<<endl;
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
 
                             cout<<"reasonable number 3: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
+                            group_index++;
+
                             //push to the grid square-group pointers
-                            grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
-                            grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size()-1 ] );
+                            grouppointers[i][j].push_back( group_index );
+                            grouppointers[i][ next_right(j) ].push_back( group_index );
                         }
                     } else {
                         //cout<<"not flagged"<<endl;
@@ -49,11 +56,13 @@ void kmap::horizontaldoubs()
                         flags[i][j] = 1;
                         flags[i][ next_right(j) ] = 1;
 
+                        group_index++;
+
                         //push to the grid square-group pointers
-                        grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
-                        grouppointers[i][ next_right(j) ].push_back( &groups[ groups.size()-1 ] );
-                        cout<<"test sone first: 3rd v index="<<grouppointers[i][ next_right(j) ].size()-1<<" i="<<i<<" j="<<next_right(j)<<" e="<<grouppointers[i][ next_right(j) ][ grouppointers[i][ next_right(j) ].size()-1 ]->sone.first<<endl;
-                        cout<<"hmm: e="<<grouppointers[1][1][0]->sone.first<<endl;    
+                        grouppointers[i][j].push_back( group_index );
+                        grouppointers[i][ next_right(j) ].push_back( group_index );
+                        //cout<<"test sone first: 3rd v index="<<grouppointers[i][ next_right(j) ].size()-1<<" i="<<i<<" j="<<next_right(j)<<" e="<<grouppointers[i][ next_right(j) ][ grouppointers[i][ next_right(j) ].size()-1 ]->sone.first<<endl;
+                        //cout<<"hmm: e="<<grouppointers[1][1][0]->sone.first<<endl;    
                     }
                 } else if(one_right(i, j, -1) == 0 ) {
                     //cout<<"orphan"<<endl;
@@ -94,6 +103,9 @@ void kmap::verticaldoubs()
     //in cases where merge would be 1, evaluate using the overlap_check function
     bool merge_flag_set;
 
+    //record the index at which new groups are stored in the vector
+    int group_index = groups.size()-1;
+
     //cycle through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
@@ -115,15 +127,18 @@ void kmap::verticaldoubs()
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
                                 groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
+                                group_index++;
                             } else {
                                 cout<<"case 2"<<endl;
                                 merge_flag_set = overlap_check(i, j);
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });
 
+                                group_index++;
+
                                 //push to the grid square-group pointers
-                                grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
-                                grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size()-1 ] );
+                                grouppointers[i][j].push_back( group_index );
+                                grouppointers[ next_below(i) ][j].push_back( group_index );
                             }
                         } else {
                             cout<<"case 3"<<endl;
@@ -133,9 +148,10 @@ void kmap::verticaldoubs()
                             groups.push_back({2, 0, {i, j}, { next_below(i), j} });
                             cout<<"reasonable number: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
+                            group_index++;
                             //push to the grid square-group pointers
-                            grouppointers[i][j].push_back( &groups[ groups.size()-1 ] );
-                            grouppointers[ next_below(i) ][j].push_back( &groups[ groups.size()-1 ] );
+                            grouppointers[i][j].push_back( group_index );
+                            grouppointers[ next_below(i) ][j].push_back( group_index );
                             
                             flags[i][j] = 1;
                             flags[ next_below(i) ][j] = 1;
@@ -148,6 +164,8 @@ void kmap::verticaldoubs()
                         merge_flag_set = overlap_check(i, j);
 
                         groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
+
+                        group_index++;
                         //is this correct?
                         //flags[i][j] = 1;
                         //flags[ next_below(i) ][j] = 1;
