@@ -180,7 +180,7 @@ bool kmap::overlap_check(const int & i, const int & j)
 
     for(int c=0; c<grouppointers[i][j].size(); c++ )
     {
-        if( groups[grouppointers[i][j][c] ].merged == true )
+        if( groups[grouppointers[i][j][c] ].merged == false )
         {
             //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
             if( groups[ grouppointers[i][j][c] ].sone.first == i && groups[ grouppointers[i][j][c] ].sone.second == j )
@@ -219,7 +219,7 @@ bool kmap::overlap_check(const int & i, const int & j)
     for(int c=0; c<grouppointers[y][j].size(); c++ )
     {
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
-        if( groups[grouppointers[y][j][c] ].merged == true )
+        if( groups[grouppointers[y][j][c] ].merged == false )
         {
             if( groups[grouppointers[y][j][c] ].sone.first == y && groups[ grouppointers[y][j][c] ].sone.second == j )
             {
