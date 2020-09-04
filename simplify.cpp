@@ -21,15 +21,19 @@ int main()
 
     //cout<<testmap;
 
-    cout << "horizontal doubs" << endl;  
-
     testmap.horizontaldoubs();
+
+    cout << "horizontal doubs size: ";  
+
+    cout<<testmap.groups.size()<<endl;
 
     testmap.identify_orphans();
 
-    cout << "vertical doubs" << endl;  
+    testmap.verticaldoubs();
 
-    testmap.verticaldoubs();  
+    cout << "vertical doubs size: ";    
+
+    cout<<testmap.groups.size()<<endl;
 
     testmap.identify_orphans();
 

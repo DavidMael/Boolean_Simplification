@@ -32,14 +32,12 @@ void kmap::horizontaldoubs()
                             //cout<<"merged "<<i<<";"<<j<<endl;
                             groups.push_back({2, 1, {i, j}, {i, (next_right(j) )} });
 
-                            cout<<"bruh 1"<<endl;
-
                             group_index++;
                         } else {
                             //cout<<"not one_right 2"<<endl;
                             groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
 
-                            cout<<"reasonable number 3: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
+                            //cout<<"reasonable number 3: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
                             group_index++;
 
@@ -51,7 +49,7 @@ void kmap::horizontaldoubs()
                         //cout<<"not flagged"<<endl;
                         groups.push_back({2, 0, {i, j}, {i, (next_right(j) )} });
 
-                        cout<<"reasonable number 2: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
+                        //cout<<"reasonable number 2: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
                         flags[i][j] = 1;
                         flags[i][ next_right(j) ] = 1;
@@ -146,7 +144,7 @@ void kmap::verticaldoubs()
                             merge_flag_set = overlap_check(i, j);
 
                             groups.push_back({2, 0, {i, j}, { next_below(i), j} });
-                            cout<<"reasonable number: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
+                            //cout<<"reasonable number: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
 
                             group_index++;
                             //push to the grid square-group pointers
