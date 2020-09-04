@@ -125,7 +125,15 @@ void kmap::verticaldoubs()
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
                                 groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
+
                                 group_index++;
+
+                                if(!merge_flag_set)
+                                {
+                                    //push to the grid square-group pointers
+                                    grouppointers[i][j].push_back( group_index );
+                                    grouppointers[ next_below(i) ][j].push_back( group_index );
+                                }
                             } else {
                                 cout<<"case 2"<<endl;
                                 merge_flag_set = overlap_check(i, j);
@@ -164,6 +172,13 @@ void kmap::verticaldoubs()
                         groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
 
                         group_index++;
+
+                        if(!merge_flag_set)
+                        {
+                            //push to the grid square-group pointers
+                            grouppointers[i][j].push_back( group_index );
+                            grouppointers[ next_below(i) ][j].push_back( group_index );
+                        }
                         //is this correct?
                         //flags[i][j] = 1;
                         //flags[ next_below(i) ][j] = 1;
