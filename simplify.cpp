@@ -31,11 +31,17 @@ int main()
 
     testmap.verticaldoubs();
 
-    cout << "vertical doubs size: ";    
+    cout << "vertical 1 doubs size: ";    
 
     cout<<testmap.groups.size()<<endl;
 
     testmap.identify_orphans();
+
+    testmap.verticaldoubs();
+
+    cout << "vertical 2 doubs size: ";    
+
+    cout<<testmap.groups.size()<<endl;
 
     for(int i = 0; i<testmap.groups.size(); i++)
     {
