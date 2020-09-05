@@ -133,6 +133,12 @@ void kmap::verticaldoubs()
                                     //push to the grid square-group pointers
                                     grouppointers[i][j].push_back( group_index );
                                     grouppointers[ next_below(i) ][j].push_back( group_index );
+
+                                    flags[i][j] = 1;
+                                    flags[ next_below(i) ][j] = 1;
+
+                                    orphans[i][j] = 0;
+                                    orphans[ next_below(i) ][j] = 0;
                                 }
                             } else {
                                 cout<<"case 2"<<endl;
@@ -147,7 +153,7 @@ void kmap::verticaldoubs()
                                 grouppointers[ next_below(i) ][j].push_back( group_index );
                             }
                         } else {
-                            cout<<"case 3"<<endl;
+                            cout<<"!case 3: "<<i<<';'<<j<<" "<<next_below(i)<<';'<<j<<endl;
                             //cout<<"not flagged"<<endl;
                             merge_flag_set = overlap_check(i, j);
 
