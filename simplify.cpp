@@ -37,11 +37,11 @@ int main()
 
     testmap.identify_orphans();
 
-    testmap.verticaldoubs();
+    //testmap.verticaldoubs();
 
-    cout << "vertical 2 doubs size: ";    
+    //cout << "vertical 2 doubs size: ";    
 
-    cout<<testmap.groups.size()<<endl;
+    //cout<<testmap.groups.size()<<endl;
 
     for(int i = 0; i<testmap.groups.size(); i++)
     {

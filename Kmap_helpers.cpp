@@ -170,6 +170,7 @@ void kmap::wipe_flags()
 bool kmap::overlap_check(const int & i, const int & j)
 {
     bool retval = true;
+    bool retval2 = true;
     //indices of the other square of the overlapping double
     int e;
     int g;
@@ -177,6 +178,9 @@ bool kmap::overlap_check(const int & i, const int & j)
     int y = next_below(i);
 
     int groupindex;
+
+    //containts groupindex, i/y, j, e, g and c of a certain group slated to be removed and merge-flagged if (retval||retval2)==false
+    vector<tuple<int, int, int, int, int>> removal_info;
 
     cout<<"first size: "<<grouppointers[i][j].size()<<endl;
 
@@ -197,7 +201,7 @@ bool kmap::overlap_check(const int & i, const int & j)
             {
                 retval = false;
                 //group i;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
-                groups[ groupindex ].merged = true;
+                /*/groups[ groupindex ].merged = true;
                 (grouppointers[i][j]).erase( (grouppointers[i][j]).begin() + c );
                 for(int k=0; k<grouppointers[e][g].size(); k++)
                 {
@@ -205,7 +209,8 @@ bool kmap::overlap_check(const int & i, const int & j)
                     {
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
-                }
+                }/*/
+                removal_info.push_back( { groupindex, i, e, g, c } );
                 cout<<"after this 1"<<endl;
             }
         } else {
@@ -220,7 +225,7 @@ bool kmap::overlap_check(const int & i, const int & j)
             {
                 retval = false;
                 //group i;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
-                groups[ groupindex ].merged = true;
+                /*/groups[ groupindex ].merged = true;
                 grouppointers[i][j].erase( grouppointers[i][j].begin() + c );
                 for(int k=0; k<grouppointers[e][g].size(); k++)
                 {
@@ -228,7 +233,8 @@ bool kmap::overlap_check(const int & i, const int & j)
                     {
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
-                }
+                }/*/
+                removal_info.push_back( { groupindex, i, e, g, c } );
                 cout<<"after this 2"<<endl;
             }
         }    
@@ -251,9 +257,9 @@ bool kmap::overlap_check(const int & i, const int & j)
             cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
-                retval = false;
+                retval2 = false;
                 //group y;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
-                groups[ groupindex ].merged = true;
+                /*/groups[ groupindex ].merged = true;
                 grouppointers[y][j].erase( grouppointers[y][j].begin() + c );
                 for(int k=0; k<grouppointers[e][g].size(); k++)
                 {
@@ -261,7 +267,8 @@ bool kmap::overlap_check(const int & i, const int & j)
                     {
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
-                }
+                }/*/
+                removal_info.push_back( { groupindex, y, e, g, c } );
                 cout<<"after this 3"<<endl;
             }
         } else {
@@ -272,9 +279,9 @@ bool kmap::overlap_check(const int & i, const int & j)
             cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
-                retval = false;
+                retval2 = false;
                 //group y;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
-                groups[ groupindex ].merged = true;
+                /*/groups[ groupindex ].merged = true;
                 grouppointers[y][j].erase( grouppointers[y][j].begin() + c );
                 for(int k=0; k<grouppointers[e][g].size(); k++)
                 {
@@ -282,13 +289,41 @@ bool kmap::overlap_check(const int & i, const int & j)
                     {
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
-                }
+                }/*/
+                removal_info.push_back( { groupindex, y, e, g, c } );
                 cout<<"after this 4"<<endl;
             }
         }
         
     }
-    cout<<"end of fcn: "<<retval<<endl;
+    cout<<"end of fcn: "<<(retval || retval2)<<endl;
 
-    return retval;
+    //if both groups at i;j and y;j will be overlapped
+    if( !( retval || retval2 ) )
+    {
+        int iy;
+        int c;
+
+        for(int f=0; f<removal_info.size(); f++)
+        {
+            //group i/y;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
+            groupindex = get<0>(removal_info[f] );
+            iy = get<1>(removal_info[f] );
+            e = get<2>(removal_info[f] );
+            g = get<3>(removal_info[f] );
+            c = get<4>(removal_info[f] );
+
+            groups[ groupindex ].merged = true;
+            (grouppointers[iy][j]).erase( (grouppointers[iy][j]).begin() + c );
+            for(int k=0; k<grouppointers[e][g].size(); k++)
+            {
+                if( grouppointers[e][g][k] == groupindex )
+                {
+                    grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
+                }
+            } 
+        }  
+    }
+
+    return (retval || retval2);
 }
