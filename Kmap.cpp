@@ -120,7 +120,7 @@ void kmap::verticaldoubs()
                             //cout<<"flagged"<<endl;
                             if( one_below(i, j, 2) )
                             {
-                                cout<<"case 1"<<endl;
+                                cout<<"case 1, orpans&flags&1below "<<endl;
                                 merge_flag_set = overlap_check(i, j);
                                 //cout<<"one_right 2"<<endl;
                                 //cout<<"merged "<<i<<";"<<j<<endl;
@@ -141,7 +141,7 @@ void kmap::verticaldoubs()
                                     orphans[ next_below(i) ][j] = 0;
                                 }
                             } else {
-                                cout<<"case 2"<<endl;
+                                cout<<"case 2, orphans&flags&0below"<<endl;
                                 merge_flag_set = overlap_check(i, j);
                                 //cout<<"not one_right 2"<<endl;
                                 groups.push_back({2, 0, {i, j}, { next_below(i), j} });
@@ -153,7 +153,7 @@ void kmap::verticaldoubs()
                                 grouppointers[ next_below(i) ][j].push_back( group_index );
                             }
                         } else {
-                            cout<<"!case 3: "<<i<<';'<<j<<" "<<next_below(i)<<';'<<j<<endl;
+                            cout<<"!case 3, noflags&orphans: "<<orphans[i][j]<<" "<<orphans[ next_below(i) ][j]<<"|"<<i<<';'<<j<<" "<<next_below(i)<<';'<<j<<endl;
                             //cout<<"not flagged"<<endl;
                             merge_flag_set = overlap_check(i, j);
 
@@ -172,7 +172,7 @@ void kmap::verticaldoubs()
                             orphans[ next_below(i) ][j] = 0;
                         }
                     } else {
-                        cout<<"case 4"<<endl;
+                        cout<<"case 4, no orphans, flags:"<<flags[i][j]<<" "<<flags[next_below(i)][j]<<endl;
                         merge_flag_set = overlap_check(i, j);
 
                         groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
@@ -184,6 +184,9 @@ void kmap::verticaldoubs()
                             //push to the grid square-group pointers
                             grouppointers[i][j].push_back( group_index );
                             grouppointers[ next_below(i) ][j].push_back( group_index );
+
+                            flags[i][j] = 1;
+                            flags[ next_below(i) ][j] = 1;
                         }
                         //is this correct?
                         //flags[i][j] = 1;
