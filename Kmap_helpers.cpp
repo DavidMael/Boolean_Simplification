@@ -327,3 +327,6 @@ bool kmap::overlap_check(const int & i, const int & j)
 
     return (retval || retval2);
 }
+
+
+//check
