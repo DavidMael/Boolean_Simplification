@@ -327,3 +327,69 @@ bool kmap::overlap_check(const int & i, const int & j)
 
     return (retval || retval2);
 }
+
+bool kmap::orphan_overlap(const int & i, const int & j)
+{
+    bool retval = true;
+    //indices of the other square of the overlapping double
+    int e;
+    int g;
+
+    int groupindex;
+
+    for(int c=0; c<grouppointers[i][j].size(); c++ )
+    {
+        groupindex = grouppointers[i][j][c];
+        
+        //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
+        if( groups[ grouppointers[i][j][c] ].sone.first == i && groups[ grouppointers[i][j][c] ].sone.second == j )
+        {
+            //cout<<"after comparing 1"<<endl;
+            //look at stwo
+            e = groups[ groupindex ].stwo.first;
+            g = groups[ groupindex ].stwo.second;
+            cout<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            if( grouppointers[e][g].size() > 1 )
+            {
+                retval = false;
+                //group i;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
+                groups[ groupindex ].merged = true;
+                (grouppointers[i][j]).erase( (grouppointers[i][j]).begin() + c );
+                for(int k=0; k<grouppointers[e][g].size(); k++)
+                {
+                    if( grouppointers[e][g][k] == groupindex )
+                    {
+                        grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
+                    }
+                }
+                cout<<"after this 1"<<endl;
+            }
+        } else {
+            //cout<<"after comparing 2"<<endl;
+            //look at sone
+            e = groups[ groupindex ].sone.first;
+            g = groups[ groupindex ].sone.second;
+            cout<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            cout<<"second size: "<<grouppointers[e][g].size()<<"|"<<endl;
+            if( grouppointers[e][g].size() > 1 )
+            {
+                retval = false;
+                //group i;j e;g is no longer top level, merge-flag it and delete its index from the vector grid
+                groups[ groupindex ].merged = true;
+                grouppointers[i][j].erase( grouppointers[i][j].begin() + c );
+                for(int k=0; k<grouppointers[e][g].size(); k++)
+                {
+                    if( grouppointers[e][g][k] == groupindex )
+                    {
+                        grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
+                    }
+                }
+                cout<<"after this 2"<<endl;
+            }
+        } 
+    }
+
+    return retval;
+}

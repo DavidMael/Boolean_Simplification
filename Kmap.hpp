@@ -125,5 +125,7 @@ class kmap
 
         //if there is a double A over (i,j) and the other square is part of another double B, merge-flag A and return false
         bool overlap_check(const int & i, const int & j);
+
+        bool orphan_overlap(const int & i, const int & j);
 };
 

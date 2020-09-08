@@ -104,95 +104,59 @@ void kmap::verticaldoubs()
     //record the index at which new groups are stored in the vector
     int group_index = groups.size()-1;
 
-    //cycle through each square of the kmap 
+    //iterate through each square of the kmap 
     for(int i = 0; i<height; i++)
     {
         for(int j = 0; j<width; j++)
         {
-            if(squares[i][j] == 1)
+            //if the next two ones form a vertical double
+            if(squares[i][j] || one_below(i, j, 1))
             {
-                if( one_below(i, j, 1) )
-                {
-                    if( orphans[i][j] || orphans[ next_below(i) ][j]  )
-                    {    
-                        if(flags[i][j]==1)
-                        {
-                            //cout<<"flagged"<<endl;
-                            if( one_below(i, j, 2) )
-                            {
-                                cout<<"case 1, orpans&flags&1below "<<endl;
-                                merge_flag_set = overlap_check(i, j);
-                                //cout<<"one_right 2"<<endl;
-                                //cout<<"merged "<<i<<";"<<j<<endl;
-                                groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
+                if( orphans[ next_below(i) ][j]  )
+                {    
+                    if( orphans[i][j] )
+                    {
+                        cout<<"Case 1: two orphans"<<i<<';'<<j<<endl;
 
-                                group_index++;
+                        groups.push_back({2, 0, {i, j}, {next_below(i), j} });
 
-                                if(!merge_flag_set)
-                                {
-                                    //push to the grid square-group pointers
-                                    grouppointers[i][j].push_back( group_index );
-                                    grouppointers[ next_below(i) ][j].push_back( group_index );
+                        orphans[i][j] = 0;
+                        orphans[ next_below(i) ][j] = 0;
 
-                                    flags[i][j] = 1;
-                                    flags[ next_below(i) ][j] = 1;
-
-                                    orphans[i][j] = 0;
-                                    orphans[ next_below(i) ][j] = 0;
-                                }
-                            } else {
-                                cout<<"case 2, orphans&flags&0below"<<endl;
-                                merge_flag_set = overlap_check(i, j);
-                                //cout<<"not one_right 2"<<endl;
-                                groups.push_back({2, 0, {i, j}, { next_below(i), j} });
-
-                                group_index++;
-
-                                //push to the grid square-group pointers
-                                grouppointers[i][j].push_back( group_index );
-                                grouppointers[ next_below(i) ][j].push_back( group_index );
-                            }
-                        } else {
-                            cout<<"!case 3, noflags&orphans: "<<orphans[i][j]<<" "<<orphans[ next_below(i) ][j]<<"|"<<i<<';'<<j<<" "<<next_below(i)<<';'<<j<<endl;
-                            //cout<<"not flagged"<<endl;
-                            merge_flag_set = overlap_check(i, j);
-
-                            groups.push_back({2, 0, {i, j}, { next_below(i), j} });
-                            //cout<<"reasonable number: "<<groups.size()-1<<" | "<<groups[ groups.size()-1 ].sone.first<<" "<<groups[ groups.size()-1 ].sone.second<<" "<<groups[ groups.size()-1 ].stwo.first<<" "<<groups[ groups.size()-1 ].stwo.second<<endl;
-
-                            group_index++;
-                            //push to the grid square-group pointers
-                            grouppointers[i][j].push_back( group_index );
-                            grouppointers[ next_below(i) ][j].push_back( group_index );
-                            
-                            flags[i][j] = 1;
-                            flags[ next_below(i) ][j] = 1;
-
-                            orphans[i][j] = 0;
-                            orphans[ next_below(i) ][j] = 0;
-                        }
                     } else {
-                        cout<<"case 4, no orphans, flags:"<<flags[i][j]<<" "<<flags[next_below(i)][j]<<endl;
-                        merge_flag_set = overlap_check(i, j);
-
-                        groups.push_back({2, merge_flag_set, {i, j}, { next_below(i), j} });
-
-                        group_index++;
-
-                        if(!merge_flag_set)
+                        if( orphans[ next_below(next_below(i)) ][j] )
                         {
-                            //push to the grid square-group pointers
-                            grouppointers[i][j].push_back( group_index );
-                            grouppointers[ next_below(i) ][j].push_back( group_index );
+                            cerr<<"Case 6 (merge flag): one orphan above another "<<i<<';'<<j<<endl;
 
-                            flags[i][j] = 1;
-                            flags[ next_below(i) ][j] = 1;
+                            groups.push_back({2, 1, {i, j}, {next_below(i), j} });
+                        } else {
+                            merge_flag_set = orphan_overlap(i, j);
+
+                            groups.push_back({2, 0, {i, j}, {next_below(i), j} });
+
+                            orphans[ next_below(i) ][j] = 0;
+
+                            if( !merge_flag_set )
+                            {
+                                cerr<<"Case 2: one orphan overlap "<<i<<';'<<j<<endl;
+                            } else {
+                                cerr<<"Case 3: one orphan no overlap "<<i<<';'<<j<<endl;
+                            }
                         }
-                        //is this correct?
-                        //flags[i][j] = 1;
-                        //flags[ next_below(i) ][j] = 1;
+                    }
+                } else {
+                    merge_flag_set = overlap_check(i, j);
+
+                    groups.push_back({2, merge_flag_set, {i, j}, {next_below(i), j} });
+
+                    if( !merge_flag_set )
+                    {
+                        cerr<<"Case 4: overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+                    } else {
+                        cerr<<"Case 5 (merge flag): no overlap "<<i<<';'<<j<<endl;
                     }
                 }
+
             } 
         }
     }         
