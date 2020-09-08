@@ -217,16 +217,16 @@ void kmap::verticaldoubs()
 //merges quads in the results of verticaldoubs or horizontaldoubs
 //atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
 //merge_type, when true, allows merges between merge and non merge-flagged groups
-void kmap::mergegroups (const int & new_n, bool merge_type)
+void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
 {
     //capture group size before adding merges
     int groups_size = groups.size();
 
     group merger;
 
-    for(int i = 0; i < groups_size; i++)
+    for(int i = start; i < groups_size; i++)
     {
-        for(int j = 0; j < groups_size; j++)
+        for(int j = start; j < groups_size; j++)
         {
             //perhaps adapt to that all checks are not always performed
             //perhaps remove mention of stwo from quad?
@@ -291,14 +291,23 @@ void kmap::mergegroups (const int & new_n, bool merge_type)
  
 void kmap::merge_function()
 {
+    //index at which to start looking for variables to merge
+    int start = 0;
+    //index at which the newly merged groups will start
+    int nextstart;
+
     for(int n = 4; n<=(width*height) ;n = n*2)
     {
+        nextstart = groups.size();
+
         cout << "first merge n= " <<n<< endl;
 
-        mergegroups(n, 0);
+        mergegroups(n, 0, start);
 
         cout << "second merge n= " <<n<< endl;
 
-        mergegroups(n, 1);
+        mergegroups(n, 1, start);
+
+        start = nextstart;
     }
 }

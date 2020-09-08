@@ -92,7 +92,7 @@ class kmap
         void verticaldoubs();  
 
         //merges groups of format new_n/2 into new_n format groups, merge_type determining whether or not merge-flagged groups can be merged
-        void mergegroups (const int & new_n, bool merge_type);   
+        void mergegroups (const int & new_n, bool merge_type, const int & start);   
 
         //performs all possible merges, first between non merge-flagged groups then between all groups 
         // !!this results in a lot of redundancy!!
