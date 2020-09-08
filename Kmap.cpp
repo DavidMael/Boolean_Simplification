@@ -110,7 +110,7 @@ void kmap::verticaldoubs()
         for(int j = 0; j<width; j++)
         {
             //if the next two ones form a vertical double
-            if(squares[i][j] || one_below(i, j, 1))
+            if(squares[i][j] && one_below(i, j, 1))
             {
                 if( orphans[ next_below(i) ][j]  )
                 {    
