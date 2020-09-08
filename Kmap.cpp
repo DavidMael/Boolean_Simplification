@@ -5,7 +5,7 @@ using namespace std;
 //scans the kmap for horizontal doubles
 void kmap::horizontaldoubs()
 {
-    //record the index at which new groups are stored in the vector
+    //track the index at which new groups are stored in the vector
     int group_index = groups.size()-1;
 
     //cycle through each square of the kmap 
@@ -101,7 +101,7 @@ void kmap::verticaldoubs()
     //in cases where merge would be 1, evaluate using the overlap_check function
     bool merge_flag_set;
 
-    //record the index at which new groups are stored in the vector
+    //track the index at which new groups are stored in the vector
     int group_index = groups.size()-1;
 
     //iterate through each square of the kmap 
@@ -116,31 +116,44 @@ void kmap::verticaldoubs()
                 {    
                     if( orphans[i][j] )
                     {
-                        cout<<"Case 1: two orphans"<<i<<';'<<j<<endl;
+                        cout<<"-Case 1: two orphans"<<i<<';'<<j<<endl;
 
+                        //push back a group with appropriate parameters
                         groups.push_back({2, 0, {i, j}, {next_below(i), j} });
-
+                        //increase the group counter
+                        group_index++;
+                        //mark that included squares are no longer orphans
                         orphans[i][j] = 0;
                         orphans[ next_below(i) ][j] = 0;
+
+                        //group is not merge-flagged, record index in grouppointers
+                        grouppointers[i][j].push_back( group_index );
+                        grouppointers[ next_below(i) ][j].push_back( group_index );
 
                     } else {
                         if( orphans[ next_below(next_below(i)) ][j] )
                         {
-                            cerr<<"Case 6 (merge flag): one orphan above another "<<i<<';'<<j<<endl;
+                            cerr<<"-Case 6 (merge flag): one orphan above another "<<i<<';'<<j<<endl;
 
                             groups.push_back({2, 1, {i, j}, {next_below(i), j} });
+                            group_index++;
                         } else {
+                            //check for and merge-flag groups rendered redundant
                             merge_flag_set = orphan_overlap(i, j);
 
                             groups.push_back({2, 0, {i, j}, {next_below(i), j} });
-
+                            group_index++;
                             orphans[ next_below(i) ][j] = 0;
+
+                            //group is not merge-flagged, record index in grouppointers
+                            grouppointers[i][j].push_back( group_index );
+                            grouppointers[ next_below(i) ][j].push_back( group_index );
 
                             if( !merge_flag_set )
                             {
-                                cerr<<"Case 2: one orphan overlap "<<i<<';'<<j<<endl;
+                                cerr<<"-Case 2: one orphan overlap "<<i<<';'<<j<<endl;
                             } else {
-                                cerr<<"Case 3: one orphan no overlap "<<i<<';'<<j<<endl;
+                                cerr<<"-Case 3: one orphan no overlap "<<i<<';'<<j<<endl;
                             }
                         }
                     }
@@ -148,16 +161,55 @@ void kmap::verticaldoubs()
                     merge_flag_set = overlap_check(i, j);
 
                     groups.push_back({2, merge_flag_set, {i, j}, {next_below(i), j} });
+                    group_index++;
 
                     if( !merge_flag_set )
                     {
-                        cerr<<"Case 4: overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+                        cerr<<"-Case 4: overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+
+                        //group is not merge-flagged, record index in grouppointers
+                        grouppointers[i][j].push_back( group_index );
+                        grouppointers[ next_below(i) ][j].push_back( group_index );
                     } else {
-                        cerr<<"Case 5 (merge flag): no overlap "<<i<<';'<<j<<endl;
+                        cerr<<"-Case 5 (merge flag): no overlap "<<i<<';'<<j<<endl;
                     }
                 }
 
             } 
+        }
+    } 
+
+    //if set to false, we've not managed to improve group assignment with an overlap group
+    bool improvement = true;
+
+    while( improvement )
+    {
+        improvement = false;
+
+        for(int i = 0; i<height; i++)
+        {
+            for(int j = 0; j<width; j++)
+            {
+                //if the next two ones form a vertical double
+                if(squares[i][j] && one_below(i, j, 1))
+                {
+                    //relevant? there should be no orphans left
+                    if( !orphans[ next_below(i) ][j] && !orphans[i][j]  )
+                    {
+                        merge_flag_set = overlap_check(i, j);
+
+                        if(!merge_flag_set)
+                        {
+                            groups.push_back({2, merge_flag_set, {i, j}, {next_below(i), j} });
+
+                            cerr<<"-Case 4 (extra loop): overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+
+                            improvement = true;
+                        }
+
+                    }    
+                }
+            }
         }
     }         
 }

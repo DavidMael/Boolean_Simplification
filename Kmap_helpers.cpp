@@ -328,6 +328,7 @@ bool kmap::overlap_check(const int & i, const int & j)
     return (retval || retval2);
 }
 
+//check if the non-orphan square causes a group to be entirely overlapped, if yes merge-flag the group
 bool kmap::orphan_overlap(const int & i, const int & j)
 {
     bool retval = true;
