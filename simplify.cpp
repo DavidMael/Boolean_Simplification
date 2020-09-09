@@ -2,11 +2,16 @@
 
 using namespace std;
 
-string expr;
-
-int main()
+int main(int argc, char *argv[])
 {
-    cin>>expr;
+    string expr;
+    
+    if(argc>1)
+    {
+        expr = argv[1];
+    } else {
+        cin>>expr;
+    }
 
     //build a kmap for the input Boolean expression
     kmap testmap (expr);
