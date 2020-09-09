@@ -105,10 +105,10 @@ void kmap::verticaldoubs()
             //if the next two ones form a vertical double
             if(squares[i][j] && one_below(i, j, 1))
             {
-                if( orphans[ next_below(i) ][j]  )
+                if( orphans[ next_below(i) ][j] || orphans[i][j]  )
                 {    
                     //Case 1: two orphans
-                    if( orphans[i][j] )
+                    if( orphans[i][j] && orphans[ next_below(i) ][j] )
                     {
                         //cerr<<"-Case 1: two orphans"<<i<<';'<<j<<endl;
 
@@ -124,6 +124,38 @@ void kmap::verticaldoubs()
                         grouppointers[i][j].push_back( group_index );
                         grouppointers[ next_below(i) ][j].push_back( group_index );
 
+                    //only the top 1 is an orphan
+                    } else if (orphans[i][j]) {
+                        //Case 6.5: top square is an orphan below another orphan
+                        if( orphans[ next_above(i) ][j] )
+                        {
+                            //cerr<<"-Case 6.5 (merge flag): one orphan below another "<<i<<';'<<j<<endl;
+
+                            groups.push_back({2, 1, {i, j}, {next_below(i), j} });
+                            group_index++;
+
+                        //Cases 2.5 and 3.5: top square is an orphan but squares above and below aren't
+                        } else {
+                            //check for and merge-flag groups rendered redundant
+                            merge_flag_set = orphan_overlap( next_below(i), j);
+
+                            groups.push_back({2, 0, {i, j}, {next_below(i), j} });
+                            group_index++;
+                            orphans[i][j] = 0;
+
+                            //group is not merge-flagged, record index in grouppointers
+                            grouppointers[i][j].push_back( group_index );
+                            grouppointers[ next_below(i) ][j].push_back( group_index );
+
+                            if( !merge_flag_set )
+                            {
+                                //cerr<<"-Case 2.5: one orphan overlap "<<i<<';'<<j<<endl;
+                            } else {
+                                //cerr<<"-Case 3.5: one orphan no overlap "<<i<<';'<<j<<endl;
+                            }
+                        } 
+
+                    //only the bottom 1 is an orphan
                     } else {
                         //Case 6: bottom square is an orphan above another orphan
                         if( orphans[ next_below(next_below(i)) ][j] )

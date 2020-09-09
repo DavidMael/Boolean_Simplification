@@ -94,6 +94,17 @@ int kmap::next_below(const int & i)
     }
 }
 
+//return the column index immediately above i, accounting for wrap around 
+int kmap::next_above(const int & i)
+{
+    if(i == 0)
+    {
+        return (height-1);
+    } else {
+        return (i-1);
+    }
+}
+
 bool kmap::group_below(const int & increment, const int & i, const int & j)
 {
     return(
