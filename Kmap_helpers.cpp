@@ -182,21 +182,20 @@ bool kmap::overlap_check(const int & i, const int & j)
     //containts groupindex, i/y, j, e, g and c of a certain group slated to be removed and merge-flagged if (retval||retval2)==false
     vector<tuple<int, int, int, int, int>> removal_info;
 
-    cout<<"first size: "<<grouppointers[i][j].size()<<endl;
+    //cerr<<"first size: "<<grouppointers[i][j].size()<<endl;
 
     for(int c=0; c<grouppointers[i][j].size(); c++ )
     {
         groupindex = grouppointers[i][j][c];
         
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
-        if( groups[ grouppointers[i][j][c] ].sone.first == i && groups[ grouppointers[i][j][c] ].sone.second == j )
+        if( groups[ groupindex ].sone.first == i && groups[ groupindex ].sone.second == j )
         {
-            //cout<<"after comparing 1"<<endl;
             //look at stwo
             e = groups[ groupindex ].stwo.first;
             g = groups[ groupindex ].stwo.second;
-            cout<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            //cerr<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
@@ -211,16 +210,14 @@ bool kmap::overlap_check(const int & i, const int & j)
                     }
                 }/*/
                 removal_info.push_back( { groupindex, i, e, g, c } );
-                cout<<"after this 1"<<endl;
+                //cerr<<"after this 1"<<endl;
             }
         } else {
-            //cout<<"after comparing 2"<<endl;
             //look at sone
             e = groups[ groupindex ].sone.first;
             g = groups[ groupindex ].sone.second;
-            cout<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
-            cout<<"second size: "<<grouppointers[e][g].size()<<"|"<<endl;
+            //cerr<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
@@ -235,26 +232,23 @@ bool kmap::overlap_check(const int & i, const int & j)
                     }
                 }/*/
                 removal_info.push_back( { groupindex, i, e, g, c } );
-                cout<<"after this 2"<<endl;
+                //cerr<<"after this 2"<<endl;
             }
         }    
     }
 
-    
-    cout<<"third size: "<<grouppointers[y][j].size()<<endl;
-
     for(int c=0; c<grouppointers[y][j].size(); c++ )
     {
         groupindex = grouppointers[y][j][c];
-        //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
 
-        if( groups[ groupindex ].sone.first == y && groups[ grouppointers[y][j][c] ].sone.second == j )
+        //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
+        if( groups[ groupindex ].sone.first == y && groups[ groupindex ].sone.second == j )
         {
             //look at stwo
             e = groups[ groupindex ].stwo.first;
             g = groups[ groupindex ].stwo.second;
-            cout<<"after assigning 3 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            //cerr<<"after assigning 3 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval2 = false;
@@ -269,14 +263,14 @@ bool kmap::overlap_check(const int & i, const int & j)
                     }
                 }/*/
                 removal_info.push_back( { groupindex, y, e, g, c } );
-                cout<<"after this 3"<<endl;
+                //cerr<<"after this 3"<<endl;
             }
         } else {
             //look at sone
             e = groups[ groupindex ].sone.first;
             g = groups[ groupindex ].sone.second;
-            cout<<"after assigning 4 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            //cerr<<"after assigning 4 c="<<c<<" y="<<y<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval2 = false;
@@ -291,16 +285,15 @@ bool kmap::overlap_check(const int & i, const int & j)
                     }
                 }/*/
                 removal_info.push_back( { groupindex, y, e, g, c } );
-                cout<<"after this 4"<<endl;
+                //cerr<<"after this 4"<<endl;
             }
-        }
-        
+        }    
     }
-    cout<<"end of fcn: "<<(retval || retval2)<<endl;
 
     //if both groups at i;j and y;j will be overlapped
     if( !( retval || retval2 ) )
     {
+        //hold values for i/y and c from removal_info
         int iy;
         int c;
 
@@ -325,6 +318,9 @@ bool kmap::overlap_check(const int & i, const int & j)
         }  
     }
 
+    //cerr<<"end of fcn: "<<(retval || retval2)<<endl;
+
+    //return false only if there is an completely overlapped group at i;j and y;j
     return (retval || retval2);
 }
 
@@ -345,12 +341,11 @@ bool kmap::orphan_overlap(const int & i, const int & j)
         //look accross any groups pointed to, check if i,j corresponds to sone of overlapping double
         if( groups[ grouppointers[i][j][c] ].sone.first == i && groups[ grouppointers[i][j][c] ].sone.second == j )
         {
-            //cout<<"after comparing 1"<<endl;
             //look at stwo
             e = groups[ groupindex ].stwo.first;
             g = groups[ groupindex ].stwo.second;
-            cout<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
+            //cerr<<"after assigning 1 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
@@ -364,16 +359,14 @@ bool kmap::orphan_overlap(const int & i, const int & j)
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
                 }
-                cout<<"after this 1"<<endl;
+                //cerr<<"after this 1"<<endl;
             }
         } else {
-            //cout<<"after comparing 2"<<endl;
             //look at sone
             e = groups[ groupindex ].sone.first;
             g = groups[ groupindex ].sone.second;
-            cout<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
-            cout<<"merge flag: "<<groups[ groupindex ].merged<<endl;
-            cout<<"second size: "<<grouppointers[e][g].size()<<"|"<<endl;
+            //cerr<<"after assigning 2 c="<<c<<" i="<<i<<" j="<<j<<" e="<<e<<" g="<<g<<endl;
+            //cerr<<"merge flag: "<<groups[ groupindex ].merged<<endl;
             if( grouppointers[e][g].size() > 1 )
             {
                 retval = false;
@@ -387,7 +380,7 @@ bool kmap::orphan_overlap(const int & i, const int & j)
                         grouppointers[e][g].erase( grouppointers[e][g].begin() + k );
                     }
                 }
-                cout<<"after this 2"<<endl;
+                //cerr<<"after this 2"<<endl;
             }
         } 
     }

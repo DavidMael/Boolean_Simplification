@@ -69,19 +69,12 @@ void kmap::horizontaldoubs()
             }
         }
     }
-
-    //might not be relevant
-    //scrub flags for use in verticaldoubs
-    //redo properly for n var kmaps to work
-    //flags = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-
-    wipe_flags();
 }
 
 //identify 1s in the kmap not belonging to a double
 void kmap::identify_orphans()
 {   
-    cout<<"orphans"<<endl;
+    cerr<<"orphans"<<endl;
     //print orphan indices
     for(int i = 0; i<orphans.size(); i++)
     {
@@ -89,7 +82,7 @@ void kmap::identify_orphans()
         {
             if(orphans[i][j] == 1)
             {
-                cout<<i<<';'<<j<<endl;
+                cerr<<i<<';'<<j<<endl;
             }
         }
     }
@@ -114,9 +107,10 @@ void kmap::verticaldoubs()
             {
                 if( orphans[ next_below(i) ][j]  )
                 {    
+                    //Case 1: two orphans
                     if( orphans[i][j] )
                     {
-                        cout<<"-Case 1: two orphans"<<i<<';'<<j<<endl;
+                        //cerr<<"-Case 1: two orphans"<<i<<';'<<j<<endl;
 
                         //push back a group with appropriate parameters
                         groups.push_back({2, 0, {i, j}, {next_below(i), j} });
@@ -131,12 +125,15 @@ void kmap::verticaldoubs()
                         grouppointers[ next_below(i) ][j].push_back( group_index );
 
                     } else {
+                        //Case 6: bottom square is an orphan above another orphan
                         if( orphans[ next_below(next_below(i)) ][j] )
                         {
-                            cerr<<"-Case 6 (merge flag): one orphan above another "<<i<<';'<<j<<endl;
+                            //cerr<<"-Case 6 (merge flag): one orphan above another "<<i<<';'<<j<<endl;
 
                             groups.push_back({2, 1, {i, j}, {next_below(i), j} });
                             group_index++;
+
+                        //Cases 2 and 3: bottom square is an orphan but squares above and below aren't
                         } else {
                             //check for and merge-flag groups rendered redundant
                             merge_flag_set = orphan_overlap(i, j);
@@ -151,12 +148,14 @@ void kmap::verticaldoubs()
 
                             if( !merge_flag_set )
                             {
-                                cerr<<"-Case 2: one orphan overlap "<<i<<';'<<j<<endl;
+                                //cerr<<"-Case 2: one orphan overlap "<<i<<';'<<j<<endl;
                             } else {
-                                cerr<<"-Case 3: one orphan no overlap "<<i<<';'<<j<<endl;
+                                //cerr<<"-Case 3: one orphan no overlap "<<i<<';'<<j<<endl;
                             }
                         }
                     }
+
+                //Cases 4 and 5: no orphans
                 } else {
                     merge_flag_set = overlap_check(i, j);
 
@@ -165,13 +164,13 @@ void kmap::verticaldoubs()
 
                     if( !merge_flag_set )
                     {
-                        cerr<<"-Case 4: overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+                        //cerr<<"-Case 4: overlap, reduce n of doubles "<<i<<';'<<j<<endl;
 
                         //group is not merge-flagged, record index in grouppointers
                         grouppointers[i][j].push_back( group_index );
                         grouppointers[ next_below(i) ][j].push_back( group_index );
                     } else {
-                        cerr<<"-Case 5 (merge flag): no overlap "<<i<<';'<<j<<endl;
+                        //cerr<<"-Case 5 (merge flag): no overlap "<<i<<';'<<j<<endl;
                     }
                 }
 
@@ -181,11 +180,12 @@ void kmap::verticaldoubs()
 
     //if set to false, we've not managed to improve group assignment with an overlap group
     bool improvement = true;
-
+    //continue trying to make vertical doubles that simplify the groupings until failure to do so
     while( improvement )
     {
         improvement = false;
 
+        //iterate accross the kmap
         for(int i = 0; i<height; i++)
         {
             for(int j = 0; j<width; j++)
@@ -202,7 +202,7 @@ void kmap::verticaldoubs()
                         {
                             groups.push_back({2, merge_flag_set, {i, j}, {next_below(i), j} });
 
-                            cerr<<"-Case 4 (extra loop): overlap, reduce n of doubles "<<i<<';'<<j<<endl;
+                            //cerr<<"-Case 4 (extra loop): overlap, reduce n of doubles "<<i<<';'<<j<<endl;
 
                             improvement = true;
                         }
@@ -215,7 +215,6 @@ void kmap::verticaldoubs()
 }
 
 //merges quads in the results of verticaldoubs or horizontaldoubs
-//atm just merge doubles into quads, result does not include non merged doubles as doub functions do not include singles
 //merge_type, when true, allows merges between merge and non merge-flagged groups
 void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
 {
@@ -241,9 +240,9 @@ void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
                     if(i != j && groups[i].sone.second == groups[j].sone.second && next_below(groups[i].stwo.first) == groups[j].sone.first &&
                     groups[i].stwo.second == groups[j].stwo.second && groups[i].n == groups[j].n)
                     {
-                        cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                        /*/cerr << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
                         << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                        " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";
+                        " (groups right: "<<group_right(2, i, j)<<")"<<" stacked -> ";/*/
 
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
@@ -254,7 +253,7 @@ void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
                             merger = find_extrema(groups[i], groups[j], new_n, 0);
                             groups.push_back( merger );
                         }
-                        cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                        //cerr << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -264,9 +263,9 @@ void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
                     } else if(i != j && groups[i].sone.first == groups[j].sone.first && next_right(groups[i].stwo.second) == groups[j].sone.second &&
                     groups[i].stwo.first == groups[j].stwo.first && groups[i].n == groups[j].n)
                     {
-                        cout << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
+                        /*/cerr << groups[i].sone.first << ";" <<groups[i].sone.second << " " << groups[i].stwo.first << ";" << groups[i].stwo.second <<" + "
                         << groups[j].sone.first << ";" << groups[j].sone.second << " " << groups[j].stwo.first << ";" << groups[j].stwo.second <<
-                        " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";
+                        " (groups right: "<<group_right(2, i, j)<<")"<<" adjacent -> ";/*/
                     
                         if(groups[i].merged == 1 && groups[j].merged == 1)
                         {
@@ -277,7 +276,7 @@ void kmap::mergegroups (const int & new_n, bool merge_type, const int & start)
                             merger = find_extrema(groups[i], groups[j], new_n, 0);
                             groups.push_back( merger );
                         }
-                        cout << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
+                        //cerr << merger.sone.first << ";" << merger.sone.second << " " << merger.stwo.first << ";" << merger.stwo.second<<" "<<merger.merged << endl;
 
                         //flag merged groups as such
                         groups[i].merged = 1;
@@ -300,11 +299,11 @@ void kmap::merge_function()
     {
         nextstart = groups.size();
 
-        cout << "first merge n= " <<n<< endl;
+        //cerr << "first merge n= " <<n<< endl;
 
         mergegroups(n, 0, start);
 
-        cout << "second merge n= " <<n<< endl;
+        //cerr << "second merge n= " <<n<< endl;
 
         mergegroups(n, 1, start);
 

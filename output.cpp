@@ -41,7 +41,7 @@ string kmap::solve()
                 first_minterm = false;
             }
 
-            cerr<<"group: "<<i<<endl;
+            //cerr<<"group: "<<i<<endl;
 
             //first: determine the horizontal/column variables of the minterm
             gray = column_grays[ groups[i].sone.second ];
@@ -50,7 +50,6 @@ string kmap::solve()
             index = groups[i].sone.second;
             while(index != groups[i].stwo.second)
             {
-                cerr<<"j index: "<<index<<endl;
                 //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
@@ -62,7 +61,6 @@ string kmap::solve()
                 index = next_right(index);
             }
             //manually add a cycle for the last column
-            cerr<<"j index: "<<groups[i].stwo.second<<endl;
             for(int k = 0; k<gray.size(); k++)
             {
                 if(gray[k] != column_grays[groups[i].stwo.second][k])
@@ -72,7 +70,7 @@ string kmap::solve()
             }
 
             //add variables to the minterm as appropriate
-            cerr<<"horizontal gray: "<<gray<<endl;
+            //cerr<<"horizontal gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
                 //to_append = horizontal_vars[j];
@@ -101,7 +99,6 @@ string kmap::solve()
             index = groups[i].sone.first;
             while(index != groups[i].stwo.first)
             {
-                cerr<<"i index: "<<index<<endl;
                 //iterate through the gray bits, recording changes in bit values with an 'x'
                 for(int k = 0; k<gray.size(); k++)
                 {
@@ -113,7 +110,6 @@ string kmap::solve()
                 index = next_below(index);
             }
             //manually add a cycle for the last row
-            cerr<<"i index: "<<groups[i].stwo.first<<endl;
             for(int k = 0; k<gray.size(); k++)
             {
                 if(gray[k] != row_grays[groups[i].stwo.first][k])
@@ -123,7 +119,7 @@ string kmap::solve()
             }
 
             //add variables to minterm as appropriate
-            cerr<<"vertical gray: "<<gray<<endl;
+            //cerr<<"vertical gray: "<<gray<<endl;
             for(int j = 0; j<gray.size(); j++)
             {
                 //to_append = vertical_vars[j];

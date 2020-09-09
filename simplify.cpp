@@ -8,67 +8,56 @@ int main()
 {
     cin>>expr;
 
+    //build a kmap for the input Boolean expression
     kmap testmap (expr);
 
-    for(int i =  0; i<testmap.squares.size(); i++)
+    /*/for(int i =  0; i<testmap.squares.size(); i++)
     {
         for(int j = 0; j<testmap.squares[1].size(); j++)
         {
-            cout <<'('<< i << ";" << j << ") " << testmap.squares[i][j] << " ";
+            cerr <<'('<< i << ";" << j << ") " << testmap.squares[i][j] << " ";
         }
-        cout << endl;
-    }
+        cerr << endl;
+    }/*/
 
-    //cout<<testmap;
-
+    //gather the simplest horizontal pairings of 1s in the kmap
     testmap.horizontaldoubs();
 
-    cout << "horizontal doubs size: ";  
+    //cerr<<"horizontal doubs size: ";  
 
-    cout<<testmap.groups.size()<<endl;
+    //cerr<<testmap.groups.size()<<endl;
 
-    testmap.identify_orphans();
+    //testmap.identify_orphans();
 
+    //gather vertical pairs of 1s that are necessary or simplify the pairing
     testmap.verticaldoubs();
 
-    cout << "vertical 1 doubs size: ";    
+    //cerr<<"vertical 1 doubs size: ";    
 
-    cout<<testmap.groups.size()<<endl;
+    //cerr<<testmap.groups.size()<<endl;
 
-    testmap.identify_orphans();
-
-    //testmap.verticaldoubs();
-
-    //cout << "vertical 2 doubs size: ";    
-
-    //cout<<testmap.groups.size()<<endl;
-
-    for(int i = 0; i<testmap.groups.size(); i++)
-    {
-        cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
-    } 
-
-    cout << "merged groups" << endl;
-
-    testmap.merge_function();
+    //testmap.identify_orphans();
 
     /*/for(int i = 0; i<testmap.groups.size(); i++)
     {
-        if(testmap.groups[i].n == 4)
-        {
-            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second<<" "<<testmap.groups[i].merged << endl;
-        }
-    }/*/
+        cerr << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second <<" "<<testmap.groups[i].merged<<endl;
+    } 
 
-    cout<<"independant groups"<<endl;
+    cerr << "merged groups" << endl;/*/
 
-        for(int i = 0; i<testmap.groups.size(); i++)
+    //merge groups into larger ones as is possible and improves the grouping of 1s (less and bigger groups)
+    testmap.merge_function();
+
+    /*/cerr<<"independant groups"<<endl;
+
+    for(int i = 0; i<testmap.groups.size(); i++)
     {
         if(testmap.groups[i].merged == 0)
         {
-            cout << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
+            cerr << testmap.groups[i].sone.first << ";" << testmap.groups[i].sone.second << " " << testmap.groups[i].stwo.first << ";" << testmap.groups[i].stwo.second << endl;
         }
-    } 
+    }/*/ 
 
-    cout<<testmap.solve();
+    //read and print minterms corresponding to (top level/non merge-flagged) groups 
+    cout<<testmap.solve()<<endl;
 }

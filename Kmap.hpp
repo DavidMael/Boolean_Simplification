@@ -115,17 +115,22 @@ class kmap
         //return the column index immediately below i, accounting for wrap around 
         int next_below(const int & i);
 
+        //determine if a group exists increment squares below i;j, accounting for wrap around
         bool group_below(const int & increment, const int & i, const int & j);
 
+        //determine if a group exists increment squares to the right of i;j, accounting for wrap around
         bool group_right(const int & increment, const int & i, const int & j);
 
+        //for two groups of size n assumed adjacent, returns a merged group of size 2n with the correct sone and stwo 
         group find_extrema(const group & gi, const group & gj, const int & n, const int & m_flag);
 
+        //set all bools in the flags data member to 0
         void wipe_flags();
 
         //if there is a double A over (i,j) and the other square is part of another double B, merge-flag A and return false
         bool overlap_check(const int & i, const int & j);
 
+        //check if the non-orphan square causes a group to be entirely overlapped, if yes merge-flag the group
         bool orphan_overlap(const int & i, const int & j);
 };
 

@@ -20,7 +20,7 @@ kmap::kmap(const string & boolean_expression)
         //if iteration has not reached a '+' or the end of the argument, the character pointed to is part of a minterm
         if(boolean_expression[i] != '+' && i != string_s )
         {
-            //add new variables to list !!could be done better with maps!!
+            //add new variables to list
             if(vars.size() == 0)
             {
                 vars.push_back( toupper(boolean_expression[i]) );
@@ -51,43 +51,43 @@ kmap::kmap(const string & boolean_expression)
         }
     }
 
-    cout<<"vars vector size: "<<vars.size()<<", variables: ";
+    /*/cerr<<"vars vector size: "<<vars.size()<<", variables: ";
     for(int i = 0; i<vars.size(); i++)
     {
-        cout<<vars[i];
+        cerr<<vars[i];
     }
-    cout<<endl;
+    cerr<<endl;
 
-    cout<<"minterms:"<<endl;
+    cerr<<"minterms:"<<endl;
     for(int i=0; i<minterms.size(); i++)
     {
         for(int j=0; j<minterms[i].size(); j++)
         {
-            cout<<minterms[i][j];
+            cerr<<minterms[i][j];
         }
-        cout<<endl;
+        cerr<<endl;
     }
 
-    cout<<endl;
+    cerr<<endl;/*/
 
     //divide variables into row and column
     int halfpoint = (vars.size()+1)/2;
     column_vars.assign( vars.begin(), vars.begin()+halfpoint );
     row_vars.assign( vars.begin()+halfpoint, vars.end() );
 
-    cout<<"column vars: ";
+    /*/cerr<<"column vars: ";
     for( int i=0; i<column_vars.size(); i++ )
     {
-        cout<<column_vars[i]<<" ";
+        cerr<<column_vars[i]<<" ";
     }
-    cout<<endl;
+    cerr<<endl;
     
-    cout<<"row vars: ";
+    cerr<<"row vars: ";
     for( int i=0; i<row_vars.size(); i++ )
     {
-        cout<<row_vars[i]<<" ";
+        cerr<<row_vars[i]<<" ";
     }
-    cout<<endl;
+    cerr<<endl;/*/
 
     //take length of rows and columns
     height = pow(2, row_vars.size());
@@ -95,7 +95,6 @@ kmap::kmap(const string & boolean_expression)
 
     //create the "matrix" data members as zero matrices
     vector<bool> squares_row ( width , 0);
-    // !!replace copy by pointers or dynamic allocation, making necessary adjustments in rest of code!!
     vector<vector<bool>> sq ( height , squares_row);
     squares = sq;
     vector<vector<bool>> fl ( height , squares_row);
@@ -130,32 +129,26 @@ kmap::kmap(const string & boolean_expression)
     //iterate through each minterm
     for(int i=0; i<minterms.size(); i++)
     {
-        cout<<"----"<<endl;
+        /*/cerr<<"----"<<endl;
         for(int j=0; j<minterms[i].size(); j++)
         {
-            cout<<minterms[i][j];
+            cerr<<minterms[i][j];
         }
-        cout<<endl;
-        //cout<<"minterms i="<<i<<endl;
+        cerr<<endl;/*/
         //iterate through each row map
         for(int j=0; j<row_maps.size(); j++)
         {
-            //cout<<"row_maps j="<<j<<endl;
             //for each minterm variable
             for(int k=0; k<minterms[i].size(); k++)
             {
-                //cout<<"minterm var k="<<k<<endl;
                 //if none have been found, check for mismatches between minterm and row variables
                 if(varok == true)
                 {
-                    //cout<<"!: "<<minterms[i][k]<<" "<<islower(minterms[i][k])<<" "<<row_maps[j][ toupper(minterms[i][k])]<<endl;
                     if( isupper(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '0') )
                     {
-                        //cout<<"aaa"<<endl;
                         varok = false;
                         break;
                     } else if ( islower(minterms[i][k]) && (row_maps[j][ toupper(minterms[i][k]) ] == '1') ) {
-                        //cout<<"bbb"<<endl;
                         varok = false;
                         break;
                     }
@@ -165,21 +158,19 @@ kmap::kmap(const string & boolean_expression)
             //if the minterm corresponds to a row, save its position
             if(varok == true)
             {
-                cout<<"OKed row: "<<j<<endl;
+                //cerr<<"OKed row: "<<j<<endl;
                 rows.push_back(j);
             }
             varok = true;
         }
-        cout<<"(saved) rows size: "<<rows.size()<<endl;
+        //cerr<<"(saved) rows size: "<<rows.size()<<endl;
 
         //iterate through each column map
         for(int j=0; j<column_maps.size(); j++)
         {
-            //cout<<"column_maps j="<<j<<endl;
             //for each minterm variable
             for(int k=0; k<minterms[i].size(); k++)
             {
-                //cout<<"minterm var k="<<k<<endl;
                 //if none have been found, check for mismatches between minterm and column variables
                 if(varok == true)
                 {
@@ -199,7 +190,7 @@ kmap::kmap(const string & boolean_expression)
             {
                 for(int k=0; k<rows.size(); k++)
                 {
-                    cout<<"write one in: row "<<rows[k]<<", column "<<j<<endl;
+                    //cerr<<"write one in: row "<<rows[k]<<", column "<<j<<endl;
                     squares[ rows[k] ][j] = 1;
                 }
             }
