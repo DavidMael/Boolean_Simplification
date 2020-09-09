@@ -5,6 +5,7 @@
 #include <iterator>
 #include <map>
 #include <cmath>
+#include <stdlib.h>
 
 using namespace std;
 

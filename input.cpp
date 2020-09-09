@@ -7,6 +7,11 @@ kmap::kmap(const string & boolean_expression)
 {
     int string_s = boolean_expression.size();
 
+    /*/if( string_s == 1 )
+    {
+        return;
+    }/*/
+
     //vector of variables (uppercase) contained in the argument boolean_expression
     vector<char> vars;
     //list of minterms found in the SOP argument
@@ -71,9 +76,15 @@ kmap::kmap(const string & boolean_expression)
     cerr<<endl;/*/
 
     //divide variables into row and column
-    int halfpoint = (vars.size()+1)/2;
-    column_vars.assign( vars.begin(), vars.begin()+halfpoint );
-    row_vars.assign( vars.begin()+halfpoint, vars.end() );
+    if(vars.size() == 1)
+    {
+        column_vars = vars;
+        row_vars = vars; 
+    } else {
+        int halfpoint = (vars.size()+1)/2;
+        column_vars.assign( vars.begin(), vars.begin()+halfpoint );
+        row_vars.assign( vars.begin()+halfpoint, vars.end() );
+    }
 
     /*/cerr<<"column vars: ";
     for( int i=0; i<column_vars.size(); i++ )

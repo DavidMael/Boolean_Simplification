@@ -8,7 +8,10 @@ variable in uppercase. It will then COUT the simplified expression.
 
 Example: AbC+ABC means ( A AND (NOT B) AND C ) OR (A AND B AND C) and simplifies to A AND C, which the program writes as AC.
 
-Some expressions simplify with redundant minterms, though this has been mostly mitigated.
+Fun bonus feature: a K-map will still be constructed for single variable inputs, though minterms equal to 0 cannot be represented on the map. All non-zero
+minterms will therefore be printed back out as if they were products of two identically named variables.
+
+Examples: Aa+a+AA simplifies to aa+AA, BBB simplifies to BB, and Cc will not be simplified.
 
 https://math.stackexchange.com/questions/1797119/how-to-deal-with-an-8-variable-karnaugh-map
 
