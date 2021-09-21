@@ -1,4 +1,4 @@
-README:
+# README:
 
 simplify.exe; the executable compiled from simplify.cpp, input.cpp, Kmap.cpp, Kmap_helpers.cpp and output.cpp; attemps to maximally simplify sum-of-product 
 boolean expressions of up to four variables using a Karnaugh map.
@@ -12,6 +12,3 @@ Fun bonus feature: a K-map will still be constructed for single variable inputs,
 minterms will therefore be printed back out as if they were products of two identically named variables.
 
 Examples: Aa+a+AA simplifies to aa+AA, BBB simplifies to BB, and Cc will not be simplified.
-
-https://math.stackexchange.com/questions/1797119/how-to-deal-with-an-8-variable-karnaugh-map
-
